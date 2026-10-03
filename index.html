@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nemo — من أعماق المحيط</title>
+<meta name="description" content="Nemo — رحلة في أعماق التنظيم والدراسة">
+<meta name="theme-color" content="#021018">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- أيقونة الموقع (Favicon) -->
+<style>
+:root{
+  --deep:#010810;
+  --text:#e8f4ff;
+  --muted:#7a9bb0;
+  --purple:#7c5cff;
+  --cyan:#2de2e6;
+  --orange:#F47732;
+  --font-ar:"Cairo",Tahoma,sans-serif;
+  --font-en:"Outfit","Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{
+  font-family:var(--font-ar);
+  background:var(--deep);color:var(--text);
+  overflow-x:hidden;line-height:1.7;
+  -webkit-font-smoothing:antialiased
+}
+html[lang="en"] body,
+html[lang="en"]{font-family:var(--font-en)}
+html[lang="en"] .scene-text h2,
+html[lang="en"] .section-head h2,
+html[lang="en"] .cta h2,
+html[lang="en"] .nav-brand{font-family:var(--font-en);letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
+
+.nav{
+  position:fixed;top:0;right:0;left:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;transition:background .4s,border-color .4s;
+  border-bottom:1px solid transparent;gap:12px
+}
+.nav.scrolled{
+  background:rgba(1,8,16,.82);backdrop-filter:blur(20px);
+  border-bottom-color:rgba(45,226,230,.08)
+}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.nav-brand .logo-icon{
+  width:38px;height:38px;border-radius:50%;overflow:hidden;
+  background:#021018;border:2px solid rgba(244,119,50,.5);
+  box-shadow:0 0 18px rgba(244,119,50,.45);flex-shrink:0
+}
+.nav-brand .logo-icon svg{width:100%;height:100%;display:block}
+.nav-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:flex-end}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{color:var(--muted);font-size:13.5px;font-weight:600;transition:color .25s}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta{
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#021018;padding:9px 18px;border-radius:999px;font-weight:700;font-size:13px;
+  box-shadow:0 0 28px rgba(45,226,230,.25)
+}
+.live-clock{
+  font-size:12px;font-weight:600;color:var(--cyan);
+  font-variant-numeric:tabular-nums;opacity:.9;
+  letter-spacing:.5px;min-width:70px;text-align:center
+}
+.lang-switch{
+  display:flex;background:rgba(255,255,255,.06);border-radius:999px;
+  border:1px solid rgba(45,226,230,.15);overflow:hidden
+}
+.lang-switch button{
+  padding:6px 12px;font-size:12px;font-weight:700;color:var(--muted);transition:all .2s
+}
+.lang-switch button.active{
+  background:linear-gradient(135deg,var(--purple),var(--cyan));color:#021018
+}
+
+.ocean{position:relative;height:550vh}
+.ocean-viewport{position:sticky;top:0;height:100vh;width:100%;overflow:hidden}
+
+.ocean-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 0%,#0a3a5c 0%,transparent 55%),
+    radial-gradient(ellipse 100% 60% at 30% 40%,rgba(20,80,120,.4),transparent),
+    radial-gradient(ellipse 80% 50% at 70% 70%,rgba(10,40,80,.5),transparent),
+    linear-gradient(180deg,#061a2e 0%,#021018 40%,#010810 70%,#000508 100%);
+  transition:filter .08s linear
+}
+
+.rays{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.55;transition:opacity .1s}
+.ray{
+  position:absolute;top:-10%;width:2px;height:120%;
+  background:linear-gradient(180deg,rgba(180,230,255,.5),rgba(45,226,230,.08),transparent);
+  transform-origin:top center;filter:blur(1px)
+}
+.ray:nth-child(1){right:15%;transform:rotate(8deg);width:3px}
+.ray:nth-child(2){right:28%;transform:rotate(3deg);opacity:.6}
+.ray:nth-child(3){right:42%;transform:rotate(-2deg);width:4px;opacity:.8}
+.ray:nth-child(4){right:55%;transform:rotate(-6deg)}
+.ray:nth-child(5){right:68%;transform:rotate(5deg);width:3px;opacity:.5}
+.ray:nth-child(6){right:80%;transform:rotate(-4deg);opacity:.7}
+
+.caustics{
+  position:absolute;inset:0;pointer-events:none;opacity:.12;
+  background:
+    radial-gradient(ellipse 30% 20% at 20% 30%,rgba(45,226,230,.8),transparent),
+    radial-gradient(ellipse 25% 15% at 60% 20%,rgba(124,92,255,.6),transparent),
+    radial-gradient(ellipse 35% 25% at 80% 50%,rgba(45,226,230,.5),transparent),
+    radial-gradient(ellipse 20% 15% at 40% 60%,rgba(255,255,255,.4),transparent);
+  animation:causticMove 8s ease-in-out infinite alternate;
+  mix-blend-mode:screen;transition:opacity .1s
+}
+@keyframes causticMove{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(-3%,4%) scale(1.08)}
+}
+
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;border-radius:50%;
+  background:rgba(200,240,255,.55);
+  box-shadow:0 0 6px rgba(45,226,230,.4);
+  animation:rise linear infinite
+}
+@keyframes rise{
+  0%{transform:translateY(100vh) translateX(0);opacity:0}
+  10%{opacity:.7}
+  90%{opacity:.5}
+  100%{transform:translateY(-10vh) translateX(20px);opacity:0}
+}
+
+.seafloor{
+  position:absolute;bottom:0;right:0;left:0;height:28%;
+  background:
+    radial-gradient(ellipse 40% 80% at 10% 100%,#0a2030 0%,transparent 70%),
+    radial-gradient(ellipse 50% 90% at 40% 100%,#081828 0%,transparent 65%),
+    radial-gradient(ellipse 35% 70% at 70% 100%,#0a2235 0%,transparent 70%),
+    radial-gradient(ellipse 45% 85% at 95% 100%,#061520 0%,transparent 60%),
+    linear-gradient(180deg,transparent,rgba(2,16,28,.9));
+  opacity:0;transition:opacity .12s linear;pointer-events:none
+}
+.coral{position:absolute;bottom:0;width:0;height:0;border-style:solid;opacity:.35}
+.coral-1{right:8%;border-width:0 18px 90px 18px;border-color:transparent transparent #1a4a5c transparent}
+.coral-2{right:14%;border-width:0 12px 60px 12px;border-color:transparent transparent #2a3a6a transparent}
+.coral-3{right:22%;border-width:0 22px 110px 22px;border-color:transparent transparent #0e3550 transparent}
+.coral-4{left:10%;border-width:0 16px 80px 16px;border-color:transparent transparent #1a4060 transparent}
+.coral-5{left:18%;border-width:0 10px 50px 10px;border-color:transparent transparent #243860 transparent}
+
+.nemo-swimmer{
+  position:absolute;width:90px;height:90px;z-index:20;pointer-events:none;
+  filter:drop-shadow(0 0 28px rgba(244,119,50,.6));
+  will-change:left,top,transform;opacity:.9
+}
+.nemo-swimmer svg{width:100%;height:100%}
+.nemo-swimmer.flip{transform:scaleX(-1)}
+.nemo-trail{
+  position:absolute;width:70px;height:70px;border-radius:50%;z-index:19;
+  background:radial-gradient(circle,rgba(244,119,50,.4),transparent 70%);
+  pointer-events:none;filter:blur(10px);opacity:0
+}
+
+.scene-text{
+  position:absolute;z-index:30;max-width:min(480px,86vw);
+  opacity:0;transform:translateY(36px);pointer-events:none;
+  transition:opacity .55s ease,transform .55s ease;
+  text-shadow:0 6px 50px rgba(0,0,0,.85),0 0 80px rgba(2,16,28,.95)
+}
+.scene-text.visible{opacity:1;transform:translateY(0)}
+.scene-text .whisper{
+  font-size:11px;letter-spacing:3px;
+  color:var(--cyan);margin-bottom:12px;opacity:.9;font-weight:700
+}
+.scene-text h2{
+  font-size:clamp(2rem,5.5vw,3.5rem);font-weight:800;line-height:1.15;
+  margin-bottom:16px
+}
+.scene-text h2 em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--orange));
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.scene-text p{
+  font-size:clamp(1rem,2vw,1.15rem);color:rgba(200,230,245,.9);
+  line-height:1.85;font-weight:500
+}
+
+.float-icon{
+  position:absolute;font-size:52px;z-index:15;
+  opacity:0;filter:drop-shadow(0 0 24px rgba(45,226,230,.35));
+  transition:opacity .6s,transform .6s;pointer-events:none
+}
+.float-icon.show{opacity:.85}
+
+.depth-meter{
+  position:fixed;left:22px;top:50%;transform:translateY(-50%);
+  z-index:90;display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;transition:opacity .4s;pointer-events:none
+}
+.depth-meter.show{opacity:1}
+.depth-meter .line{
+  width:2px;height:130px;background:rgba(45,226,230,.12);border-radius:2px;position:relative
+}
+.depth-meter .line span{
+  position:absolute;right:0;left:0;top:0;height:0%;
+  background:linear-gradient(180deg,var(--cyan),var(--purple));border-radius:2px
+}
+.depth-meter .label{
+  font-size:10px;color:var(--muted);writing-mode:vertical-rl;
+  letter-spacing:2px;transform:rotate(180deg);font-weight:600
+}
+html[dir="ltr"] .depth-meter{left:auto;right:22px}
+html[dir="ltr"] .depth-meter .label{transform:rotate(0deg)}
+
+.surface{
+  position:relative;z-index:5;
+  background:linear-gradient(180deg,#000508 0%,#010810 10%,#050512 100%);
+  padding-bottom:40px
+}
+.section{padding:90px 24px;max-width:1100px;margin:0 auto}
+.section-head{text-align:center;margin-bottom:48px}
+.section-head h2{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:12px;font-weight:800}
+.section-head p{color:var(--muted);max-width:460px;margin:0 auto;font-weight:500}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature{
+  background:rgba(8,24,40,.55);border:1px solid rgba(45,226,230,.08);
+  border-radius:20px;padding:26px 20px;transition:transform .3s,border-color .3s,box-shadow .3s
+}
+.feature:hover{
+  transform:translateY(-6px);border-color:rgba(45,226,230,.28);
+  box-shadow:0 20px 50px rgba(0,0,0,.4),0 0 40px rgba(45,226,230,.07)
+}
+.feature .fi{font-size:30px;margin-bottom:12px}
+.feature h3{font-size:16px;margin-bottom:8px;font-weight:700}
+.feature p{color:var(--muted);font-size:13.5px;font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.stat-box{
+  text-align:center;padding:24px 12px;border-radius:16px;
+  background:rgba(45,226,230,.04);border:1px solid rgba(45,226,230,.08)
+}
+.stat-box b{
+  display:block;font-size:1.9rem;margin-bottom:4px;font-weight:800;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.stat-box span{color:var(--muted);font-size:12.5px;font-weight:600}
+
+.react-zone{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.react-pool{
+  height:340px;border-radius:24px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(45,226,230,.14),transparent 55%),
+    linear-gradient(180deg,#042030,#010a14);
+  border:1px solid rgba(45,226,230,.1)
+}
+.react-pool .pool-fish{
+  position:absolute;width:100px;height:100px;
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  filter:drop-shadow(0 0 28px rgba(244,119,50,.5));
+  transition:transform .08s linear;will-change:transform
+}
+.react-pool .pool-fish svg{width:100%;height:100%}
+.react-info h3{font-size:1.5rem;margin-bottom:12px;font-weight:800}
+.react-info p{color:var(--muted);margin-bottom:16px;font-size:14.5px;font-weight:500}
+.react-info li{
+  list-style:none;padding:9px 0;color:var(--muted);font-size:14px;font-weight:500;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  display:flex;gap:10px;align-items:center
+}
+.react-info li::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);
+  flex-shrink:0;box-shadow:0 0 10px var(--cyan)
+}
+
+.cta{
+  margin:70px auto;padding:56px 32px;max-width:900px;text-align:center;
+  border-radius:28px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(124,92,255,.2),rgba(45,226,230,.1));
+  border:1px solid rgba(45,226,230,.15)
+}
+.cta h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:10px;font-weight:800}
+.cta p{color:var(--muted);margin-bottom:22px;font-weight:500}
+.cta a{
+  display:inline-block;background:linear-gradient(135deg,var(--purple),var(--cyan));
+  color:#021018;padding:14px 32px;border-radius:14px;font-weight:700;
+  box-shadow:0 0 40px rgba(45,226,230,.25)
+}
+footer{
+  text-align:center;padding:36px 20px;color:var(--muted);font-size:12.5px;
+  border-top:1px solid rgba(45,226,230,.06);font-weight:500
+}
+footer strong{color:var(--text)}
+
+@media(max-width:800px){
+  .features{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .react-zone{grid-template-columns:1fr}
+  .nav-links a:not(.nav-cta){display:none}
+  .live-clock{display:none}
+  .depth-meter{left:8px}
+  html[dir="ltr"] .depth-meter{right:8px;left:auto}
+  .scene-text{max-width:88vw}
+  .nemo-swimmer{width:64px;height:64px}
+  .nav{padding:12px 14px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="logo-icon" aria-hidden="true">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+        <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="72" cy="39" r="8" fill="#fff"/>
+        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+        <path d="M48 18L57 8L66 18Z" fill="#7c5cff"/>
+        <rect x="43" y="17" width="27" height="5" rx="2.5" fill="#7c5cff"/>
+      </svg>
+    </div>
+    Nemo
+  </a>
+  <div class="nav-right">
+    <div class="live-clock" id="liveClock" title="Local time">--:--</div>
+    <div class="nav-links">
+      <a href="#features" data-i18n="navFeatures">المميزات</a>
+      <a href="#feel" data-i18n="navFeel">الإحساس</a>
+      <a href="nemo.html" class="nav-cta" data-i18n="navCta">ادخل المحيط</a>
+    </div>
+    <div class="lang-switch">
+      <button type="button" id="btnAr" class="active" onclick="setSiteLang('ar')">عربي</button>
+      <button type="button" id="btnEn" onclick="setSiteLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="depth-meter" id="depthMeter">
+  <div class="line"><span id="depthFill"></span></div>
+  <div class="label" id="depthLabel">0م</div>
+</div>
+
+<div class="ocean" id="ocean">
+  <div class="ocean-viewport">
+    <div class="ocean-bg" id="oceanBg"></div>
+    <div class="rays" id="rays">
+      <div class="ray"></div><div class="ray"></div><div class="ray"></div>
+      <div class="ray"></div><div class="ray"></div><div class="ray"></div>
+    </div>
+    <div class="caustics" id="caustics"></div>
+    <div class="particles" id="particles"></div>
+    <div class="seafloor" id="seafloor">
+      <div class="coral coral-1"></div>
+      <div class="coral coral-2"></div>
+      <div class="coral coral-3"></div>
+      <div class="coral coral-4"></div>
+      <div class="coral coral-5"></div>
+    </div>
+
+    <div class="nemo-trail" id="nemoTrail"></div>
+    <div class="nemo-swimmer" id="nemoFish">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+        <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="72" cy="39" r="8" fill="#fff"/>
+        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+        <path d="M48 18L57 8L66 18Z" fill="#7c5cff"/>
+        <rect x="43" y="17" width="27" height="5" rx="2.5" fill="#7c5cff"/>
+      </svg>
+    </div>
+
+    <div class="float-icon" id="icon0" style="font-size:56px">✧</div>
+    <div class="float-icon" id="icon1">✓</div>
+    <div class="float-icon" id="icon2">◈</div>
+    <div class="float-icon" id="icon3">◎</div>
+    <div class="float-icon" id="icon4">◉</div>
+    <div class="float-icon" id="icon5">✦</div>
+
+    <div class="scene-text" id="text0" style="top:20%;right:8%">
+      <div class="whisper" data-i18n="s0w">السطح</div>
+      <h2 data-i18n-html="s0h">انزل… إلى عالم<br><em>Nemo</em></h2>
+      <p data-i18n="s0p">مرّر لأسفل. الضوء يخفت. التيار يحملك. لا حدود هنا.</p>
+    </div>
+
+    <div class="scene-text" id="text1" style="top:26%;left:7%">
+      <div class="whisper" data-i18n="s1w">الطبقة الأولى</div>
+      <h2 data-i18n-html="s1h">مهام تطفو<br>معك</h2>
+      <p data-i18n="s1p">كل مهمة فقاعة في يومك. صنّفها، رتّبها، وشاهد إنجازك يضيء في العتمة.</p>
+    </div>
+
+    <div class="scene-text" id="text2" style="top:22%;right:7%">
+      <div class="whisper" data-i18n="s2w">الأعماق الدراسية</div>
+      <h2 data-i18n-html="s2h">أدوات الطالب<br>في التيار</h2>
+      <p data-i18n="s2p">بطاقات تذكر · ملاحظات · تقويم · جدولة — تسبح كلها حولك.</p>
+    </div>
+
+    <div class="scene-text" id="text3" style="top:28%;left:9%">
+      <div class="whisper" data-i18n="s3w">ألوان المحيط</div>
+      <h2 data-i18n-html="s3h">ستة عوالم<br>من الضوء</h2>
+      <p data-i18n="s3p">داكن · وردي · أزرق · أحمر · فاتح · ميكس — اختر لون قاعك.</p>
+    </div>
+
+    <div class="scene-text" id="text4" style="top:24%;right:10%">
+      <div class="whisper" data-i18n="s4w">صوت الأعماق</div>
+      <h2 data-i18n-html="s4h">نيمو يهمس<br>بلهجتك</h2>
+      <p data-i18n="s4p">مصري · خليجي · شامي · مغاربي · إنجليزي… حسب دولتك وعمرك.</p>
+    </div>
+
+    <div class="scene-text" id="text5" style="top:30%;left:50%;transform:translateX(-50%);text-align:center">
+      <div class="whisper" data-i18n="s5w">القاع</div>
+      <h2 data-i18n-html="s5h">هنا… أنت<br>و <em>Nemo</em></h2>
+      <p data-i18n="s5p">بياناتك محلية. حسابك ملكك. ابدأ الغوص في التطبيق.</p>
+    </div>
+  </div>
+</div>
+
+<div class="surface">
+<section class="section" id="features">
+  <div class="section-head">
+    <h2 data-i18n="featTitle">ما ينتظرك تحت السطح</h2>
+    <p data-i18n="featSub">كل ميزة جزء من الرحلة</p>
+  </div>
+  <div class="features">
+    <div class="feature"><div class="fi">📋</div><h3 data-i18n="f1t">إدارة المهام</h3><p data-i18n="f1p">تصنيفات وأولويات وفلاتر مع تمييز المتأخر ورسوم تقدم حية.</p></div>
+    <div class="feature"><div class="fi">🃏</div><h3 data-i18n="f2t">بطاقات التذكر</h3><p data-i18n="f2p">اقلب البطاقة، راجع اليوم، وابنِ ذاكرة أقوى بخطوات صغيرة.</p></div>
+    <div class="feature"><div class="fi">📅</div><h3 data-i18n="f3t">تقويم وجدولة</h3><p data-i18n="f3p">أيامك ومواعيدك في تيار واحد — خطط لجلسات التركيز.</p></div>
+    <div class="feature"><div class="fi">📊</div><h3 data-i18n="f4t">تحليلات</h3><p data-i18n="f4p">منحنيات يومية وأسبوعية وإحصائيات الدراسة بلمحة.</p></div>
+    <div class="feature"><div class="fi">🌐</div><h3 data-i18n="f5t">عربي / English</h3><p data-i18n="f5p">واجهة كاملة بالاتجاهين مع حفظ تفضيلك.</p></div>
+    <div class="feature"><div class="fi">🐠</div><h3 data-i18n="f6t">مساعد نيمو</h3><p data-i18n="f6p">نصائح حسب تقدمك، دردشة، وسمكة تحسّ بحضرتك.</p></div>
+  </div>
+  <div class="stats">
+    <div class="stat-box"><b>6</b><span data-i18n="st1">عوالم لونية</span></div>
+    <div class="stat-box"><b>7</b><span data-i18n="st2">لهجات</span></div>
+    <div class="stat-box"><b>5+</b><span data-i18n="st3">أدوات طلاب</span></div>
+    <div class="stat-box"><b>∞</b><span data-i18n="st4">عمق أفكارك</span></div>
+  </div>
+</section>
+
+<section class="section" id="feel">
+  <div class="section-head">
+    <h2 data-i18n="feelTitle">حرّك الماوس في الماء</h2>
+    <p data-i18n="feelSub">نيمو يتبع حركتك كأنه يسبح نحوك</p>
+  </div>
+  <div class="react-zone">
+    <div class="react-pool" id="pool">
+      <div class="pool-fish" id="poolFish">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+          <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+          <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+          <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="72" cy="39" r="8" fill="#fff"/>
+          <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+          <path d="M48 18L57 8L66 18Z" fill="#7c5cff"/>
+          <rect x="43" y="17" width="27" height="5" rx="2.5" fill="#7c5cff"/>
+        </svg>
+      </div>
+    </div>
+    <div class="react-info">
+      <h3 data-i18n="feelH">يُحسّ بالحركة</h3>
+      <p data-i18n="feelP">في التطبيق تتحرك السمكة أثناء الدردشة، وتهمس بنصائح حسب إنجازك.</p>
+      <ul>
+        <li data-i18n="feel1">نصائح حسب نسبة تقدمك</li>
+        <li data-i18n="feel2">لهجة من دولتك</li>
+        <li data-i18n="feel3">تلميحات تظهر فجأة</li>
+        <li data-i18n="feel4">يعمل حتى بدون إنترنت</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <h2 data-i18n="ctaTitle">القاع ينتظرك</h2>
+  <p data-i18n="ctaSub">افتح التطبيق، أكمل ملفك، ودع نيمو يسبح مع يومك.</p>
+  <a href="nemo.html" data-i18n="ctaBtn">ابدأ الغوص في التطبيق</a>
+</div>
+
+<footer>
+  <strong>Nemo</strong> — <span data-i18n="footerLine">من السطح إلى القاع</span><br>
+  © 2026 · <span data-i18n="footerData">بياناتك تبقى في جهازك</span><br>
+  <span data-i18n="supportLabel">الدعم:</span>
+  <a href="mailto:nemo.tasker@gmail.com" style="color:var(--cyan);font-weight:600">nemo.tasker@gmail.com</a>
+</footer>
+</div>
+
+<script>
+(function () {
+  var I18N = {
+    ar: {
+      navFeatures: "المميزات", navFeel: "الإحساس", navCta: "ادخل المحيط",
+      s0w: "السطح", s0h: "انزل… إلى عالم<br><em>Nemo</em>", s0p: "مرّر لأسفل. الضوء يخفت. التيار يحملك. لا حدود هنا.",
+      s1w: "الطبقة الأولى", s1h: "مهام تطفو<br>معك", s1p: "كل مهمة فقاعة في يومك. صنّفها، رتّبها، وشاهد إنجازك يضيء في العتمة.",
+      s2w: "الأعماق الدراسية", s2h: "أدوات الطالب<br>في التيار", s2p: "بطاقات تذكر · ملاحظات · تقويم · جدولة — تسبح كلها حولك.",
+      s3w: "ألوان المحيط", s3h: "ستة عوالم<br>من الضوء", s3p: "داكن · وردي · أزرق · أحمر · فاتح · ميكس — اختر لون قاعك.",
+      s4w: "صوت الأعماق", s4h: "نيمو يهمس<br>بلهجتك", s4p: "مصري · خليجي · شامي · مغاربي · إنجليزي… حسب دولتك وعمرك.",
+      s5w: "القاع", s5h: "هنا… أنت<br>و <em>Nemo</em>", s5p: "بياناتك محلية. حسابك ملكك. ابدأ الغوص في التطبيق.",
+      featTitle: "ما ينتظرك تحت السطح", featSub: "كل ميزة جزء من الرحلة",
+      f1t: "إدارة المهام", f1p: "تصنيفات وأولويات وفلاتر مع تمييز المتأخر ورسوم تقدم حية.",
+      f2t: "بطاقات التذكر", f2p: "اقلب البطاقة، راجع اليوم، وابنِ ذاكرة أقوى بخطوات صغيرة.",
+      f3t: "تقويم وجدولة", f3p: "أيامك ومواعيدك في تيار واحد — خطط لجلسات التركيز.",
+      f4t: "تحليلات", f4p: "منحنيات يومية وأسبوعية وإحصائيات الدراسة بلمحة.",
+      f5t: "عربي / English", f5p: "واجهة كاملة بالاتجاهين مع حفظ تفضيلك.",
+      f6t: "مساعد نيمو", f6p: "نصائح حسب تقدمك، دردشة، وسمكة تحسّ بحضرتك.",
+      st1: "عوالم لونية", st2: "لهجات", st3: "أدوات طلاب", st4: "عمق أفكارك",
+      feelTitle: "حرّك الماوس في الماء", feelSub: "نيمو يتبع حركتك كأنه يسبح نحوك",
+      feelH: "يُحسّ بالحركة", feelP: "في التطبيق تتحرك السمكة أثناء الدردشة، وتهمس بنصائح حسب إنجازك.",
+      feel1: "نصائح حسب نسبة تقدمك", feel2: "لهجة من دولتك", feel3: "تلميحات تظهر فجأة", feel4: "يعمل حتى بدون إنترنت",
+      ctaTitle: "القاع ينتظرك", ctaSub: "افتح التطبيق، أكمل ملفك، ودع نيمو يسبح مع يومك.", ctaBtn: "ابدأ الغوص في التطبيق",
+      footerLine: "من السطح إلى القاع", footerData: "بياناتك تبقى في جهازك",
+      supportLabel: "الدعم:",
+      depthUnit: "م", title: "Nemo — من أعماق المحيط"
+    },
+    en: {
+      navFeatures: "Features", navFeel: "Feel", navCta: "Enter the ocean",
+      s0w: "Surface", s0h: "Dive into the world of<br><em>Nemo</em>", s0p: "Scroll down. Light fades. The current carries you. No borders here.",
+      s1w: "First layer", s1h: "Tasks float<br>with you", s1p: "Every task is a bubble in your day. Sort, prioritize, watch progress glow in the dark.",
+      s2w: "Study depths", s2h: "Student tools<br>in the current", s2p: "Flashcards · Notes · Calendar · Schedule — all swimming around you.",
+      s3w: "Ocean colors", s3h: "Six worlds<br>of light", s3p: "Dark · Pink · Blue · Red · Light · Mix — pick the color of your depth.",
+      s4w: "Voice of the deep", s4h: "Nemo whispers<br>in your dialect", s4p: "Egyptian · Gulf · Levantine · Maghrebi · English… based on your country & age.",
+      s5w: "The seabed", s5h: "Here… you<br>& <em>Nemo</em>", s5p: "Your data stays local. Your account is yours. Start diving in the app.",
+      featTitle: "Waiting under the surface", featSub: "Every feature is part of the journey",
+      f1t: "Task management", f1p: "Categories, priorities, filters, overdue flags, and live progress charts.",
+      f2t: "Flashcards", f2p: "Flip cards, review today, and build stronger memory step by step.",
+      f3t: "Calendar & schedule", f3p: "Your days and appointments in one current — plan focus sessions.",
+      f4t: "Analytics", f4p: "Daily and weekly curves and study stats at a glance.",
+      f5t: "Arabic / English", f5p: "Full UI both directions with your preference saved.",
+      f6t: "Nemo assistant", f6p: "Tips from your progress, chat, and a fish that senses you.",
+      st1: "Color worlds", st2: "Dialects", st3: "Study tools", st4: "Depth of ideas",
+      feelTitle: "Move the mouse in the water", feelSub: "Nemo follows as if swimming toward you",
+      feelH: "It feels motion", feelP: "In the app the fish moves while you chat, and whispers tips from your progress.",
+      feel1: "Tips from your progress rate", feel2: "Dialect from your country", feel3: "Hints that appear suddenly", feel4: "Works offline too",
+      ctaTitle: "The seabed is waiting", ctaSub: "Open the app, finish your profile, and let Nemo swim with your day.", ctaBtn: "Start diving in the app",
+      footerLine: "From surface to seabed", footerData: "Your data stays on your device",
+      supportLabel: "Support:",
+      depthUnit: "m", title: "Nemo — From the Ocean Depths"
+    }
+  };
+
+  var lang = localStorage.getItem("nemoSiteLang") || "ar";
+
+  function t(key) {
+    return (I18N[lang] && I18N[lang][key]) || (I18N.ar[key]) || key;
+  }
+
+  window.setSiteLang = function (l) {
+    lang = l;
+    localStorage.setItem("nemoSiteLang", l);
+    applyLang();
+  };
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.title = t("title");
+
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var k = el.getAttribute("data-i18n");
+      if (k) el.textContent = t(k);
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var k = el.getAttribute("data-i18n-html");
+      if (k) el.innerHTML = t(k);
+    });
+
+    document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+    document.getElementById("btnEn").classList.toggle("active", lang === "en");
+
+    // reposition first/last scene text edges for LTR
+    var t0 = document.getElementById("text0");
+    var t2 = document.getElementById("text2");
+    var t4 = document.getElementById("text4");
+    var t1 = document.getElementById("text1");
+    var t3 = document.getElementById("text3");
+    if (lang === "en") {
+      if (t0) { t0.style.right = "auto"; t0.style.left = "8%"; }
+      if (t2) { t2.style.right = "auto"; t2.style.left = "7%"; }
+      if (t4) { t4.style.right = "auto"; t4.style.left = "10%"; }
+      if (t1) { t1.style.left = "auto"; t1.style.right = "7%"; }
+      if (t3) { t3.style.left = "auto"; t3.style.right = "9%"; }
+    } else {
+      if (t0) { t0.style.left = "auto"; t0.style.right = "8%"; }
+      if (t2) { t2.style.left = "auto"; t2.style.right = "7%"; }
+      if (t4) { t4.style.left = "auto"; t4.style.right = "10%"; }
+      if (t1) { t1.style.right = "auto"; t1.style.left = "7%"; }
+      if (t3) { t3.style.right = "auto"; t3.style.left = "9%"; }
+    }
+  }
+
+  /* Live clock — local time */
+  function tickClock() {
+    var el = document.getElementById("liveClock");
+    if (!el) return;
+    var now = new Date();
+    var h = now.getHours();
+    var m = now.getMinutes();
+    var s = now.getSeconds();
+    var pad = function (n) { return n < 10 ? "0" + n : "" + n; };
+    el.textContent = pad(h) + ":" + pad(m) + ":" + pad(s);
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  /* Particles */
+  var pBox = document.getElementById("particles");
+  for (var i = 0; i < 48; i++) {
+    var el = document.createElement("div");
+    el.className = "particle";
+    var size = 1.5 + Math.random() * 4;
+    el.style.width = size + "px";
+    el.style.height = size + "px";
+    el.style.right = (Math.random() * 100) + "%";
+    el.style.animationDuration = (8 + Math.random() * 18) + "s";
+    el.style.animationDelay = (-Math.random() * 20) + "s";
+    el.style.opacity = String(0.15 + Math.random() * 0.5);
+    pBox.appendChild(el);
+  }
+
+  var ocean = document.getElementById("ocean");
+  var oceanBg = document.getElementById("oceanBg");
+  var rays = document.getElementById("rays");
+  var caustics = document.getElementById("caustics");
+  var seafloor = document.getElementById("seafloor");
+  var fish = document.getElementById("nemoFish");
+  var trail = document.getElementById("nemoTrail");
+  var depthMeter = document.getElementById("depthMeter");
+  var depthFill = document.getElementById("depthFill");
+  var depthLabel = document.getElementById("depthLabel");
+  var nav = document.getElementById("nav");
+
+  var path = [
+    { p: 0.00, x: 55, y: 26, flip: false, scene: 0 },
+    { p: 0.10, x: 38, y: 40, flip: true,  scene: 0 },
+    { p: 0.20, x: 72, y: 32, flip: false, scene: 1 },
+    { p: 0.32, x: 22, y: 52, flip: true,  scene: 1 },
+    { p: 0.42, x: 68, y: 28, flip: false, scene: 2 },
+    { p: 0.52, x: 28, y: 56, flip: true,  scene: 2 },
+    { p: 0.62, x: 74, y: 36, flip: false, scene: 3 },
+    { p: 0.72, x: 32, y: 50, flip: true,  scene: 3 },
+    { p: 0.82, x: 62, y: 34, flip: false, scene: 4 },
+    { p: 0.92, x: 48, y: 54, flip: false, scene: 5 },
+    { p: 1.00, x: 50, y: 60, flip: false, scene: 5 }
+  ];
+
+  var iconPos = [
+    { x: 18, y: 16 },
+    { x: 78, y: 22 },
+    { x: 16, y: 58 },
+    { x: 82, y: 48 },
+    { x: 20, y: 38 },
+    { x: 50, y: 18 }
+  ];
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function samplePath(progress) {
+    for (var i = 0; i < path.length - 1; i++) {
+      var a = path[i], b = path[i + 1];
+      if (progress >= a.p && progress <= b.p) {
+        var tt = (progress - a.p) / (b.p - a.p);
+        return {
+          x: lerp(a.x, b.x, tt),
+          y: lerp(a.y, b.y, tt),
+          flip: tt < 0.5 ? a.flip : b.flip,
+          scene: tt < 0.5 ? a.scene : b.scene
+        };
+      }
+    }
+    return path[path.length - 1];
+  }
+
+  function onScroll() {
+    var rect = ocean.getBoundingClientRect();
+    var total = ocean.offsetHeight - window.innerHeight;
+    var progress = 0;
+    if (rect.top <= 0) {
+      progress = Math.min(1, Math.max(0, -rect.top / Math.max(total, 1)));
+    }
+
+    var inOcean = rect.top < window.innerHeight && rect.bottom > 0;
+    depthMeter.classList.toggle("show", inOcean && progress > 0.02 && progress < 0.98);
+    nav.classList.toggle("scrolled", window.scrollY > 30);
+
+    var darken = Math.pow(progress, 1.05);
+    oceanBg.style.filter = "brightness(" + (1 - darken * 0.5) + ") saturate(" + (1 - darken * 0.25) + ")";
+    rays.style.opacity = String(Math.max(0, 0.65 - progress * 0.75));
+    caustics.style.opacity = String(Math.max(0.02, 0.14 - progress * 0.12));
+    seafloor.style.opacity = String(Math.max(0, (progress - 0.5) / 0.5));
+
+    depthFill.style.height = (progress * 100) + "%";
+    depthLabel.textContent = Math.round(progress * 220) + t("depthUnit");
+
+    var pt = samplePath(progress);
+    var fw = fish.offsetWidth || 90;
+    var fh = fish.offsetHeight || 90;
+    var left = (pt.x / 100) * window.innerWidth - fw / 2;
+    var top = (pt.y / 100) * window.innerHeight - fh / 2;
+    fish.style.left = left + "px";
+    fish.style.top = top + "px";
+    fish.classList.toggle("flip", pt.flip);
+
+    trail.style.left = (left + fw * 0.25) + "px";
+    trail.style.top = (top + fh * 0.25) + "px";
+    trail.style.opacity = progress > 0.04 ? "0.75" : "0";
+
+    var scene = pt.scene;
+    for (var i = 0; i < 6; i++) {
+      var tel = document.getElementById("text" + i);
+      var ic = document.getElementById("icon" + i);
+      if (tel) {
+        var on = i === scene;
+        tel.classList.toggle("visible", on);
+        if (on) {
+          var drift = Math.sin(progress * 18 + i) * 5;
+          if (i === 5) {
+            tel.style.transform = "translateX(-50%) translateY(" + drift + "px)";
+          } else {
+            tel.style.transform = "translateY(" + drift + "px)";
+          }
+        }
+      }
+      if (ic && iconPos[i]) {
+        ic.classList.toggle("show", i === scene);
+        ic.style.left = iconPos[i].x + "%";
+        ic.style.top = iconPos[i].y + "%";
+        ic.style.transform = i === scene
+          ? "scale(1) translateY(" + (Math.sin(Date.now() / 900 + i) * 10) + "px)"
+          : "scale(0.5)";
+      }
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+
+  applyLang();
+  onScroll();
+  requestAnimationFrame(function tick() {
+    onScroll();
+    requestAnimationFrame(tick);
+  });
+
+  var pool = document.getElementById("pool");
+  var poolFish = document.getElementById("poolFish");
+  if (pool && poolFish) {
+    pool.addEventListener("mousemove", function (e) {
+      var r = pool.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      var y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      poolFish.style.transform =
+        "translate(calc(-50% + " + (x * 75) + "px), calc(-50% + " + (y * 58) + "px)) rotate(" + (x * 16) + "deg)";
+    });
+    pool.addEventListener("mouseleave", function () {
+      poolFish.style.transform = "translate(-50%, -50%) rotate(0)";
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2841 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nemo</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#743cff" id="metaTheme">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.svg">
+<style>
+/* ===== Base (Dark Purple) ===== */
+:root, [data-theme="dark"]{
+  --bg:#07070c; --card:#12121c; --card2:#1a1926; --card3:#222132; --border:#2a283a;
+  --text:#f5f4fa; --muted:#8b8999; --accent:#743cff; --accent2:#916dff;
+  --blue:#2694e8; --green:#20ce70; --yellow:#dce52c; --red:#ff5077; --orange:#F47732;
+  --shadow:0 8px 28px rgba(0,0,0,.35); --radius:18px;
+  --nav-bg:#0e0d16; --input-bg:#252432; --chart-bg:#0c0c14;
+  --tag-work-bg:#202d4d; --tag-work:#72afff;
+  --tag-study-bg:#243c2d; --tag-study:#6be99e;
+  --tag-personal-bg:#40283e; --tag-personal:#ff81c1;
+  --circle-track:#292837; --empty-title:#fff;
+  --progress-track:#292837;
+}
+
+/* Pink */
+[data-theme="pink"]{
+  --bg:#140a12; --card:#1f121c; --card2:#2a1826; --card3:#351f30; --border:#4a2a40;
+  --text:#fff0f7; --muted:#c49bb0; --accent:#ff4d9a; --accent2:#ff7ab5;
+  --blue:#ff8ec8; --green:#5ee0a0; --yellow:#ffd56a; --red:#ff6b8a; --orange:#ff9a6b;
+  --shadow:0 8px 28px rgba(255,77,154,.12); --nav-bg:#180e16; --input-bg:#2e1a28;
+  --chart-bg:#120910; --tag-work-bg:#3a2040; --tag-work:#ff9ad4;
+  --tag-study-bg:#2a3040; --tag-study:#9ae0c0; --tag-personal-bg:#4a2040; --tag-personal:#ffb0d8;
+  --circle-track:#3a2435; --empty-title:#fff; --progress-track:#3a2435;
+}
+
+/* Blue */
+[data-theme="blue"]{
+  --bg:#060b14; --card:#0e1624; --card2:#152033; --card3:#1c2a40; --border:#2a3d5a;
+  --text:#e8f1ff; --muted:#7a94b0; --accent:#2b7fff; --accent2:#5ca0ff;
+  --blue:#4db0ff; --green:#2dd4a0; --yellow:#e8d44a; --red:#ff5c7a; --orange:#ff9a4d;
+  --shadow:0 8px 28px rgba(43,127,255,.15); --nav-bg:#0a1220; --input-bg:#1a283c;
+  --chart-bg:#081018; --tag-work-bg:#1a3050; --tag-work:#7ab8ff;
+  --tag-study-bg:#1a3840; --tag-study:#6be0c0; --tag-personal-bg:#302040; --tag-personal:#d080ff;
+  --circle-track:#1e3048; --empty-title:#fff; --progress-track:#1e3048;
+}
+
+/* Red + Black */
+[data-theme="red"]{
+  --bg:#0a0606; --card:#161010; --card2:#201616; --card3:#2a1c1c; --border:#3d2525;
+  --text:#ffeaea; --muted:#a88888; --accent:#e63946; --accent2:#ff5c69;
+  --blue:#ff6b6b; --green:#2dd4a0; --yellow:#f4d35e; --red:#ff3b4f; --orange:#ff8c42;
+  --shadow:0 8px 28px rgba(230,57,70,.18); --nav-bg:#100808; --input-bg:#241818;
+  --chart-bg:#0c0606; --tag-work-bg:#3a2028; --tag-work:#ff8a9a;
+  --tag-study-bg:#203028; --tag-study:#6be0a0; --tag-personal-bg:#3a2030; --tag-personal:#ff90b0;
+  --circle-track:#2e1c1c; --empty-title:#fff; --progress-track:#2e1c1c;
+}
+
+/* Light */
+[data-theme="light"]{
+  --bg:#f4f5fb; --card:#ffffff; --card2:#f0f1f8; --card3:#e6e8f2; --border:#d5d8e8;
+  --text:#1a1b2e; --muted:#6b6e85; --accent:#6b3fff; --accent2:#8b6aff;
+  --blue:#1a7fd4; --green:#12a85a; --yellow:#c4a800; --red:#e03060; --orange:#e07020;
+  --shadow:0 8px 24px rgba(30,30,60,.08); --nav-bg:#ffffff; --input-bg:#eef0f8;
+  --chart-bg:#eef0f7; --tag-work-bg:#e0e8f8; --tag-work:#2a6bc0;
+  --tag-study-bg:#e0f2e8; --tag-study:#1a8a50; --tag-personal-bg:#f5e0ee; --tag-personal:#c03080;
+  --circle-track:#d8dae8; --empty-title:#1a1b2e; --progress-track:#d8dae8;
+}
+
+/* Mix — gradient accents */
+[data-theme="mix"]{
+  --bg:#0a0a12; --card:#141420; --card2:#1c1c2c; --card3:#262638; --border:#32324a;
+  --text:#f0f0ff; --muted:#9090b0; --accent:#a855f7; --accent2:#ec4899;
+  --blue:#3b82f6; --green:#22c55e; --yellow:#eab308; --red:#f43f5e; --orange:#f97316;
+  --shadow:0 8px 28px rgba(168,85,247,.2); --nav-bg:#10101a; --input-bg:#222234;
+  --chart-bg:#0c0c16; --tag-work-bg:#1e3a5f; --tag-work:#60a5fa;
+  --tag-study-bg:#14532d; --tag-study:#4ade80; --tag-personal-bg:#4a1942; --tag-personal:#f472b6;
+  --circle-track:#2e2e45; --empty-title:#fff; --progress-track:#2e2e45;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Tahoma,sans-serif}
+html{transition:background .3s}
+body{background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;transition:background .3s,color .3s}
+button,input,select,textarea{font:inherit}
+button{border:0;cursor:pointer}
+input,select,textarea{outline:none}
+.app{min-height:100vh;padding-bottom:88px}
+.page{display:none;width:min(1100px,100%);margin:auto;padding:22px 16px 30px}
+.page.active{display:block}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:12px}
+.topbar h1{font-size:26px;margin-bottom:6px;letter-spacing:-.3px}
+.topbar p{color:var(--muted);font-size:13.5px}
+.avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid var(--accent);overflow:hidden;box-shadow:0 4px 18px color-mix(in srgb,var(--accent) 40%,transparent);flex-shrink:0}
+.nemo-logo{width:100%;height:100%;display:block}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:16px;box-shadow:var(--shadow);transition:background .3s,border-color .3s}
+.stat{min-height:150px;position:relative;overflow:hidden;padding-inline-end:100px}
+.stat h3{color:var(--muted);font-size:13px;font-weight:normal;margin-bottom:12px}
+.stat strong{font-size:30px;letter-spacing:-.5px}
+.stat small{color:var(--muted);display:block;margin-top:6px;font-size:12px}
+.circle{position:absolute;inset-inline-end:14px;top:34px;left:auto;right:auto;width:82px;height:82px;border-radius:50%;display:grid;place-items:center;font-weight:bold;font-size:14px;background:radial-gradient(closest-side,var(--card) 78%,transparent 80%),conic-gradient(var(--accent) var(--percent,0%),var(--circle-track) 0)}
+[dir="rtl"] .circle{left:14px;right:auto}
+[dir="ltr"] .circle{right:14px;left:auto}
+.circle.green{background:radial-gradient(closest-side,var(--card) 78%,transparent 80%),conic-gradient(var(--green) var(--percent,0%),var(--circle-track) 0)}
+.circle.yellow{background:radial-gradient(closest-side,var(--card) 78%,transparent 80%),conic-gradient(var(--yellow) var(--percent,0%),var(--circle-track) 0)}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.section-title h2{font-size:18px}
+.section-title span{color:var(--muted);font-size:12.5px}
+.btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;transition:background .2s,transform .15s,filter .2s;font-weight:600}
+.btn:hover{background:var(--accent2);filter:brightness(1.05)}
+.btn:active{transform:scale(.97)}
+.btn.secondary{background:var(--card3);color:var(--text);border:1px solid var(--border)}
+.btn.secondary:hover{filter:brightness(1.1)}
+.btn.blue{background:var(--blue)}
+.btn.green{background:var(--green);color:#062210}
+.btn.red{background:var(--red);color:#fff}
+.btn.block{width:100%}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:8px}
+[data-theme="mix"] .btn{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+[data-theme="mix"] .add-nav{background:linear-gradient(135deg,#a855f7,#3b82f6,#ec4899)}
+.content-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+.task{display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:8px;background:var(--card2);border-radius:13px;border:1px solid transparent;transition:border-color .2s,background .3s}
+.task:hover{border-color:var(--accent)}
+.task.done .task-name{text-decoration:line-through;color:var(--muted)}
+.task.overdue:not(.done){border-color:color-mix(in srgb,var(--red) 50%,transparent)}
+.check{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0}
+.task-info{flex:1;min-width:0}
+.task-name{display:block;word-break:break-word;margin-bottom:4px;font-size:14.5px}
+.task-date{color:var(--muted);font-size:11.5px}
+.tag{border-radius:7px;padding:4px 8px;font-size:11px;white-space:nowrap;flex-shrink:0}
+.work{background:var(--tag-work-bg);color:var(--tag-work)}
+.study{background:var(--tag-study-bg);color:var(--tag-study)}
+.personal{background:var(--tag-personal-bg);color:var(--tag-personal)}
+.icon-btn{background:none;color:var(--muted);font-size:16px;padding:4px;border-radius:6px;transition:color .15s}
+.icon-btn:hover{color:var(--red)}
+.edit:hover{color:var(--blue)!important}
+.empty{text-align:center;color:var(--muted);padding:36px 12px}
+.empty div{font-size:38px;margin-bottom:10px}
+.empty h3{color:var(--empty-title);margin-bottom:6px;font-size:16px}
+.empty p{font-size:13px}
+.analysis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.analysis div{background:var(--card2);border-radius:11px;padding:12px}
+.analysis span{color:var(--muted);font-size:11.5px;display:block;margin-bottom:6px}
+.analysis b{font-size:22px}
+.progress{height:10px;background:var(--progress-track);border-radius:20px;overflow:hidden}
+.progress div{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,var(--accent),var(--blue));transition:.4s}
+.message{color:var(--muted);margin-top:12px;line-height:1.65;font-size:13.5px}
+.chart-tabs,.filter,.sub-tabs{display:flex;gap:7px;margin-bottom:14px;overflow:auto;padding-bottom:2px}
+.chart-tabs button,.filter button,.sub-tabs button{color:var(--muted);background:var(--card3);padding:8px 13px;border-radius:8px;white-space:nowrap;font-size:13px;transition:background .2s,color .2s;border:1px solid transparent}
+.chart-tabs button.active,.filter button.active,.sub-tabs button.active{color:#fff;background:var(--accent)}
+[data-theme="light"] .chart-tabs button.active,[data-theme="light"] .filter button.active,[data-theme="light"] .sub-tabs button.active{color:#fff}
+.chart{width:100%;height:230px;background:var(--chart-bg);border-radius:14px;padding:10px}
+.chart svg{width:100%;height:175px;overflow:visible}
+.line{fill:none;stroke:var(--accent);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.point{fill:var(--blue);stroke:var(--text);stroke-width:2}
+.chart-labels{display:flex;justify-content:space-around;color:var(--muted);font-size:11px}
+.form-card{max-width:620px;margin:auto}
+.field{margin-bottom:13px}
+.field label{color:var(--muted);font-size:12.5px;display:block;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 12px;transition:border-color .2s,background .3s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+textarea{min-height:88px;resize:vertical}
+.bottom-nav{position:fixed;bottom:0;right:0;left:0;height:74px;background:var(--nav-bg);border-top:1px solid var(--border);display:flex;justify-content:center;gap:4px;z-index:10;padding:0 4px;transition:background .3s}
+.nav-btn{min-width:62px;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;font-size:10.5px;padding:6px 2px;border-radius:10px;transition:color .2s}
+.nav-btn span{font-size:20px;line-height:1}
+.nav-btn.active{color:var(--text)}
+.add-nav{width:50px;height:50px;min-width:50px;margin-top:-18px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--blue));color:white;font-size:26px;box-shadow:0 5px 20px color-mix(in srgb,var(--accent) 45%,transparent);padding:0}
+.modal{display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:16px}
+.modal.show{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--border);width:min(440px,100%);border-radius:20px;padding:20px;max-height:90vh;overflow:auto;box-shadow:var(--shadow)}
+.modal-box h2{margin-bottom:16px;font-size:18px}
+.modal-actions{display:flex;gap:9px;margin-top:16px}
+.modal-actions button{flex:1;padding:11px;border-radius:10px}
+.cancel{background:var(--card3);color:var(--text)}
+.settings-group{margin-bottom:22px}
+.settings-group h3{font-size:14px;color:var(--muted);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;background:var(--card2);border-radius:12px;margin-bottom:8px;border:1px solid transparent}
+.settings-row:hover{border-color:var(--border)}
+.settings-row .info{flex:1;min-width:0}
+.settings-row .info strong{display:block;font-size:14px;margin-bottom:3px}
+.settings-row .info span{color:var(--muted);font-size:12px;line-height:1.5}
+.settings-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+/* Theme picker */
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.theme-opt{
+  border:2px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center;
+  cursor:pointer;background:var(--card2);transition:border-color .2s,transform .15s;position:relative
+}
+.theme-opt:hover{transform:translateY(-2px)}
+.theme-opt.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.theme-opt .swatch{
+  height:28px;border-radius:8px;margin-bottom:8px;display:flex;overflow:hidden
+}
+.theme-opt .swatch span{flex:1}
+.theme-opt .name{font-size:12px;font-weight:600}
+.theme-opt .check-mark{
+  position:absolute;top:6px;left:6px;width:18px;height:18px;border-radius:50%;
+  background:var(--accent);color:#fff;font-size:11px;display:none;align-items:center;justify-content:center
+}
+.theme-opt.active .check-mark{display:flex}
+
+/* Language toggle */
+.lang-toggle{display:flex;gap:8px}
+.lang-toggle button{
+  flex:1;padding:12px;border-radius:12px;background:var(--card2);color:var(--muted);
+  border:2px solid var(--border);font-weight:600;transition:all .2s
+}
+.lang-toggle button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.student-panel{display:none}
+.student-panel.active{display:block}
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.flash-card{background:linear-gradient(145deg,var(--card2),var(--card3));border:1px solid var(--border);border-radius:16px;padding:16px;min-height:130px;cursor:pointer;position:relative;transition:transform .2s,border-color .2s}
+.flash-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.flash-card .back{display:none}
+.flash-card.flipped .front{display:none}
+.flash-card.flipped .back{display:block}
+.flash-card .label{font-size:11px;color:var(--muted);margin-bottom:8px}
+.flash-card .content{font-size:15px;word-break:break-word;line-height:1.55}
+.flash-actions{display:flex;gap:6px;margin-top:12px;justify-content:flex-end}
+.flash-actions button{font-size:12px;padding:4px 8px;border-radius:6px;background:var(--card3);color:var(--muted)}
+.flash-actions button:hover{color:var(--text)}
+.notes-list{display:flex;flex-direction:column;gap:10px}
+.note-item{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px;transition:border-color .2s}
+.note-item:hover{border-color:var(--accent)}
+.note-item h4{font-size:15px;margin-bottom:6px}
+.note-item p{color:var(--muted);font-size:13px;white-space:pre-wrap;word-break:break-word;max-height:72px;overflow:hidden}
+.note-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
+.note-meta span{font-size:11.5px;color:var(--muted)}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-header h3{font-size:16px}
+.cal-nav{display:flex;gap:6px;align-items:center}
+.cal-nav button{background:var(--card3);color:var(--text);width:34px;height:34px;border-radius:8px;font-size:16px}
+.cal-nav button:hover{background:var(--accent);color:#fff}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-dow{font-size:11px;color:var(--muted);padding:6px 0;font-weight:600}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:13px;background:var(--card2);cursor:pointer;border:1px solid transparent;position:relative;transition:background .15s,border-color .15s}
+.cal-day:hover{border-color:var(--accent)}
+.cal-day.other{opacity:.35;cursor:default}
+.cal-day.today{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 15%,transparent)}
+.cal-day.selected{background:var(--accent);color:#fff}
+.cal-day .dot{width:5px;height:5px;border-radius:50%;background:var(--green);position:absolute;bottom:5px;display:none}
+.cal-day.has-task .dot{display:block}
+.day-tasks{margin-top:14px}
+.day-tasks h4{font-size:14px;margin-bottom:10px;color:var(--muted)}
+.schedule-list{display:flex;flex-direction:column;gap:8px}
+.schedule-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--card2);border-radius:12px;border-right:3px solid var(--accent)}
+[dir="ltr"] .schedule-item{border-right:0;border-left:3px solid var(--accent)}
+.schedule-time{min-width:70px;font-size:12px;color:var(--blue);font-weight:600;padding-top:2px}
+.schedule-body{flex:1;min-width:0}
+.schedule-body strong{display:block;font-size:14px;margin-bottom:3px}
+.schedule-body span{font-size:12px;color:var(--muted)}
+.mini-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.mini-stat{background:var(--card2);border-radius:12px;padding:14px;text-align:center}
+.mini-stat b{display:block;font-size:22px;margin-bottom:4px}
+.mini-stat span{font-size:12px;color:var(--muted)}
+.priority-high{border-right-color:var(--red)!important}
+.priority-medium{border-right-color:var(--yellow)!important}
+.priority-low{border-right-color:var(--green)!important}
+[dir="ltr"] .priority-high{border-left-color:var(--red)!important;border-right-color:transparent!important}
+[dir="ltr"] .priority-medium{border-left-color:var(--yellow)!important;border-right-color:transparent!important}
+[dir="ltr"] .priority-low{border-left-color:var(--green)!important;border-right-color:transparent!important}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:6px;background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--accent2);margin-inline-start:4px}
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:12px 20px;border-radius:12px;box-shadow:var(--shadow);z-index:50;
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;font-size:14px;max-width:90%
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Toggle switch */
+.switch{
+  position:relative;width:52px;height:30px;flex-shrink:0
+}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{
+  position:absolute;inset:0;background:var(--card3);border:1px solid var(--border);
+  border-radius:30px;cursor:pointer;transition:.25s
+}
+.switch .slider:before{
+  content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;
+  background:#fff;border-radius:50%;transition:.25s;box-shadow:0 2px 6px rgba(0,0,0,.25)
+}
+.switch input:checked + .slider{background:var(--accent);border-color:var(--accent)}
+.switch input:checked + .slider:before{transform:translateX(22px)}
+[dir="rtl"] .switch .slider:before{left:auto;right:3px}
+[dir="rtl"] .switch input:checked + .slider:before{transform:translateX(-22px)}
+
+/* Home student shortcuts */
+.home-student{display:none;margin-bottom:16px}
+.home-student.visible{display:block}
+.student-shortcuts{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px
+}
+.student-shortcut{
+  background:var(--card2);border:1px solid var(--border);border-radius:14px;
+  padding:16px 10px;text-align:center;cursor:pointer;transition:border-color .2s,transform .15s,background .2s
+}
+.student-shortcut:hover{border-color:var(--accent);transform:translateY(-2px);background:var(--card3)}
+.student-shortcut .ico{font-size:26px;margin-bottom:8px;line-height:1}
+.student-shortcut .lbl{font-size:12px;font-weight:600;color:var(--text)}
+.student-shortcut .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.nav-btn.hidden-nav{display:none!important}
+
+/* ===== Nemo Chat Assistant ===== */
+.nemo-fab{
+  position:fixed;bottom:90px;inset-inline-end:18px;z-index:25;
+  width:64px;height:64px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(145deg,var(--accent),var(--blue));
+  box-shadow:0 6px 24px color-mix(in srgb,var(--accent) 45%,transparent);
+  display:grid;place-items:center;padding:0;transition:transform .2s
+}
+.nemo-fab:hover{transform:scale(1.08)}
+.nemo-fab .fish-wrap{
+  width:44px;height:44px;animation:swim 2.4s ease-in-out infinite
+}
+.nemo-fab .fish-wrap svg{width:100%;height:100%;display:block}
+@keyframes swim{
+  0%,100%{transform:translateY(0) rotate(-4deg)}
+  50%{transform:translateY(-5px) rotate(4deg)}
+}
+.nemo-fab.talking .fish-wrap{animation:talk 0.35s ease-in-out infinite}
+@keyframes talk{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.12) rotate(6deg)}
+}
+.nemo-bubble-hint{
+  position:fixed;bottom:160px;inset-inline-end:18px;z-index:24;
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:10px 14px;border-radius:14px;font-size:12.5px;max-width:200px;
+  box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;
+  transform:translateY(8px)
+}
+.nemo-bubble-hint.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.nemo-bubble-hint::after{
+  content:"";position:absolute;bottom:-6px;inset-inline-end:24px;
+  width:12px;height:12px;background:var(--card);border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);transform:rotate(45deg)
+}
+
+.nemo-chat{
+  position:fixed;bottom:90px;inset-inline-end:18px;z-index:26;
+  width:min(360px,calc(100vw - 24px));height:min(480px,calc(100vh - 120px));
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  box-shadow:var(--shadow);display:none;flex-direction:column;overflow:hidden
+}
+.nemo-chat.open{display:flex}
+.nemo-chat-header{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff
+}
+.nemo-chat-header .avatar-sm{
+  width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;flex-shrink:0
+}
+.nemo-chat-header .avatar-sm svg{width:28px;height:28px}
+.nemo-chat-header .info{flex:1;min-width:0}
+.nemo-chat-header .info strong{display:block;font-size:15px}
+.nemo-chat-header .info span{font-size:11.5px;opacity:.85}
+.nemo-chat-header .close-chat{
+  background:rgba(255,255,255,.2);color:#fff;width:32px;height:32px;border-radius:50%;
+  font-size:18px;display:grid;place-items:center
+}
+.nemo-chat-msgs{
+  flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)
+}
+.msg{
+  max-width:88%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.55;word-break:break-word
+}
+.msg.bot{
+  background:var(--card2);border:1px solid var(--border);align-self:flex-start;
+  border-start-start-radius:4px
+}
+.msg.user{
+  background:var(--accent);color:#fff;align-self:flex-end;border-start-end-radius:4px
+}
+.msg .typing{display:inline-flex;gap:4px;padding:4px 0}
+.msg .typing i{
+  width:7px;height:7px;border-radius:50%;background:var(--muted);
+  animation:blink 1.2s infinite
+}
+.msg .typing i:nth-child(2){animation-delay:.2s}
+.msg .typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+.nemo-chat-input{
+  display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:var(--card)
+}
+.nemo-chat-input input{
+  flex:1;background:var(--input-bg);border:1px solid var(--border);color:var(--text);
+  border-radius:12px;padding:10px 12px;font-size:13.5px
+}
+.nemo-chat-input input:focus{border-color:var(--accent)}
+.nemo-chat-input button{
+  background:var(--accent);color:#fff;border-radius:12px;padding:0 16px;font-weight:600;font-size:14px
+}
+.nemo-quick{
+  display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;background:var(--card);flex-wrap:nowrap
+}
+.nemo-quick button{
+  flex-shrink:0;background:var(--card2);border:1px solid var(--border);color:var(--muted);
+  border-radius:20px;padding:6px 12px;font-size:12px;white-space:nowrap
+}
+.nemo-quick button:hover{border-color:var(--accent);color:var(--text)}
+
+@media(max-width:900px){.content-grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .page{padding:16px 12px 28px}
+  .grid{grid-template-columns:1fr}
+  .topbar h1{font-size:21px}
+  .analysis{grid-template-columns:1fr}
+  .bottom-nav{gap:0;justify-content:space-around;padding:0}
+  .nav-btn{min-width:52px;font-size:10px}
+  .nav-btn span{font-size:18px}
+  .flash-grid{grid-template-columns:1fr 1fr}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .student-shortcuts{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:380px){.flash-grid{grid-template-columns:1fr}.nav-btn{min-width:48px}.student-shortcuts{grid-template-columns:repeat(2,1fr)}}
+
+/* Auth gate */
+.auth-gate{
+  position:fixed;inset:0;z-index:100;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:20px
+}
+.auth-gate.hidden{display:none}
+.auth-box{
+  width:min(420px,100%);background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:28px 24px;box-shadow:var(--shadow);text-align:center
+}
+.auth-box .logo-big{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:#fff;border:2px solid var(--accent);display:grid;place-items:center;overflow:hidden}
+.auth-box .logo-big svg{width:56px;height:56px}
+.auth-box h1{font-size:24px;margin-bottom:6px}
+.auth-box .sub{color:var(--muted);font-size:13.5px;margin-bottom:22px;line-height:1.6}
+.auth-box .divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--muted);font-size:12px}
+.auth-box .divider::before,.auth-box .divider::after{content:"";flex:1;height:1px;background:var(--border)}
+#googleBtnWrap{display:flex;justify-content:center;min-height:44px;margin-bottom:8px}
+.profile-step{display:none;text-align:start}
+.profile-step.active{display:block}
+.profile-step h2{text-align:center;margin-bottom:8px;font-size:20px}
+.profile-step .hint{text-align:center;color:var(--muted);font-size:13px;margin-bottom:18px}
+.user-chip{
+  display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--card2);
+  border-radius:12px;border:1px solid var(--border);margin-bottom:12px
+}
+.user-chip img{width:36px;height:36px;border-radius:50%}
+.user-chip .meta{flex:1;min-width:0;text-align:start}
+.user-chip .meta strong{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-chip .meta span{font-size:11.5px;color:var(--muted)}
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+<!-- شاشة الدخول -->
+<div class="auth-gate" id="authGate">
+  <div class="auth-box">
+    <div class="logo-big">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+        <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="72" cy="39" r="8" fill="#fff"/>
+        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+      </svg>
+    </div>
+
+    <div id="loginStep" class="profile-step active">
+      <h1 data-i18n="authWelcome">أهلاً بك في Nemo</h1>
+      <p class="sub" data-i18n="authSub">سجّل دخولك لحفظ بياناتك وملفّك الشخصي، ويتكلم نيمو بلهجتك.</p>
+      <div id="googleBtnWrap"></div>
+      <p style="color:var(--muted);font-size:11.5px;margin:10px 0 0" data-i18n="authGoogleHint">يتطلب إعداد Google Client ID في الكود</p>
+      <div class="divider"><span data-i18n="or">أو</span></div>
+      <button class="btn block secondary" type="button" onclick="continueAsGuest()" data-i18n="continueGuest">المتابعة كزائر</button>
+    </div>
+
+    <div id="profileStep" class="profile-step">
+      <h2 data-i18n="completeProfile">أكمل ملفك</h2>
+      <p class="hint" data-i18n="profileHint">الدولة والعمر يساعدان نيمو يتكلم بأسلوب قريب منك</p>
+      <div class="user-chip" id="profileUserChip" style="display:none">
+        <img id="profileAvatar" alt="">
+        <div class="meta"><strong id="profileName"></strong><span id="profileEmail"></span></div>
+      </div>
+      <div class="field">
+        <label data-i18n="countryLabel">الدولة</label>
+        <select id="profileCountry">
+          <option value="EG">مصر</option>
+          <option value="SA">السعودية</option>
+          <option value="AE">الإمارات</option>
+          <option value="KW">الكويت</option>
+          <option value="QA">قطر</option>
+          <option value="BH">البحرين</option>
+          <option value="OM">عُمان</option>
+          <option value="JO">الأردن</option>
+          <option value="PS">فلسطين</option>
+          <option value="LB">لبنان</option>
+          <option value="SY">سوريا</option>
+          <option value="IQ">العراق</option>
+          <option value="YE">اليمن</option>
+          <option value="SD">السودان</option>
+          <option value="MA">المغرب</option>
+          <option value="DZ">الجزائر</option>
+          <option value="TN">تونس</option>
+          <option value="LY">ليبيا</option>
+          <option value="US">United States</option>
+          <option value="GB">United Kingdom</option>
+          <option value="OTHER">أخرى / Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="ageLabel">العمر</label>
+        <input id="profileAge" type="number" min="8" max="100" placeholder="18">
+      </div>
+      <button class="btn block" type="button" onclick="saveProfile()" data-i18n="saveProfile">حفظ والبدء</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+
+<section id="homePage" class="page active">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="homeTitle">مرحباً بك في Nemo 👋</h1>
+    <p data-i18n="homeSub">نظّم مهامك، وادرس بذكاء، وتابع تقدمك</p>
+  </div>
+  <a href="index.html" class="avatar" aria-label="Nemo website" title="الموقع التعريفي" style="text-decoration:none">
+    <svg class="nemo-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+      <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+      <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="72" cy="39" r="8" fill="#fff"/>
+      <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+      <path d="M48 18L57 8L66 18Z" fill="#743CFF"/>
+      <rect x="43" y="17" width="27" height="5" rx="2.5" fill="#743CFF"/>
+      <rect x="49" y="58" width="24" height="17" rx="3" fill="#fff" transform="rotate(-8 49 58)"/>
+      <path d="M54 67L59 71L68 62" fill="none" stroke="#20CE70" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</header>
+<div class="grid">
+  <div class="card stat">
+    <h3 data-i18n="totalTasks">إجمالي المهام</h3>
+    <strong id="totalTasks">0</strong>
+    <small data-i18n="totalTasksSub">كل المهام التي أضفتها</small>
+    <div class="circle" id="totalCircle">0%</div>
+  </div>
+  <div class="card stat">
+    <h3 data-i18n="completedTasks">المهام المكتملة</h3>
+    <strong id="completedTasks">0</strong>
+    <small data-i18n="completedTasksSub">المهام التي أنجزتها</small>
+    <div class="circle green" id="completedCircle">0%</div>
+  </div>
+  <div class="card stat">
+    <h3 data-i18n="progressLabel">نسبة التقدم</h3>
+    <strong id="progress">0%</strong>
+    <small data-i18n="progressSub">نسبة إنجازك الحالية</small>
+    <div class="circle yellow" id="progressCircle">0%</div>
+  </div>
+</div>
+
+<!-- اختصارات وضع الطالب في الرئيسية -->
+<div class="card home-student" id="homeStudentBlock">
+  <div class="section-title">
+    <h2 data-i18n="studentModeHome">وضع الطالب</h2>
+    <button class="btn sm" type="button" onclick="openStudentArea()" data-i18n="openStudentArea">فتح المنطقة</button>
+  </div>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:14px" data-i18n="studentModeHomeHint">اختر ما تريد فعله الآن</p>
+  <div class="student-shortcuts">
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('flash')">
+      <div class="ico">🃏</div>
+      <div class="lbl" data-i18n="tabFlash">بطاقات التذكر</div>
+      <div class="sub" id="homeFlashCount">0</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('notes')">
+      <div class="ico">📓</div>
+      <div class="lbl" data-i18n="tabNotes">الملاحظات</div>
+      <div class="sub" id="homeNotesCount">0</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('calendar')">
+      <div class="ico">📅</div>
+      <div class="lbl" data-i18n="tabCalendar">التقويم</div>
+      <div class="sub" data-i18n="pickDay">اختر يوماً</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('schedule')">
+      <div class="ico">🗓️</div>
+      <div class="lbl" data-i18n="tabSchedule">الجدولة</div>
+      <div class="sub" id="homeSchedCount">0</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('charts')">
+      <div class="ico">📊</div>
+      <div class="lbl" data-i18n="tabCharts">الرسوم البيانية</div>
+      <div class="sub" data-i18n="viewStats">عرض الإحصائيات</div>
+    </button>
+  </div>
+</div>
+
+<div class="content-grid">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="recentTasks">آخر المهام</h2>
+      <button class="btn sm" type="button" onclick="showPage('tasksPage')" data-i18n="allTasksBtn">كل المهام</button>
+    </div>
+    <div id="homeTasks"></div>
+  </div>
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="quickAnalysis">تحليل سريع</h2>
+      <span data-i18n="basedOnData">حسب بياناتك</span>
+    </div>
+    <div id="quickAnalysis"></div>
+  </div>
+</div>
+</section>
+
+<section id="tasksPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="allTasksTitle">كل المهام</h1>
+    <p data-i18n="allTasksSub">أدر مهامك وعدّلها كما تريد</p>
+  </div>
+  <button class="btn" type="button" onclick="showPage('addPage')" data-i18n="addTaskBtn">＋ مهمة</button>
+</header>
+<div class="card">
+  <div class="filter">
+    <button type="button" class="active" onclick="setFilter('all',this)" data-i18n="filterAll">الكل</button>
+    <button type="button" onclick="setFilter('pending',this)" data-i18n="filterPending">غير مكتملة</button>
+    <button type="button" onclick="setFilter('done',this)" data-i18n="filterDone">مكتملة</button>
+    <button type="button" onclick="setFilter('today',this)" data-i18n="filterToday">اليوم</button>
+  </div>
+  <div id="allTasks"></div>
+</div>
+</section>
+
+<section id="studentPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="studentTitle">منطقة الطلاب 📚</h1>
+    <p data-i18n="studentSub">بطاقات تذكر · ملاحظات · تقويم · جدولة · رسوم</p>
+  </div>
+</header>
+<div class="sub-tabs" id="studentTabs">
+  <button type="button" class="active" data-panel="flash" onclick="showStudentPanel('flash',this)" data-i18n="tabFlash">بطاقات التذكر</button>
+  <button type="button" data-panel="notes" onclick="showStudentPanel('notes',this)" data-i18n="tabNotes">الملاحظات</button>
+  <button type="button" data-panel="calendar" onclick="showStudentPanel('calendar',this)" data-i18n="tabCalendar">التقويم</button>
+  <button type="button" data-panel="schedule" onclick="showStudentPanel('schedule',this)" data-i18n="tabSchedule">الجدولة</button>
+  <button type="button" data-panel="charts" onclick="showStudentPanel('charts',this)" data-i18n="tabCharts">الرسوم البيانية</button>
+</div>
+
+<div id="panel-flash" class="student-panel active">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="flashTitle">بطاقات التذكر</h2>
+      <button class="btn sm" type="button" onclick="openFlashModal()" data-i18n="addFlash">＋ بطاقة</button>
+    </div>
+    <div class="mini-stats">
+      <div class="mini-stat"><b id="flashCount">0</b><span data-i18n="flashTotal">إجمالي البطاقات</span></div>
+      <div class="mini-stat"><b id="flashReviewed">0</b><span data-i18n="flashReviewedToday">تمت مراجعتها اليوم</span></div>
+    </div>
+    <div id="flashList" class="flash-grid"></div>
+  </div>
+</div>
+
+<div id="panel-notes" class="student-panel">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="notesTitle">دفتر الملاحظات</h2>
+      <button class="btn sm" type="button" onclick="openNoteModal()" data-i18n="addNote">＋ ملاحظة</button>
+    </div>
+    <div id="notesList" class="notes-list"></div>
+  </div>
+</div>
+
+<div id="panel-calendar" class="student-panel">
+  <div class="card">
+    <div class="cal-header">
+      <h3 id="calMonthTitle">—</h3>
+      <div class="cal-nav">
+        <button type="button" onclick="changeMonth(-1)" aria-label="prev">›</button>
+        <button type="button" onclick="goToday()" class="btn sm" style="width:auto;padding:0 10px;font-size:12px" data-i18n="todayBtn">اليوم</button>
+        <button type="button" onclick="changeMonth(1)" aria-label="next">‹</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="day-tasks">
+      <h4 id="selectedDayTitle">—</h4>
+      <div id="dayTasksList"></div>
+    </div>
+  </div>
+</div>
+
+<div id="panel-schedule" class="student-panel">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="scheduleTitle">جدولة المهام</h2>
+      <button class="btn sm" type="button" onclick="openScheduleModal()" data-i18n="addSchedule">＋ موعد</button>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:14px" data-i18n="scheduleHint">رتّب وقت دراستك ومهامك حسب الساعة والأولوية.</p>
+    <div id="scheduleList" class="schedule-list"></div>
+  </div>
+</div>
+
+<div id="panel-charts" class="student-panel">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="studyStats">إحصائيات الدراسة</h2>
+      <span data-i18n="basedOnData">من بياناتك</span>
+    </div>
+    <div class="mini-stats">
+      <div class="mini-stat"><b id="studyTasksCount">0</b><span data-i18n="studyTasks">مهام دراسية</span></div>
+      <div class="mini-stat"><b id="studyDoneCount">0</b><span data-i18n="studyDone">مكتملة</span></div>
+      <div class="mini-stat"><b id="notesCountStat">0</b><span data-i18n="notesStat">ملاحظات</span></div>
+      <div class="mini-stat"><b id="scheduleCountStat">0</b><span data-i18n="scheduleStat">مواعيد مجدولة</span></div>
+    </div>
+    <div class="chart-tabs" id="studyChartTabs">
+      <button type="button" class="active" onclick="changeStudyChart('category',this)" data-i18n="byCategory">حسب التصنيف</button>
+      <button type="button" onclick="changeStudyChart('week',this)" data-i18n="weeklyProgress">إنجاز أسبوعي</button>
+    </div>
+    <div class="chart">
+      <svg id="studyChartSvg" viewBox="0 0 600 180"></svg>
+      <div class="chart-labels" id="studyChartLabels"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="analyticsPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="analyticsTitle">تحليل البيانات</h1>
+    <p data-i18n="analyticsSub">تابع إنجازك يومياً وأسبوعياً</p>
+  </div>
+</header>
+<div class="card">
+  <div class="section-title">
+    <h2 data-i18n="progressCurve">منحنى الإنجاز</h2>
+    <span id="chartTitle">—</span>
+  </div>
+  <div class="chart-tabs">
+    <button type="button" class="active" onclick="changeChart('daily',this)" data-i18n="daily">يومي</button>
+    <button type="button" onclick="changeChart('weekly',this)" data-i18n="weekly">أسبوعي</button>
+    <button type="button" onclick="changeChart('monthly',this)" data-i18n="monthly">شهري</button>
+  </div>
+  <div class="chart">
+    <svg id="chartSvg" viewBox="0 0 600 180"></svg>
+    <div class="chart-labels" id="chartLabels"></div>
+  </div>
+</div>
+<div class="card">
+  <div class="section-title"><h2 data-i18n="progressDetails">تفاصيل التقدم</h2></div>
+  <div id="fullAnalysis"></div>
+</div>
+</section>
+
+<section id="addPage" class="page">
+<div class="card form-card">
+  <div class="section-title"><h2 data-i18n="newTaskTitle">إضافة مهمة جديدة</h2></div>
+  <div class="field">
+    <label data-i18n="taskName">اسم المهمة</label>
+    <input id="newTitle" type="text" data-i18n-placeholder="taskNamePh" placeholder="مثلاً: إنهاء المشروع">
+  </div>
+  <div class="field">
+    <label data-i18n="category">التصنيف</label>
+    <select id="newCategory">
+      <option value="work" data-i18n="catWork">العمل</option>
+      <option value="study" data-i18n="catStudy">الدراسة</option>
+      <option value="personal" data-i18n="catPersonal">شخصي</option>
+    </select>
+  </div>
+  <div class="field">
+    <label data-i18n="date">التاريخ</label>
+    <input id="newDate" type="date">
+  </div>
+  <div class="field">
+    <label data-i18n="priority">الأولوية</label>
+    <select id="newPriority">
+      <option value="medium" data-i18n="priMedium">متوسطة</option>
+      <option value="high" data-i18n="priHigh">عالية</option>
+      <option value="low" data-i18n="priLow">منخفضة</option>
+    </select>
+  </div>
+  <div class="field">
+    <label data-i18n="notes">ملاحظات</label>
+    <textarea id="newNotes" data-i18n-placeholder="notesPh" placeholder="ملاحظات اختيارية"></textarea>
+  </div>
+  <button class="btn block" type="button" onclick="addTask()" data-i18n="saveTask">حفظ المهمة</button>
+</div>
+</section>
+
+<section id="settingsPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="settingsTitle">الإعدادات</h1>
+    <p data-i18n="settingsSub">إدارة بيانات ومظهر Nemo</p>
+  </div>
+</header>
+<div class="card">
+
+  <div class="settings-group">
+    <h3 data-i18n="appearance">🎨 المظهر</h3>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:12px" data-i18n="themeHint">اختر وضع الألوان المفضل لديك</p>
+    <div class="theme-grid" id="themeGrid">
+      <div class="theme-opt active" data-theme-opt="dark" onclick="setTheme('dark')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#07070c"></span><span style="background:#743cff"></span><span style="background:#12121c"></span></div>
+        <div class="name" data-i18n="themeDark">داكن</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="pink" onclick="setTheme('pink')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#140a12"></span><span style="background:#ff4d9a"></span><span style="background:#1f121c"></span></div>
+        <div class="name" data-i18n="themePink">وردي</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="blue" onclick="setTheme('blue')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#060b14"></span><span style="background:#2b7fff"></span><span style="background:#0e1624"></span></div>
+        <div class="name" data-i18n="themeBlue">أزرق</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="red" onclick="setTheme('red')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#0a0606"></span><span style="background:#e63946"></span><span style="background:#161010"></span></div>
+        <div class="name" data-i18n="themeRed">أحمر وأسود</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="light" onclick="setTheme('light')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#f4f5fb"></span><span style="background:#6b3fff"></span><span style="background:#ffffff"></span></div>
+        <div class="name" data-i18n="themeLight">فاتح</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="mix" onclick="setTheme('mix')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#a855f7"></span><span style="background:#3b82f6"></span><span style="background:#ec4899"></span></div>
+        <div class="name" data-i18n="themeMix">ميكس</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="language">🌐 اللغة</h3>
+    <div class="lang-toggle">
+      <button type="button" id="langAr" class="active" onclick="setLang('ar')">العربية</button>
+      <button type="button" id="langEn" onclick="setLang('en')">English</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="studentModeSection">📚 وضع الطالب</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="studentModeTitle">تفعيل منطقة الطلاب</strong>
+        <span data-i18n="studentModeSub">عند التفعيل تظهر اختصارات الدراسة في الرئيسية وزر طلاب في الشريط السفلي.</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="studentModeToggle" onchange="setStudentMode(this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <p id="studentModeStatus" style="color:var(--muted);font-size:12.5px;margin-top:4px" data-i18n="studentModeOff">وضع الطالب مغلق</p>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="backup">💾 النسخ الاحتياطي</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="exportImport">تصدير واستيراد</strong>
+        <span data-i18n="exportImportSub">احفظ مهامك وبيانات الطلاب كملف JSON أو استرجعها لاحقاً.</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn" type="button" onclick="exportData()" data-i18n="exportBtn">تصدير البيانات</button>
+      <button class="btn blue" type="button" onclick="document.getElementById('fileInput').click()" data-i18n="importBtn">استيراد البيانات</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="reminders">🔔 التذكيرات</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="taskReminders">تذكيرات المهام</strong>
+        <span id="reminderStatus" data-i18n="remindersOff">التذكيرات غير مفعلة</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn green" type="button" onclick="enableReminders()" data-i18n="enableReminders">تفعيل التذكيرات</button>
+      <button class="btn red" type="button" onclick="disableReminders()" data-i18n="disableReminders">إيقاف التذكيرات</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="about">ℹ️ حول التطبيق</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong>Nemo</strong>
+        <span data-i18n="aboutText">تُحفظ بياناتك محلياً في متصفحك فقط. لا تُرسل إلى أي خادم.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="accountSection">👤 الحساب</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong id="accountName" data-i18n="notSignedIn">غير مسجّل</strong>
+        <span id="accountMeta">—</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn secondary" type="button" onclick="editProfile()" data-i18n="editProfile">تعديل الدولة / العمر</button>
+      <button class="btn red" type="button" onclick="signOutUser()" data-i18n="signOut">تسجيل الخروج</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="supportSection">💬 الدعم والتواصل</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="supportTitle">تواصل مع دعم Nemo</strong>
+        <span data-i18n="supportSub">للاقتراحات والمشاكل والاستفسارات</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <a class="btn" href="mailto:nemo.tasker@gmail.com" style="display:inline-block;text-decoration:none">nemo.tasker@gmail.com</a>
+      <a class="btn secondary" href="index.html" style="display:inline-block;text-decoration:none" data-i18n="visitWebsite">الموقع التعريفي</a>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="dangerZone">⚠️ منطقة الخطر</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="deleteData">حذف البيانات</strong>
+        <span data-i18n="deleteDataSub">حذف المهام منفصل عن بيانات الطلاب.</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn red" type="button" onclick="deleteAllTasks()" data-i18n="deleteAllTasks">حذف جميع المهام</button>
+      <button class="btn secondary" type="button" onclick="deleteAllStudentData()" data-i18n="deleteStudentData">مسح بيانات الطلاب</button>
+    </div>
+  </div>
+</div>
+</section>
+
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" type="button" data-page="homePage" onclick="showPage('homePage',this)"><span>⌂</span><span data-i18n="navHome">الرئيسية</span></button>
+  <button class="nav-btn" type="button" data-page="tasksPage" onclick="showPage('tasksPage',this)"><span>✓</span><span data-i18n="navTasks">المهام</span></button>
+  <button class="nav-btn add-nav" type="button" onclick="showPage('addPage')" title="+">＋</button>
+  <button class="nav-btn" type="button" id="navStudentBtn" data-page="studentPage" onclick="showPage('studentPage',this)"><span>📚</span><span data-i18n="navStudent">طلاب</span></button>
+  <button class="nav-btn" type="button" data-page="analyticsPage" onclick="showPage('analyticsPage',this)"><span>◒</span><span data-i18n="navAnalytics">تحليل</span></button>
+  <button class="nav-btn" type="button" data-page="settingsPage" onclick="showPage('settingsPage',this)"><span>⚙</span><span data-i18n="navSettings">إعدادات</span></button>
+</nav>
+
+<div class="modal" id="editModal">
+  <div class="modal-box">
+    <h2 data-i18n="editTask">تعديل المهمة</h2>
+    <div class="field"><label data-i18n="taskName">اسم المهمة</label><input id="editTitle" type="text"></div>
+    <div class="field">
+      <label data-i18n="category">التصنيف</label>
+      <select id="editCategory">
+        <option value="work" data-i18n="catWork">العمل</option>
+        <option value="study" data-i18n="catStudy">الدراسة</option>
+        <option value="personal" data-i18n="catPersonal">شخصي</option>
+      </select>
+    </div>
+    <div class="field"><label data-i18n="date">التاريخ</label><input id="editDate" type="date"></div>
+    <div class="field">
+      <label data-i18n="priority">الأولوية</label>
+      <select id="editPriority">
+        <option value="medium" data-i18n="priMedium">متوسطة</option>
+        <option value="high" data-i18n="priHigh">عالية</option>
+        <option value="low" data-i18n="priLow">منخفضة</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveEdit()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeEdit()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="flashModal">
+  <div class="modal-box">
+    <h2 id="flashModalTitle" data-i18n="newFlash">بطاقة تذكر جديدة</h2>
+    <div class="field"><label data-i18n="flashFront">الوجه (السؤال)</label><textarea id="flashFront" data-i18n-placeholder="flashFrontPh" placeholder="مثلاً: ما هو تعريف..."></textarea></div>
+    <div class="field"><label data-i18n="flashBack">الظهر (الإجابة)</label><textarea id="flashBack" data-i18n-placeholder="flashBackPh" placeholder="الإجابة..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveFlashCard()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeFlashModal()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="noteModal">
+  <div class="modal-box">
+    <h2 id="noteModalTitle" data-i18n="newNote">ملاحظة جديدة</h2>
+    <div class="field"><label data-i18n="noteTitleLabel">العنوان</label><input id="noteTitle" type="text" data-i18n-placeholder="noteTitlePh" placeholder="عنوان الملاحظة"></div>
+    <div class="field"><label data-i18n="noteBodyLabel">المحتوى</label><textarea id="noteBody" data-i18n-placeholder="noteBodyPh" placeholder="اكتب ملاحظاتك هنا..." style="min-height:140px"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveNoteCard()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeNoteModal()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="scheduleModal">
+  <div class="modal-box">
+    <h2 data-i18n="newSchedule">موعد جديد</h2>
+    <div class="field"><label data-i18n="schedTitleLabel">العنوان</label><input id="schedTitle" type="text" data-i18n-placeholder="schedTitlePh" placeholder="مثلاً: مراجعة الرياضيات"></div>
+    <div class="field"><label data-i18n="date">التاريخ</label><input id="schedDate" type="date"></div>
+    <div class="field"><label data-i18n="time">الوقت</label><input id="schedTime" type="time"></div>
+    <div class="field">
+      <label data-i18n="priority">الأولوية</label>
+      <select id="schedPriority">
+        <option value="high" data-i18n="priHigh">عالية</option>
+        <option value="medium" selected data-i18n="priMedium">متوسطة</option>
+        <option value="low" data-i18n="priLow">منخفضة</option>
+      </select>
+    </div>
+    <div class="field"><label data-i18n="notes">ملاحظات</label><textarea id="schedNotes" data-i18n-placeholder="optional" placeholder="اختياري"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveScheduleItem()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeScheduleModal()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input id="fileInput" type="file" accept=".json" hidden>
+
+<!-- Nemo floating fish + chat -->
+<button type="button" class="nemo-fab" id="nemoFab" onclick="toggleNemoChat()" aria-label="Nemo">
+  <div class="fish-wrap">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+      <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+      <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="72" cy="39" r="8" fill="#fff"/>
+      <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+    </svg>
+  </div>
+</button>
+<div class="nemo-bubble-hint" id="nemoHint"></div>
+
+<div class="nemo-chat" id="nemoChat">
+  <div class="nemo-chat-header">
+    <div class="avatar-sm">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="72" cy="39" r="8" fill="#fff"/>
+        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+      </svg>
+    </div>
+    <div class="info">
+      <strong data-i18n="nemoName">Nemo 🐠</strong>
+      <span data-i18n="nemoStatus">مساعدك الذكي</span>
+    </div>
+    <button type="button" class="close-chat" onclick="toggleNemoChat()">×</button>
+  </div>
+  <div class="nemo-chat-msgs" id="nemoMsgs"></div>
+  <div class="nemo-quick" id="nemoQuick"></div>
+  <div class="nemo-chat-input">
+    <input id="nemoInput" type="text" data-i18n-placeholder="nemoPlaceholder" placeholder="اكتب رسالة لنيمو..." onkeydown="if(event.key==='Enter')sendNemoMsg()">
+    <button type="button" onclick="sendNemoMsg()" data-i18n="nemoSend">إرسال</button>
+  </div>
+</div>
+
+<script>
+(function () {
+"use strict";
+
+/* ========== i18n ========== */
+const I18N = {
+  ar: {
+    homeTitle: "مرحباً بك في Nemo 👋", homeSub: "نظّم مهامك، وادرس بذكاء، وتابع تقدمك",
+    totalTasks: "إجمالي المهام", totalTasksSub: "كل المهام التي أضفتها",
+    completedTasks: "المهام المكتملة", completedTasksSub: "المهام التي أنجزتها",
+    progressLabel: "نسبة التقدم", progressSub: "نسبة إنجازك الحالية",
+    recentTasks: "آخر المهام", allTasksBtn: "كل المهام", quickAnalysis: "تحليل سريع", basedOnData: "حسب بياناتك",
+    allTasksTitle: "كل المهام", allTasksSub: "أدر مهامك وعدّلها كما تريد", addTaskBtn: "＋ مهمة",
+    filterAll: "الكل", filterPending: "غير مكتملة", filterDone: "مكتملة", filterToday: "اليوم",
+    studentTitle: "منطقة الطلاب 📚", studentSub: "بطاقات تذكر · ملاحظات · تقويم · جدولة · رسوم",
+    tabFlash: "بطاقات التذكر", tabNotes: "الملاحظات", tabCalendar: "التقويم", tabSchedule: "الجدولة", tabCharts: "الرسوم البيانية",
+    flashTitle: "بطاقات التذكر", addFlash: "＋ بطاقة", flashTotal: "إجمالي البطاقات", flashReviewedToday: "تمت مراجعتها اليوم",
+    notesTitle: "دفتر الملاحظات", addNote: "＋ ملاحظة", todayBtn: "اليوم",
+    scheduleTitle: "جدولة المهام", addSchedule: "＋ موعد", scheduleHint: "رتّب وقت دراستك ومهامك حسب الساعة والأولوية.",
+    studyStats: "إحصائيات الدراسة", studyTasks: "مهام دراسية", studyDone: "مكتملة", notesStat: "ملاحظات", scheduleStat: "مواعيد مجدولة",
+    byCategory: "حسب التصنيف", weeklyProgress: "إنجاز أسبوعي",
+    analyticsTitle: "تحليل البيانات", analyticsSub: "تابع إنجازك يومياً وأسبوعياً", progressCurve: "منحنى الإنجاز",
+    daily: "يومي", weekly: "أسبوعي", monthly: "شهري", progressDetails: "تفاصيل التقدم",
+    newTaskTitle: "إضافة مهمة جديدة", taskName: "اسم المهمة", taskNamePh: "مثلاً: إنهاء المشروع",
+    category: "التصنيف", catWork: "العمل", catStudy: "الدراسة", catPersonal: "شخصي",
+    date: "التاريخ", priority: "الأولوية", priMedium: "متوسطة", priHigh: "عالية", priLow: "منخفضة",
+    notes: "ملاحظات", notesPh: "ملاحظات اختيارية", saveTask: "حفظ المهمة",
+    settingsTitle: "الإعدادات", settingsSub: "إدارة بيانات ومظهر Nemo",
+    appearance: "🎨 المظهر", themeHint: "اختر وضع الألوان المفضل لديك",
+    themeDark: "داكن", themePink: "وردي", themeBlue: "أزرق", themeRed: "أحمر وأسود", themeLight: "فاتح", themeMix: "ميكس",
+    language: "🌐 اللغة", backup: "💾 النسخ الاحتياطي", exportImport: "تصدير واستيراد",
+    exportImportSub: "احفظ مهامك وبيانات الطلاب كملف JSON أو استرجعها لاحقاً.",
+    exportBtn: "تصدير البيانات", importBtn: "استيراد البيانات",
+    reminders: "🔔 التذكيرات", taskReminders: "تذكيرات المهام", remindersOff: "التذكيرات غير مفعلة",
+    enableReminders: "تفعيل التذكيرات", disableReminders: "إيقاف التذكيرات",
+    about: "ℹ️ حول التطبيق", aboutText: "تُحفظ بياناتك محلياً في متصفحك فقط. لا تُرسل إلى أي خادم.",
+    dangerZone: "⚠️ منطقة الخطر", deleteData: "حذف البيانات", deleteDataSub: "حذف المهام منفصل عن بيانات الطلاب.",
+    deleteAllTasks: "حذف جميع المهام", deleteStudentData: "مسح بيانات الطلاب",
+    navHome: "الرئيسية", navTasks: "المهام", navStudent: "طلاب", navAnalytics: "تحليل", navSettings: "إعدادات",
+    editTask: "تعديل المهمة", save: "حفظ", cancel: "إلغاء",
+    newFlash: "بطاقة تذكر جديدة", editFlash: "تعديل البطاقة", flashFront: "الوجه (السؤال)", flashBack: "الظهر (الإجابة)",
+    flashFrontPh: "مثلاً: ما هو تعريف...", flashBackPh: "الإجابة...",
+    newNote: "ملاحظة جديدة", editNote: "تعديل الملاحظة", noteTitleLabel: "العنوان", noteBodyLabel: "المحتوى",
+    noteTitlePh: "عنوان الملاحظة", noteBodyPh: "اكتب ملاحظاتك هنا...",
+    newSchedule: "موعد جديد", schedTitleLabel: "العنوان", schedTitlePh: "مثلاً: مراجعة الرياضيات", time: "الوقت", optional: "اختياري",
+    noTasks: "لا توجد مهام", noTasksMsg: "أضف أول مهمة ليبدأ Nemo بتحليل تقدمك.",
+    noFlash: "لا توجد بطاقات", noFlashMsg: "أضف بطاقات تذكر للمراجعة السريعة.",
+    noNotes: "لا توجد ملاحظات", noNotesMsg: "اكتب ملاحظاتك الدراسية هنا.",
+    noSchedule: "لا توجد مواعيد", noScheduleMsg: "أضف جدولة لدراستك ومهامك.",
+    noDayItems: "لا شيء في هذا اليوم", noDayItemsMsg: "أضف مهمة أو موعداً مجدولاً.",
+    dayItems: "مهام ومواعيد:", done: "مكتملة", inProgress: "قيد التنفيذ", overdue: "متأخرة", noDate: "بدون تاريخ",
+    priorityLabel: "أولوية", questionTap: "السؤال · اضغط للقلب", answer: "الإجابة",
+    edit: "تعديل", del: "حذف",
+    msgStart: "ابدأ بمهمة بسيطة لتحسين مستوى تقدمك.",
+    msg100: "رائع! لقد أنجزت جميع مهامك.",
+    msg70: "أداء ممتاز، أنت قريب جداً من إنهاء مهامك.",
+    msg40: "تقدم جيد، حاول إكمال المهام المتبقية.",
+    overdueMsg: "لديك", overdueTasks: "مهمة متأخرة.",
+    writeTaskName: "اكتب اسم المهمة أولاً", writeTask: "اكتب اسم المهمة",
+    writeFlash: "اكتب الوجه والظهر", writeNoteTitle: "اكتب عنواناً للملاحظة", writeSched: "اكتب عنوان الموعد",
+    confirmDeleteTask: "هل تريد حذف هذه المهمة؟", confirmDeleteFlash: "حذف هذه البطاقة؟",
+    confirmDeleteNote: "حذف هذه الملاحظة؟", confirmDeleteSched: "حذف هذا الموعد؟",
+    confirmDeleteAll: "هل أنت متأكد من حذف جميع المهام؟", confirmDeleteStudent: "مسح كل البطاقات والملاحظات والمواعيد؟",
+    noDataDelete: "لا توجد بيانات لحذفها", importOk: "تم استيراد البيانات بنجاح", importFail: "الملف غير صالح",
+    studentCleared: "تم مسح بيانات الطلاب", remindersOn: "تم تفعيل تذكيرات المهام بنجاح",
+    noNotif: "المتصفح لا يدعم الإشعارات.", needHttps: "الإشعارات تحتاج إلى تشغيل التطبيق عبر HTTPS أو localhost.",
+    needPermission: "يجب السماح بالإشعارات من إعدادات المتصفح.", notAllowed: "لم يتم السماح بالإشعارات.",
+    remindersDisabled: "تم إيقاف التذكيرات.", remindersEnabled: "مفعّلة · التذكير القادم تقريباً: ",
+    needNotifFirst: "يجب السماح بالإشعارات أولاً",
+    work: "العمل", study: "الدراسة", personal: "شخصي",
+    high: "عالية", medium: "متوسطة", low: "منخفضة",
+    weekDays: ["السبت","الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],
+    weeks: ["أسبوع 1","أسبوع 2","أسبوع 3","أسبوع 4"],
+    catLabels: ["العمل","الدراسة","شخصي"],
+    dowShort: ["س","ح","ن","ث","ر","خ","ج"],
+    themeApplied: "تم تطبيق المظهر", langChanged: "تم تغيير اللغة",
+    studentModeSection: "📚 وضع الطالب", studentModeTitle: "تفعيل منطقة الطلاب",
+    studentModeSub: "عند التفعيل تظهر اختصارات الدراسة في الرئيسية وزر طلاب في الشريط السفلي.",
+    studentModeOn: "وضع الطالب مفعّل", studentModeOff: "وضع الطالب مغلق",
+    studentModeHome: "وضع الطالب", studentModeHomeHint: "اختر ما تريد فعله الآن",
+    openStudentArea: "فتح المنطقة", pickDay: "اختر يوماً", viewStats: "عرض الإحصائيات",
+    studentEnabledToast: "تم تفعيل وضع الطالب", studentDisabledToast: "تم إغلاق وضع الطالب",
+    cardsCount: "بطاقة", notesCount: "ملاحظة", eventsCount: "موعد",
+    nemoName: "Nemo 🐠", nemoStatus: "مساعدك الذكي", nemoSend: "إرسال",
+    nemoPlaceholder: "اكتب رسالة لنيمو...",
+    nemoWelcome: "مرحباً! أنا نيمو 🐠 مساعدك في التنظيم والدراسة. اسألني عن تقدمك أو اطلب نصيحة!",
+    nemoQ1: "كيف تقدمي؟", nemoQ2: "نصيحة اليوم", nemoQ3: "ماذا أفعل الآن؟",
+    tipEmpty: "ابدأ بمهمة واحدة بسيطة اليوم — حتى 10 دقائق تكفي لبناء زخم.",
+    tipOverdue: "لديك مهام متأخرة. اختر الأهم وأغلقها أولاً لتخفيف الضغط.",
+    tipAlmost: "أنت قريب من إنهاء كل شيء! دفعة أخيرة وتحتفل.",
+    tipGood: "تقدمك جيد. حافظ على إيقاع ثابت بدل الضغط دفعة واحدة.",
+    tipStudy: "جرّب بطاقة تذكر واحدة الآن — المراجعة القصيرة تثبّت المعلومة.",
+    tipNotes: "اكتب ملاحظة سريعة مما تعلّمته اليوم قبل أن تنساه.",
+    tipSchedule: "حدّد موعداً في الجدولة لجلسة تركيز 25 دقيقة.",
+    tipStudent: "فعّل وضع الطالب من الإعدادات للبطاقات والتقويم والجدولة.",
+    tipBreak: "خذ استراحة قصيرة 5 دقائق ثم عد بمهمة واحدة واضحة.",
+    tipCelebrate: "أحسنت! أنجزت كل مهامك. أضف هدفاً جديداً أو راجع بطاقاتك.",
+    tipGeneric1: "قسّم المهام الكبيرة إلى خطوات صغيرة يسهل إنهاؤها.",
+    tipGeneric2: "أنهِ أصعب مهمة في أول ساعة من يومك.",
+    tipGeneric3: "راجع قائمتك كل مساء لمدة دقيقتين فقط.",
+    tipGeneric4: "قاعدة 2 دقيقة: إن أمكنت المهمة في دقيقتين فافعلها فوراً.",
+    tipGeneric5: "اجعل هاتفك بعيداً خلال جلسة تركيز واحدة يومياً.",
+    replyProgress: "إليك ملخص تقدمك:",
+    replyUnknown: "لم أفهم تماماً، لكن يمكنني مساعدتك بتقدمك أو بنصيحة عملية. جرّب الأزرار السريعة!",
+    replyHello: "أهلاً! سعيد بوجودك. كيف أقدر أساعدك اليوم؟",
+    replyThanks: "العفو! أنا هنا متى احتجتني 🐠",
+    authWelcome: "أهلاً بك في Nemo",
+    authSub: "سجّل دخولك لحفظ بياناتك وملفّك الشخصي، ويتكلم نيمو بلهجتك.",
+    authGoogleHint: "ضع Google Client ID في الكود لتفعيل زر جوجل",
+    or: "أو",
+    continueGuest: "المتابعة كزائر",
+    completeProfile: "أكمل ملفك",
+    profileHint: "الدولة والعمر يساعدان نيمو يتكلم بأسلوب قريب منك",
+    countryLabel: "الدولة",
+    ageLabel: "العمر",
+    saveProfile: "حفظ والبدء",
+    accountSection: "👤 الحساب",
+    notSignedIn: "غير مسجّل",
+    editProfile: "تعديل الدولة / العمر",
+    signOut: "تسجيل الخروج",
+    supportSection: "💬 الدعم والتواصل",
+    supportTitle: "تواصل مع دعم Nemo",
+    supportSub: "للاقتراحات والمشاكل والاستفسارات",
+    visitWebsite: "الموقع التعريفي",
+    guestUser: "زائر",
+    profileSaved: "تم حفظ ملفك",
+    needAge: "أدخل عمراً صالحاً (8–100)",
+    dialectNote: "نيمو بيتكلم بلهجتك حسب دولتك"
+  },
+  en: {
+    homeTitle: "Welcome to Nemo 👋", homeSub: "Organize tasks, study smart, track progress",
+    totalTasks: "Total tasks", totalTasksSub: "All tasks you've added",
+    completedTasks: "Completed", completedTasksSub: "Tasks you've finished",
+    progressLabel: "Progress", progressSub: "Your current completion rate",
+    recentTasks: "Recent tasks", allTasksBtn: "All tasks", quickAnalysis: "Quick analysis", basedOnData: "Based on your data",
+    allTasksTitle: "All tasks", allTasksSub: "Manage and edit your tasks", addTaskBtn: "＋ Task",
+    filterAll: "All", filterPending: "Pending", filterDone: "Done", filterToday: "Today",
+    studentTitle: "Student Zone 📚", studentSub: "Flashcards · Notes · Calendar · Schedule · Charts",
+    tabFlash: "Flashcards", tabNotes: "Notes", tabCalendar: "Calendar", tabSchedule: "Schedule", tabCharts: "Charts",
+    flashTitle: "Flashcards", addFlash: "＋ Card", flashTotal: "Total cards", flashReviewedToday: "Reviewed today",
+    notesTitle: "Notebook", addNote: "＋ Note", todayBtn: "Today",
+    scheduleTitle: "Task schedule", addSchedule: "＋ Event", scheduleHint: "Plan study time by hour and priority.",
+    studyStats: "Study stats", studyTasks: "Study tasks", studyDone: "Completed", notesStat: "Notes", scheduleStat: "Scheduled",
+    byCategory: "By category", weeklyProgress: "Weekly progress",
+    analyticsTitle: "Analytics", analyticsSub: "Track daily and weekly progress", progressCurve: "Progress curve",
+    daily: "Daily", weekly: "Weekly", monthly: "Monthly", progressDetails: "Progress details",
+    newTaskTitle: "New task", taskName: "Task name", taskNamePh: "e.g. Finish project",
+    category: "Category", catWork: "Work", catStudy: "Study", catPersonal: "Personal",
+    date: "Date", priority: "Priority", priMedium: "Medium", priHigh: "High", priLow: "Low",
+    notes: "Notes", notesPh: "Optional notes", saveTask: "Save task",
+    settingsTitle: "Settings", settingsSub: "Manage data and appearance",
+    appearance: "🎨 Appearance", themeHint: "Choose your preferred color theme",
+    themeDark: "Dark", themePink: "Pink", themeBlue: "Blue", themeRed: "Red & Black", themeLight: "Light", themeMix: "Mix",
+    language: "🌐 Language", backup: "💾 Backup", exportImport: "Export & Import",
+    exportImportSub: "Save tasks and student data as JSON or restore later.",
+    exportBtn: "Export data", importBtn: "Import data",
+    reminders: "🔔 Reminders", taskReminders: "Task reminders", remindersOff: "Reminders are off",
+    enableReminders: "Enable reminders", disableReminders: "Disable reminders",
+    about: "ℹ️ About", aboutText: "Your data stays in your browser only. Nothing is sent to a server.",
+    dangerZone: "⚠️ Danger zone", deleteData: "Delete data", deleteDataSub: "Deleting tasks is separate from student data.",
+    deleteAllTasks: "Delete all tasks", deleteStudentData: "Clear student data",
+    navHome: "Home", navTasks: "Tasks", navStudent: "Study", navAnalytics: "Stats", navSettings: "Settings",
+    editTask: "Edit task", save: "Save", cancel: "Cancel",
+    newFlash: "New flashcard", editFlash: "Edit card", flashFront: "Front (question)", flashBack: "Back (answer)",
+    flashFrontPh: "e.g. What is the definition of...", flashBackPh: "Answer...",
+    newNote: "New note", editNote: "Edit note", noteTitleLabel: "Title", noteBodyLabel: "Content",
+    noteTitlePh: "Note title", noteBodyPh: "Write your notes here...",
+    newSchedule: "New event", schedTitleLabel: "Title", schedTitlePh: "e.g. Math review", time: "Time", optional: "Optional",
+    noTasks: "No tasks", noTasksMsg: "Add your first task so Nemo can track progress.",
+    noFlash: "No flashcards", noFlashMsg: "Add flashcards for quick review.",
+    noNotes: "No notes", noNotesMsg: "Write your study notes here.",
+    noSchedule: "No events", noScheduleMsg: "Schedule your study sessions.",
+    noDayItems: "Nothing this day", noDayItemsMsg: "Add a task or scheduled event.",
+    dayItems: "Tasks & events:", done: "Done", inProgress: "In progress", overdue: "Overdue", noDate: "No date",
+    priorityLabel: "Priority", questionTap: "Question · tap to flip", answer: "Answer",
+    edit: "Edit", del: "Delete",
+    msgStart: "Start with a simple task to improve your progress.",
+    msg100: "Awesome! You've completed all tasks.",
+    msg70: "Excellent work — you're almost done.",
+    msg40: "Good progress — finish the remaining tasks.",
+    overdueMsg: "You have", overdueTasks: "overdue task(s).",
+    writeTaskName: "Enter a task name first", writeTask: "Enter a task name",
+    writeFlash: "Fill in both sides", writeNoteTitle: "Enter a note title", writeSched: "Enter an event title",
+    confirmDeleteTask: "Delete this task?", confirmDeleteFlash: "Delete this card?",
+    confirmDeleteNote: "Delete this note?", confirmDeleteSched: "Delete this event?",
+    confirmDeleteAll: "Delete all tasks?", confirmDeleteStudent: "Clear all cards, notes, and events?",
+    noDataDelete: "Nothing to delete", importOk: "Data imported successfully", importFail: "Invalid file",
+    studentCleared: "Student data cleared", remindersOn: "Task reminders enabled",
+    noNotif: "Notifications are not supported.", needHttps: "Notifications need HTTPS or localhost.",
+    needPermission: "Allow notifications in browser settings.", notAllowed: "Notifications not allowed.",
+    remindersDisabled: "Reminders disabled.", remindersEnabled: "On · next reminder around: ",
+    needNotifFirst: "Allow notifications first",
+    work: "Work", study: "Study", personal: "Personal",
+    high: "High", medium: "Medium", low: "Low",
+    weekDays: ["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],
+    weeks: ["Week 1","Week 2","Week 3","Week 4"],
+    catLabels: ["Work","Study","Personal"],
+    dowShort: ["S","S","M","T","W","T","F"],
+    themeApplied: "Theme applied", langChanged: "Language changed",
+    studentModeSection: "📚 Student mode", studentModeTitle: "Enable student zone",
+    studentModeSub: "When on, study shortcuts appear on Home and the Study tab shows in the bottom bar.",
+    studentModeOn: "Student mode is on", studentModeOff: "Student mode is off",
+    studentModeHome: "Student mode", studentModeHomeHint: "Choose what you want to do now",
+    openStudentArea: "Open zone", pickDay: "Pick a day", viewStats: "View stats",
+    studentEnabledToast: "Student mode enabled", studentDisabledToast: "Student mode disabled",
+    cardsCount: "cards", notesCount: "notes", eventsCount: "events",
+    nemoName: "Nemo 🐠", nemoStatus: "Your smart assistant", nemoSend: "Send",
+    nemoPlaceholder: "Message Nemo...",
+    nemoWelcome: "Hi! I'm Nemo 🐠 your study & productivity buddy. Ask about your progress or request a tip!",
+    nemoQ1: "My progress?", nemoQ2: "Tip of the day", nemoQ3: "What now?",
+    tipEmpty: "Start with one tiny task today — even 10 minutes builds momentum.",
+    tipOverdue: "You have overdue tasks. Pick the most important and close it first.",
+    tipAlmost: "You're so close to finishing everything! One more push.",
+    tipGood: "Solid progress. Keep a steady pace instead of one big crunch.",
+    tipStudy: "Review one flashcard now — short reviews lock knowledge in.",
+    tipNotes: "Jot a quick note about what you learned today before it fades.",
+    tipSchedule: "Block 25 focused minutes on your schedule.",
+    tipStudent: "Turn on Student mode in Settings for flashcards, calendar & schedule.",
+    tipBreak: "Take a 5-minute break, then come back to one clear task.",
+    tipCelebrate: "You finished all tasks — amazing! Add a new goal or review flashcards.",
+    tipGeneric1: "Break big tasks into small steps you can finish fast.",
+    tipGeneric2: "Do your hardest task in the first hour of your day.",
+    tipGeneric3: "Spend two minutes each evening reviewing your list.",
+    tipGeneric4: "Two-minute rule: if it takes under 2 minutes, do it now.",
+    tipGeneric5: "Keep your phone away for one focused session daily.",
+    replyProgress: "Here's your progress snapshot:",
+    replyUnknown: "Not sure I got that — try asking about progress or use the quick buttons!",
+    replyHello: "Hey there! Happy to help. What do you need today?",
+    replyThanks: "You're welcome! I'm here whenever you need me 🐠",
+    authWelcome: "Welcome to Nemo",
+    authSub: "Sign in to save your data and profile so Nemo can match your dialect.",
+    authGoogleHint: "Add a Google Client ID in the code to enable Google Sign-In",
+    or: "or",
+    continueGuest: "Continue as guest",
+    completeProfile: "Complete your profile",
+    profileHint: "Country and age help Nemo speak in a style closer to you",
+    countryLabel: "Country",
+    ageLabel: "Age",
+    saveProfile: "Save & start",
+    accountSection: "👤 Account",
+    notSignedIn: "Not signed in",
+    editProfile: "Edit country / age",
+    signOut: "Sign out",
+    supportSection: "💬 Support & contact",
+    supportTitle: "Contact Nemo support",
+    supportSub: "For suggestions, issues, and questions",
+    visitWebsite: "About website",
+    guestUser: "Guest",
+    profileSaved: "Profile saved",
+    needAge: "Enter a valid age (8–100)",
+    dialectNote: "Nemo matches your dialect based on your country"
+  }
+};
+
+/* ===== ضع Client ID من Google Cloud Console هنا ===== */
+const GOOGLE_CLIENT_ID = ""; // مثال: "123456789-xxxx.apps.googleusercontent.com"
+
+let lang = localStorage.getItem("nemoLang") || "ar";
+let theme = localStorage.getItem("nemoTheme") || "dark";
+let studentMode = localStorage.getItem("nemoStudentMode") === "true";
+
+let currentUser = loadJSON_raw("nemoUser", null); // {id,name,email,picture,provider}
+let userProfile = loadJSON_raw("nemoProfile", null); // {country,age,dialect}
+
+function loadJSON_raw(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return parsed != null ? parsed : fallback;
+  } catch (e) { return fallback; }
+}
+
+function t(key) {
+  return (I18N[lang] && I18N[lang][key]) || (I18N.ar[key]) || key;
+}
+
+function userKey(base) {
+  const uid = (currentUser && currentUser.id) ? currentUser.id : "guest";
+  return base + "__" + uid;
+}
+
+function applyI18n() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    const key = el.getAttribute("data-i18n");
+    if (key && t(key)) el.textContent = t(key);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (key && t(key)) el.placeholder = t(key);
+  });
+
+  document.getElementById("langAr").classList.toggle("active", lang === "ar");
+  document.getElementById("langEn").classList.toggle("active", lang === "en");
+
+  // Update category names on existing tasks display
+  renderAll();
+  applyStudentModeUI();
+  renderNemoQuick();
+  // refresh circle positions for LTR/RTL
+  document.querySelectorAll(".circle").forEach(function () {});
+}
+
+window.setLang = function (l) {
+  lang = l;
+  localStorage.setItem("nemoLang", l);
+  applyI18n();
+  showToast(t("langChanged"));
+};
+
+window.setTheme = function (name) {
+  theme = name;
+  localStorage.setItem("nemoTheme", name);
+  document.documentElement.setAttribute("data-theme", name);
+  document.querySelectorAll(".theme-opt").forEach(function (el) {
+    el.classList.toggle("active", el.getAttribute("data-theme-opt") === name);
+  });
+  const meta = document.getElementById("metaTheme");
+  const colors = { dark: "#743cff", pink: "#ff4d9a", blue: "#2b7fff", red: "#e63946", light: "#6b3fff", mix: "#a855f7" };
+  if (meta) meta.setAttribute("content", colors[name] || "#743cff");
+  showToast(t("themeApplied"));
+};
+
+window.setStudentMode = function (enabled) {
+  studentMode = !!enabled;
+  localStorage.setItem("nemoStudentMode", studentMode ? "true" : "false");
+  applyStudentModeUI();
+  showToast(studentMode ? t("studentEnabledToast") : t("studentDisabledToast"));
+  // إذا أُغلق وضع الطالب والمستخدم داخل صفحة الطلاب، ارجع للرئيسية
+  if (!studentMode && document.getElementById("studentPage").classList.contains("active")) {
+    showPage("homePage");
+  }
+};
+
+function applyStudentModeUI() {
+  const block = document.getElementById("homeStudentBlock");
+  const navBtn = document.getElementById("navStudentBtn");
+  const toggle = document.getElementById("studentModeToggle");
+  const status = document.getElementById("studentModeStatus");
+
+  if (block) block.classList.toggle("visible", studentMode);
+  if (navBtn) navBtn.classList.toggle("hidden-nav", !studentMode);
+  if (toggle) toggle.checked = studentMode;
+  if (status) status.textContent = studentMode ? t("studentModeOn") : t("studentModeOff");
+
+  if (studentMode) updateHomeStudentCounts();
+}
+
+function updateHomeStudentCounts() {
+  const fc = document.getElementById("homeFlashCount");
+  const nc = document.getElementById("homeNotesCount");
+  const sc = document.getElementById("homeSchedCount");
+  if (fc) fc.textContent = flashcards.length + " " + t("cardsCount");
+  if (nc) nc.textContent = notes.length + " " + t("notesCount");
+  if (sc) sc.textContent = schedules.length + " " + t("eventsCount");
+}
+
+window.openStudentArea = function () {
+  if (!studentMode) {
+    setStudentMode(true);
+  }
+  showPage("studentPage");
+};
+
+window.goStudentPanel = function (panel) {
+  if (!studentMode) setStudentMode(true);
+  showPage("studentPage");
+  // فعّل التبويب المناسب
+  const btn = document.querySelector('#studentTabs button[data-panel="' + panel + '"]');
+  showStudentPanel(panel, btn || null);
+};
+
+function showToast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(function () { el.classList.remove("show"); }, 2200);
+}
+
+/* ========== State ========== */
+function loadJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(userKey(key));
+    if (!raw) {
+      // ترحيل البيانات القديمة غير المربوطة بمستخدم
+      const legacy = localStorage.getItem(key);
+      if (legacy && (!currentUser || currentUser.id === "guest")) {
+        localStorage.setItem(userKey(key), legacy);
+        return JSON.parse(legacy);
+      }
+      return fallback;
+    }
+    const parsed = JSON.parse(raw);
+    return parsed != null ? parsed : fallback;
+  } catch (e) { return fallback; }
+}
+
+let tasks = [];
+let flashcards = [];
+let notes = [];
+let schedules = [];
+
+function reloadUserData() {
+  tasks = loadJSON("nemoTasks", []);
+  flashcards = loadJSON("nemoFlash", []);
+  notes = loadJSON("nemoNotes", []);
+  schedules = loadJSON("nemoSchedule", []);
+}
+
+let currentFilter = "all";
+let editingId = null;
+let currentChart = "daily";
+let studyChartType = "category";
+let editingFlashId = null;
+let editingNoteId = null;
+let calYear, calMonth, selectedDate;
+
+const nowInit = new Date();
+calYear = nowInit.getFullYear();
+calMonth = nowInit.getMonth();
+selectedDate = isoDate(nowInit);
+
+function saveTasks() { localStorage.setItem(userKey("nemoTasks"), JSON.stringify(tasks)); }
+function saveFlashStore() { localStorage.setItem(userKey("nemoFlash"), JSON.stringify(flashcards)); }
+function saveNotesStore() { localStorage.setItem(userKey("nemoNotes"), JSON.stringify(notes)); }
+function saveScheduleStore() { localStorage.setItem(userKey("nemoSchedule"), JSON.stringify(schedules)); }
+
+function escapeHTML(text) {
+  const div = document.createElement("div");
+  div.textContent = text == null ? "" : String(text);
+  return div.innerHTML;
+}
+
+function isoDate(d) {
+  const x = d instanceof Date ? d : new Date(d);
+  return x.getFullYear() + "-" + String(x.getMonth() + 1).padStart(2, "0") + "-" + String(x.getDate()).padStart(2, "0");
+}
+function todayStr() { return isoDate(new Date()); }
+
+function catName(c) {
+  if (c === "work") return t("work");
+  if (c === "study") return t("study");
+  if (c === "personal") return t("personal");
+  return c;
+}
+function priName(p) {
+  if (p === "high") return t("high");
+  if (p === "medium") return t("medium");
+  if (p === "low") return t("low");
+  return p;
+}
+
+function emptyHTML(icon, title, msg) {
+  return '<div class="empty"><div>' + (icon || "📝") + '</div><h3>' + (title || t("noTasks")) + '</h3><p>' + (msg || t("noTasksMsg")) + '</p></div>';
+}
+
+/* ========== Navigation ========== */
+window.showPage = function (id, button) {
+  if (id === "studentPage" && !studentMode) {
+    // منع فتح منطقة الطلاب إذا الوضع مغلق
+    id = "homePage";
+    button = document.querySelector('[data-page="homePage"]');
+  }
+  document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("active"); });
+  const page = document.getElementById(id);
+  if (page) page.classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(function (b) { b.classList.remove("active"); });
+  const target = button || document.querySelector('[data-page="' + id + '"]');
+  if (target && !target.classList.contains("hidden-nav")) target.classList.add("active");
+  if (id === "analyticsPage") drawChart(currentChart);
+  if (id === "studentPage") renderStudentAll();
+  if (id === "homePage" && studentMode) updateHomeStudentCounts();
+};
+
+window.showStudentPanel = function (name, btn) {
+  document.querySelectorAll(".student-panel").forEach(function (p) { p.classList.remove("active"); });
+  const panel = document.getElementById("panel-" + name);
+  if (panel) panel.classList.add("active");
+  document.querySelectorAll("#studentTabs button").forEach(function (b) { b.classList.remove("active"); });
+  if (btn) btn.classList.add("active");
+  if (name === "flash") renderFlash();
+  else if (name === "notes") renderNotes();
+  else if (name === "calendar") renderCalendar();
+  else if (name === "schedule") renderSchedule();
+  else if (name === "charts") drawStudyChart(studyChartType);
+};
+
+/* ========== Tasks ========== */
+window.addTask = function () {
+  const title = document.getElementById("newTitle").value.trim();
+  if (!title) { alert(t("writeTaskName")); return; }
+  const category = document.getElementById("newCategory").value;
+  const date = document.getElementById("newDate").value;
+  const notesVal = document.getElementById("newNotes").value.trim();
+  const priority = document.getElementById("newPriority").value;
+  tasks.unshift({
+    id: Date.now(), title: title, category: category, categoryName: catName(category),
+    date: date || todayStr(), notes: notesVal, priority: priority || "medium", done: false, completedAt: null
+  });
+  saveTasks();
+  document.getElementById("newTitle").value = "";
+  document.getElementById("newDate").value = "";
+  document.getElementById("newNotes").value = "";
+  document.getElementById("newPriority").value = "medium";
+  renderAll();
+  showPage("tasksPage");
+};
+
+window.toggleTask = function (id) {
+  tasks = tasks.map(function (task) {
+    if (task.id !== id) return task;
+    const done = !task.done;
+    return Object.assign({}, task, { done: done, completedAt: done ? new Date().toISOString() : null });
+  });
+  saveTasks();
+  renderAll();
+};
+
+window.deleteTask = function (id) {
+  if (!confirm(t("confirmDeleteTask"))) return;
+  tasks = tasks.filter(function (task) { return task.id !== id; });
+  saveTasks();
+  renderAll();
+};
+
+window.openEdit = function (id) {
+  const task = tasks.find(function (x) { return x.id === id; });
+  if (!task) return;
+  editingId = id;
+  document.getElementById("editTitle").value = task.title;
+  document.getElementById("editCategory").value = task.category;
+  document.getElementById("editDate").value = task.date || "";
+  document.getElementById("editPriority").value = task.priority || "medium";
+  document.getElementById("editModal").classList.add("show");
+};
+
+window.closeEdit = function () {
+  document.getElementById("editModal").classList.remove("show");
+  editingId = null;
+};
+
+window.saveEdit = function () {
+  const title = document.getElementById("editTitle").value.trim();
+  if (!title) { alert(t("writeTask")); return; }
+  const category = document.getElementById("editCategory").value;
+  const date = document.getElementById("editDate").value;
+  const priority = document.getElementById("editPriority").value;
+  tasks = tasks.map(function (task) {
+    if (task.id !== editingId) return task;
+    return Object.assign({}, task, { title: title, category: category, categoryName: catName(category), date: date, priority: priority });
+  });
+  saveTasks();
+  closeEdit();
+  renderAll();
+};
+
+function isOverdue(task) {
+  if (task.done || !task.date) return false;
+  return task.date < todayStr();
+}
+
+function taskHTML(task) {
+  const pri = task.priority || "medium";
+  const overdue = isOverdue(task);
+  return (
+    '<div class="task' + (task.done ? " done" : "") + (overdue ? " overdue" : "") + '">' +
+      '<input class="check" type="checkbox" ' + (task.done ? "checked" : "") + ' onchange="toggleTask(' + task.id + ')">' +
+      '<div class="task-info">' +
+        '<span class="task-name">' + escapeHTML(task.title) + '</span>' +
+        '<span class="task-date">' +
+          (task.date || t("noDate")) + " — " +
+          (task.done ? t("done") : overdue ? t("overdue") : t("inProgress")) +
+          (pri !== "medium" ? " · " + t("priorityLabel") + " " + priName(pri) : "") +
+        '</span>' +
+      '</div>' +
+      '<span class="tag ' + escapeHTML(task.category) + '">' + escapeHTML(catName(task.category)) + '</span>' +
+      '<button class="icon-btn edit" type="button" onclick="openEdit(' + task.id + ')">✎</button>' +
+      '<button class="icon-btn" type="button" onclick="deleteTask(' + task.id + ')">×</button>' +
+    '</div>'
+  );
+}
+
+function renderHomeTasks() {
+  document.getElementById("homeTasks").innerHTML = tasks.length
+    ? tasks.slice(0, 4).map(taskHTML).join("")
+    : emptyHTML("📝", t("noTasks"), t("noTasksMsg"));
+}
+
+window.setFilter = function (filter, button) {
+  currentFilter = filter;
+  document.querySelectorAll(".filter button").forEach(function (b) { b.classList.remove("active"); });
+  if (button) button.classList.add("active");
+  renderAllTasks();
+};
+
+function renderAllTasks() {
+  let list = tasks;
+  const today = todayStr();
+  if (currentFilter === "done") list = tasks.filter(function (task) { return task.done; });
+  if (currentFilter === "pending") list = tasks.filter(function (task) { return !task.done; });
+  if (currentFilter === "today") list = tasks.filter(function (task) { return task.date === today; });
+  document.getElementById("allTasks").innerHTML = list.length
+    ? list.map(taskHTML).join("")
+    : emptyHTML("📂", t("noTasks"), t("noTasksMsg"));
+}
+
+function updateStats() {
+  const total = tasks.length;
+  const completed = tasks.filter(function (task) { return task.done; }).length;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+  document.getElementById("totalTasks").textContent = total;
+  document.getElementById("completedTasks").textContent = completed;
+  document.getElementById("progress").textContent = percent + "%";
+  document.getElementById("totalCircle").textContent = total ? "100%" : "0%";
+  document.getElementById("completedCircle").textContent = percent + "%";
+  document.getElementById("progressCircle").textContent = percent + "%";
+  document.getElementById("totalCircle").style.setProperty("--percent", total ? "100%" : "0%");
+  document.getElementById("completedCircle").style.setProperty("--percent", percent + "%");
+  document.getElementById("progressCircle").style.setProperty("--percent", percent + "%");
+}
+
+function analysisHTML() {
+  const total = tasks.length;
+  const completed = tasks.filter(function (task) { return task.done; }).length;
+  const pending = total - completed;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+  if (!total) return emptyHTML("📊", t("noTasks"), t("noTasksMsg"));
+
+  let message = t("msgStart");
+  if (percent === 100) message = t("msg100");
+  else if (percent >= 70) message = t("msg70");
+  else if (percent >= 40) message = t("msg40");
+
+  const work = tasks.filter(function (task) { return task.category === "work"; }).length;
+  const study = tasks.filter(function (task) { return task.category === "study"; }).length;
+  const personal = tasks.filter(function (task) { return task.category === "personal"; }).length;
+  const overdue = tasks.filter(isOverdue).length;
+
+  return (
+    '<div class="analysis">' +
+      '<div><span data-i18n="progressLabel">' + t("progressLabel") + '</span><b>' + percent + '%</b></div>' +
+      '<div><span>' + t("completedTasks") + '</span><b>' + completed + '</b></div>' +
+      '<div><span>' + (lang === "ar" ? "المتبقية" : "Remaining") + '</span><b>' + pending + '</b></div>' +
+    '</div>' +
+    '<div class="progress"><div style="width:' + percent + '%"></div></div>' +
+    '<p class="message">' + message +
+      (overdue ? ' · ' + t("overdueMsg") + ' <b style="color:var(--red)">' + overdue + '</b> ' + t("overdueTasks") : "") +
+    '</p>' +
+    '<div style="display:flex;justify-content:space-between;margin-top:14px;color:var(--muted);font-size:12.5px;flex-wrap:wrap;gap:8px">' +
+      '<span>' + t("work") + ': <b style="color:var(--text)">' + work + '</b></span>' +
+      '<span>' + t("study") + ': <b style="color:var(--text)">' + study + '</b></span>' +
+      '<span>' + t("personal") + ': <b style="color:var(--text)">' + personal + '</b></span>' +
+    '</div>'
+  );
+}
+
+function renderAnalysis() {
+  document.getElementById("quickAnalysis").innerHTML = analysisHTML();
+  document.getElementById("fullAnalysis").innerHTML = analysisHTML();
+}
+
+/* ========== Charts ========== */
+function getChartData(type) {
+  if (type === "weekly") {
+    const labels = t("weekDays");
+    const values = [0, 0, 0, 0, 0, 0, 0];
+    tasks.forEach(function (task) {
+      if (task.done && task.completedAt) {
+        const day = new Date(task.completedAt).getDay();
+        values[day === 6 ? 0 : day + 1]++;
+      }
+    });
+    return { labels: labels, values: values };
+  }
+  if (type === "monthly") {
+    const labels = t("weeks");
+    const values = [0, 0, 0, 0];
+    tasks.forEach(function (task) {
+      if (task.done && task.completedAt) {
+        const days = Math.floor((Date.now() - new Date(task.completedAt).getTime()) / 86400000);
+        if (days >= 0 && days < 28) values[3 - Math.floor(days / 7)]++;
+      }
+    });
+    return { labels: labels, values: values };
+  }
+  const labels = [];
+  const values = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - i);
+    labels.push(date.toLocaleDateString(lang === "ar" ? "ar" : "en", { weekday: "short" }));
+    const ds = date.toDateString();
+    values.push(tasks.filter(function (task) {
+      if (!task.done || !task.completedAt) return false;
+      return new Date(task.completedAt).toDateString() === ds;
+    }).length);
+  }
+  return { labels: labels, values: values };
+}
+
+function drawLineChart(svgId, labelsId, data) {
+  const max = Math.max.apply(null, data.values.concat([1]));
+  const n = data.values.length;
+  const gap = 600 / Math.max(n - 1, 1);
+  const points = data.values.map(function (v, i) {
+    return (i * gap) + "," + (170 - (v / max) * 145);
+  }).join(" ");
+  const circles = data.values.map(function (v, i) {
+    return '<circle class="point" cx="' + (i * gap) + '" cy="' + (170 - (v / max) * 145) + '" r="5"><title>' + v + '</title></circle>';
+  }).join("");
+  document.getElementById(svgId).innerHTML = '<polyline class="line" points="' + points + '"></polyline>' + circles;
+  document.getElementById(labelsId).innerHTML = data.labels.map(function (x) { return "<span>" + x + "</span>"; }).join("");
+}
+
+function drawBarChart(svgId, labelsId, data) {
+  const max = Math.max.apply(null, data.values.concat([1]));
+  const n = data.values.length;
+  const barW = Math.min(80, 500 / n);
+  const gap = 600 / n;
+  const bars = data.values.map(function (v, i) {
+    const h = (v / max) * 140;
+    const x = i * gap + (gap - barW) / 2;
+    const y = 170 - h;
+    return '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + h + '" rx="6" fill="url(#barGrad)"/>' +
+      '<text x="' + (x + barW / 2) + '" y="' + (y - 6) + '" fill="var(--muted)" font-size="12" text-anchor="middle">' + v + '</text>';
+  }).join("");
+  document.getElementById(svgId).innerHTML =
+    '<defs><linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">' +
+    '<stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--blue)"/>' +
+    '</linearGradient></defs>' + bars;
+  document.getElementById(labelsId).innerHTML = data.labels.map(function (x) { return "<span>" + x + "</span>"; }).join("");
+}
+
+function drawChart(type) {
+  currentChart = type;
+  const data = getChartData(type);
+  document.getElementById("chartTitle").textContent =
+    type === "daily" ? t("daily") : type === "weekly" ? t("weekly") : t("monthly");
+  drawLineChart("chartSvg", "chartLabels", data);
+}
+
+window.changeChart = function (type, button) {
+  document.querySelectorAll("#analyticsPage .chart-tabs button").forEach(function (b) { b.classList.remove("active"); });
+  if (button) button.classList.add("active");
+  drawChart(type);
+};
+
+/* ========== Flashcards ========== */
+window.openFlashModal = function (id) {
+  editingFlashId = id != null ? id : null;
+  document.getElementById("flashModalTitle").textContent = editingFlashId != null ? t("editFlash") : t("newFlash");
+  if (editingFlashId != null) {
+    const f = flashcards.find(function (x) { return x.id === editingFlashId; });
+    document.getElementById("flashFront").value = f ? f.front : "";
+    document.getElementById("flashBack").value = f ? f.back : "";
+  } else {
+    document.getElementById("flashFront").value = "";
+    document.getElementById("flashBack").value = "";
+  }
+  document.getElementById("flashModal").classList.add("show");
+};
+
+window.closeFlashModal = function () {
+  document.getElementById("flashModal").classList.remove("show");
+  editingFlashId = null;
+};
+
+window.saveFlashCard = function () {
+  const front = document.getElementById("flashFront").value.trim();
+  const back = document.getElementById("flashBack").value.trim();
+  if (!front || !back) { alert(t("writeFlash")); return; }
+  if (editingFlashId != null) {
+    flashcards = flashcards.map(function (f) {
+      if (f.id !== editingFlashId) return f;
+      return Object.assign({}, f, { front: front, back: back });
+    });
+  } else {
+    flashcards.unshift({ id: Date.now(), front: front, back: back, reviewedAt: null });
+  }
+  saveFlashStore();
+  closeFlashModal();
+  renderFlash();
+};
+
+window.deleteFlash = function (id) {
+  if (!confirm(t("confirmDeleteFlash"))) return;
+  flashcards = flashcards.filter(function (f) { return f.id !== id; });
+  saveFlashStore();
+  renderFlash();
+};
+
+window.flipFlash = function (id, el) {
+  el.classList.toggle("flipped");
+  if (el.classList.contains("flipped")) {
+    const f = flashcards.find(function (x) { return x.id === id; });
+    if (f) {
+      f.reviewedAt = todayStr();
+      saveFlashStore();
+      updateFlashStats();
+    }
+  }
+};
+
+function updateFlashStats() {
+  const fc = document.getElementById("flashCount");
+  const fr = document.getElementById("flashReviewed");
+  if (fc) fc.textContent = flashcards.length;
+  if (fr) {
+    const today = todayStr();
+    fr.textContent = flashcards.filter(function (f) { return f.reviewedAt === today; }).length;
+  }
+}
+
+function renderFlash() {
+  updateFlashStats();
+  if (studentMode) updateHomeStudentCounts();
+  const box = document.getElementById("flashList");
+  if (!box) return;
+  if (!flashcards.length) {
+    box.innerHTML = emptyHTML("🃏", t("noFlash"), t("noFlashMsg"));
+    return;
+  }
+  box.innerHTML = flashcards.map(function (f) {
+    return (
+      '<div class="flash-card" onclick="flipFlash(' + f.id + ',this)">' +
+        '<div class="front"><div class="label">' + t("questionTap") + '</div><div class="content">' + escapeHTML(f.front) + '</div></div>' +
+        '<div class="back"><div class="label">' + t("answer") + '</div><div class="content">' + escapeHTML(f.back) + '</div></div>' +
+        '<div class="flash-actions" onclick="event.stopPropagation()">' +
+          '<button type="button" onclick="openFlashModal(' + f.id + ')">' + t("edit") + '</button>' +
+          '<button type="button" onclick="deleteFlash(' + f.id + ')">' + t("del") + '</button>' +
+        '</div></div>'
+    );
+  }).join("");
+}
+
+/* ========== Notes ========== */
+window.openNoteModal = function (id) {
+  editingNoteId = id != null ? id : null;
+  document.getElementById("noteModalTitle").textContent = editingNoteId != null ? t("editNote") : t("newNote");
+  if (editingNoteId != null) {
+    const n = notes.find(function (x) { return x.id === editingNoteId; });
+    document.getElementById("noteTitle").value = n ? n.title : "";
+    document.getElementById("noteBody").value = n ? n.body : "";
+  } else {
+    document.getElementById("noteTitle").value = "";
+    document.getElementById("noteBody").value = "";
+  }
+  document.getElementById("noteModal").classList.add("show");
+};
+
+window.closeNoteModal = function () {
+  document.getElementById("noteModal").classList.remove("show");
+  editingNoteId = null;
+};
+
+window.saveNoteCard = function () {
+  const title = document.getElementById("noteTitle").value.trim();
+  const body = document.getElementById("noteBody").value.trim();
+  if (!title) { alert(t("writeNoteTitle")); return; }
+  const now = new Date().toISOString();
+  if (editingNoteId != null) {
+    notes = notes.map(function (n) {
+      if (n.id !== editingNoteId) return n;
+      return Object.assign({}, n, { title: title, body: body, updatedAt: now });
+    });
+  } else {
+    notes.unshift({ id: Date.now(), title: title, body: body, createdAt: now, updatedAt: now });
+  }
+  saveNotesStore();
+  closeNoteModal();
+  renderNotes();
+};
+
+window.deleteNote = function (id) {
+  if (!confirm(t("confirmDeleteNote"))) return;
+  notes = notes.filter(function (n) { return n.id !== id; });
+  saveNotesStore();
+  renderNotes();
+};
+
+function renderNotes() {
+  if (studentMode) updateHomeStudentCounts();
+  const box = document.getElementById("notesList");
+  if (!box) return;
+  if (!notes.length) {
+    box.innerHTML = emptyHTML("📓", t("noNotes"), t("noNotesMsg"));
+    return;
+  }
+  box.innerHTML = notes.map(function (n) {
+    const d = new Date(n.updatedAt || n.createdAt).toLocaleDateString(lang === "ar" ? "ar-EG" : "en-US");
+    return (
+      '<div class="note-item">' +
+        '<h4>' + escapeHTML(n.title) + '</h4><p>' + escapeHTML(n.body) + '</p>' +
+        '<div class="note-meta"><span>' + d + '</span><span>' +
+          '<button class="icon-btn edit" type="button" onclick="openNoteModal(' + n.id + ')">✎</button>' +
+          '<button class="icon-btn" type="button" onclick="deleteNote(' + n.id + ')">×</button>' +
+        '</span></div></div>'
+    );
+  }).join("");
+}
+
+/* ========== Calendar ========== */
+window.changeMonth = function (delta) {
+  calMonth += delta;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+};
+
+window.goToday = function () {
+  const n = new Date();
+  calYear = n.getFullYear();
+  calMonth = n.getMonth();
+  selectedDate = todayStr();
+  renderCalendar();
+};
+
+window.selectDay = function (iso) {
+  selectedDate = iso;
+  renderCalendar();
+};
+
+function renderCalendar() {
+  const titleEl = document.getElementById("calMonthTitle");
+  const grid = document.getElementById("calGrid");
+  if (!titleEl || !grid) return;
+
+  titleEl.textContent = new Date(calYear, calMonth, 1).toLocaleDateString(lang === "ar" ? "ar-EG" : "en-US", {
+    month: "long", year: "numeric"
+  });
+
+  const first = new Date(calYear, calMonth, 1);
+  let startDow = (first.getDay() + 1) % 7;
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const prevDays = new Date(calYear, calMonth, 0).getDate();
+
+  const taskDates = {};
+  tasks.forEach(function (task) { if (task.date) taskDates[task.date] = true; });
+  schedules.forEach(function (s) { if (s.date) taskDates[s.date] = true; });
+
+  const dows = t("dowShort");
+  let html = dows.map(function (d) { return '<div class="cal-dow">' + d + '</div>'; }).join("");
+
+  const cells = [];
+  for (let i = 0; i < startDow; i++) cells.push({ day: prevDays - startDow + i + 1, other: true, iso: null });
+  for (let d = 1; d <= daysInMonth; d++) {
+    const iso = calYear + "-" + String(calMonth + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+    cells.push({ day: d, other: false, iso: iso });
+  }
+  let nextDay = 1;
+  while (cells.length % 7 !== 0) cells.push({ day: nextDay++, other: true, iso: null });
+
+  const today = todayStr();
+  html += cells.map(function (c) {
+    if (c.other || !c.iso) return '<div class="cal-day other">' + c.day + '</div>';
+    let cls = "cal-day";
+    if (c.iso === today) cls += " today";
+    if (c.iso === selectedDate) cls += " selected";
+    if (taskDates[c.iso]) cls += " has-task";
+    return '<div class="' + cls + '" onclick="selectDay(\'' + c.iso + '\')">' + c.day + '<span class="dot"></span></div>';
+  }).join("");
+  grid.innerHTML = html;
+
+  document.getElementById("selectedDayTitle").textContent = t("dayItems") + " " + selectedDate;
+  const dayTasks = tasks.filter(function (task) { return task.date === selectedDate; });
+  const daySched = schedules.filter(function (s) { return s.date === selectedDate; });
+  const listBox = document.getElementById("dayTasksList");
+  if (!dayTasks.length && !daySched.length) {
+    listBox.innerHTML = emptyHTML("📅", t("noDayItems"), t("noDayItemsMsg"));
+  } else {
+    let list = dayTasks.map(taskHTML).join("");
+    list += daySched.map(function (s) {
+      return '<div class="schedule-item priority-' + (s.priority || "medium") + '">' +
+        '<div class="schedule-time">' + escapeHTML(s.time || "—") + '</div>' +
+        '<div class="schedule-body"><strong>' + escapeHTML(s.title) + '</strong><span>' + escapeHTML(s.notes || "") + '</span></div></div>';
+    }).join("");
+    listBox.innerHTML = list;
+  }
+}
+
+/* ========== Schedule ========== */
+window.openScheduleModal = function () {
+  document.getElementById("schedTitle").value = "";
+  document.getElementById("schedDate").value = selectedDate || todayStr();
+  document.getElementById("schedTime").value = "";
+  document.getElementById("schedPriority").value = "medium";
+  document.getElementById("schedNotes").value = "";
+  document.getElementById("scheduleModal").classList.add("show");
+};
+
+window.closeScheduleModal = function () {
+  document.getElementById("scheduleModal").classList.remove("show");
+};
+
+window.saveScheduleItem = function () {
+  const title = document.getElementById("schedTitle").value.trim();
+  if (!title) { alert(t("writeSched")); return; }
+  schedules.push({
+    id: Date.now(),
+    title: title,
+    date: document.getElementById("schedDate").value || todayStr(),
+    time: document.getElementById("schedTime").value,
+    priority: document.getElementById("schedPriority").value,
+    notes: document.getElementById("schedNotes").value.trim()
+  });
+  schedules.sort(function (a, b) {
+    return (a.date + (a.time || "")).localeCompare(b.date + (b.time || ""));
+  });
+  saveScheduleStore();
+  closeScheduleModal();
+  renderSchedule();
+  if (document.getElementById("panel-calendar").classList.contains("active")) renderCalendar();
+};
+
+window.deleteSchedule = function (id) {
+  if (!confirm(t("confirmDeleteSched"))) return;
+  schedules = schedules.filter(function (s) { return s.id !== id; });
+  saveScheduleStore();
+  renderSchedule();
+  if (document.getElementById("panel-calendar").classList.contains("active")) renderCalendar();
+};
+
+function renderSchedule() {
+  if (studentMode) updateHomeStudentCounts();
+  const box = document.getElementById("scheduleList");
+  if (!box) return;
+  const upcoming = schedules.slice().sort(function (a, b) {
+    return (a.date + (a.time || "")).localeCompare(b.date + (b.time || ""));
+  });
+  if (!upcoming.length) {
+    box.innerHTML = emptyHTML("🗓️", t("noSchedule"), t("noScheduleMsg"));
+    return;
+  }
+  box.innerHTML = upcoming.map(function (s) {
+    return (
+      '<div class="schedule-item priority-' + (s.priority || "medium") + '">' +
+        '<div class="schedule-time">' + escapeHTML(s.time || "—") +
+          '<br><span style="color:var(--muted);font-weight:400">' + escapeHTML(s.date) + '</span></div>' +
+        '<div class="schedule-body"><strong>' + escapeHTML(s.title) +
+          ' <span class="badge">' + escapeHTML(priName(s.priority)) + '</span></strong>' +
+          '<span>' + escapeHTML(s.notes || "") + '</span></div>' +
+        '<button class="icon-btn" type="button" onclick="deleteSchedule(' + s.id + ')">×</button></div>'
+    );
+  }).join("");
+}
+
+/* ========== Study charts ========== */
+window.changeStudyChart = function (type, btn) {
+  studyChartType = type;
+  document.querySelectorAll("#studyChartTabs button").forEach(function (b) { b.classList.remove("active"); });
+  if (btn) btn.classList.add("active");
+  drawStudyChart(type);
+};
+
+function drawStudyChart(type) {
+  const st = document.getElementById("studyTasksCount");
+  const sd = document.getElementById("studyDoneCount");
+  const nc = document.getElementById("notesCountStat");
+  const sc = document.getElementById("scheduleCountStat");
+  if (st) st.textContent = tasks.filter(function (task) { return task.category === "study"; }).length;
+  if (sd) sd.textContent = tasks.filter(function (task) { return task.category === "study" && task.done; }).length;
+  if (nc) nc.textContent = notes.length;
+  if (sc) sc.textContent = schedules.length;
+
+  if (type === "category") {
+    drawBarChart("studyChartSvg", "studyChartLabels", {
+      labels: t("catLabels"),
+      values: [
+        tasks.filter(function (task) { return task.category === "work"; }).length,
+        tasks.filter(function (task) { return task.category === "study"; }).length,
+        tasks.filter(function (task) { return task.category === "personal"; }).length
+      ]
+    });
+  } else {
+    drawLineChart("studyChartSvg", "studyChartLabels", getChartData("daily"));
+  }
+}
+
+function renderStudentAll() {
+  renderFlash();
+  renderNotes();
+  renderSchedule();
+  renderCalendar();
+  drawStudyChart(studyChartType);
+}
+
+/* ========== Export / Import ========== */
+window.exportData = function () {
+  const payload = {
+    version: 2, tasks: tasks, flashcards: flashcards, notes: notes, schedules: schedules,
+    theme: theme, lang: lang, exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "nemo-backup.json";
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+document.getElementById("fileInput").addEventListener("change", function (e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const imported = JSON.parse(reader.result);
+      if (Array.isArray(imported)) {
+        tasks = imported;
+      } else if (imported && typeof imported === "object") {
+        if (Array.isArray(imported.tasks)) tasks = imported.tasks;
+        if (Array.isArray(imported.flashcards)) flashcards = imported.flashcards;
+        if (Array.isArray(imported.notes)) notes = imported.notes;
+        if (Array.isArray(imported.schedules)) schedules = imported.schedules;
+        if (imported.theme) setTheme(imported.theme);
+        if (imported.lang) { lang = imported.lang; localStorage.setItem("nemoLang", lang); applyI18n(); return; }
+      } else throw new Error("invalid");
+      saveTasks(); saveFlashStore(); saveNotesStore(); saveScheduleStore();
+      renderAll();
+      alert(t("importOk"));
+    } catch (err) {
+      alert(t("importFail"));
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+});
+
+window.deleteAllTasks = function () {
+  if (!tasks.length) { alert(t("noDataDelete")); return; }
+  if (confirm(t("confirmDeleteAll"))) {
+    tasks = [];
+    saveTasks();
+    renderAll();
+  }
+};
+
+window.deleteAllStudentData = function () {
+  if (!confirm(t("confirmDeleteStudent"))) return;
+  flashcards = []; notes = []; schedules = [];
+  saveFlashStore(); saveNotesStore(); saveScheduleStore();
+  renderStudentAll();
+  alert(t("studentCleared"));
+};
+
+/* ========== Reminders ========== */
+let reminderTimer = null;
+const REMINDER_START_HOUR = 9;
+const REMINDER_END_HOUR = 21;
+
+function updateReminderStatus(message) {
+  const status = document.getElementById("reminderStatus");
+  if (status) status.textContent = message;
+}
+
+window.enableReminders = async function () {
+  if (!("Notification" in window)) { alert(t("noNotif")); return; }
+  if (!window.isSecureContext) { alert(t("needHttps")); return; }
+  let permission = Notification.permission;
+  if (permission !== "granted") permission = await Notification.requestPermission();
+  if (permission !== "granted") {
+    updateReminderStatus(t("notAllowed"));
+    alert(t("needPermission"));
+    return;
+  }
+  localStorage.setItem("nemoRemindersEnabled", "true");
+  scheduleNextReminder();
+  alert(t("remindersOn"));
+};
+
+window.disableReminders = function () {
+  localStorage.setItem("nemoRemindersEnabled", "false");
+  if (reminderTimer) { clearTimeout(reminderTimer); reminderTimer = null; }
+  updateReminderStatus(t("remindersDisabled"));
+};
+
+function getRandomReminderTime() {
+  const now = new Date();
+  const start = new Date(now); start.setHours(REMINDER_START_HOUR, 0, 0, 0);
+  const end = new Date(now); end.setHours(REMINDER_END_HOUR, 0, 0, 0);
+  if (now >= end) { start.setDate(start.getDate() + 1); end.setDate(end.getDate() + 1); }
+  if (now < start) return start.getTime() + Math.random() * (end.getTime() - start.getTime());
+  return now.getTime() + Math.random() * (end.getTime() - now.getTime());
+}
+
+function scheduleNextReminder() {
+  if (localStorage.getItem("nemoRemindersEnabled") !== "true") return;
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  if (reminderTimer) clearTimeout(reminderTimer);
+  const next = getRandomReminderTime();
+  const delay = Math.max(next - Date.now(), 60000);
+  reminderTimer = setTimeout(function () { sendTaskReminder(); scheduleNextReminder(); }, delay);
+  updateReminderStatus(t("remindersEnabled") + new Date(next).toLocaleTimeString(lang === "ar" ? "ar-EG" : "en-US", { hour: "2-digit", minute: "2-digit" }));
+}
+
+function sendTaskReminder() {
+  const pending = tasks.filter(function (task) { return !task.done; });
+  if (!pending.length) return;
+  const randomTask = pending[Math.floor(Math.random() * pending.length)];
+  const notification = new Notification("Nemo 🐠", {
+    body: (lang === "ar" ? "لا تنسَ: " : "Don't forget: ") + randomTask.title,
+    tag: "nemo-task-reminder"
+  });
+  notification.onclick = function () { window.focus(); showPage("tasksPage"); notification.close(); };
+}
+
+function startReminderSystem() {
+  if (localStorage.getItem("nemoRemindersEnabled") !== "true") {
+    updateReminderStatus(t("remindersOff"));
+    return;
+  }
+  if (!("Notification" in window) || Notification.permission !== "granted") {
+    updateReminderStatus(t("needNotifFirst"));
+    return;
+  }
+  if (reminderTimer) return;
+  scheduleNextReminder();
+}
+
+/* ========== Nemo AI Assistant ========== */
+let nemoChatOpen = false;
+let nemoGreeted = false;
+
+function getProgressSnapshot() {
+  const total = tasks.length;
+  const completed = tasks.filter(function (x) { return x.done; }).length;
+  const pending = total - completed;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+  const overdue = tasks.filter(isOverdue).length;
+  return { total: total, completed: completed, pending: pending, percent: percent, overdue: overdue };
+}
+
+/* لهجات نيمو حسب الدولة */
+function getDialect() {
+  const c = (userProfile && userProfile.country) || "OTHER";
+  const age = (userProfile && userProfile.age) || 20;
+  let dialect = "msa";
+  if (["EG", "SD"].indexOf(c) >= 0) dialect = "egyptian";
+  else if (["SA", "AE", "KW", "QA", "BH", "OM", "YE"].indexOf(c) >= 0) dialect = "gulf";
+  else if (["JO", "PS", "LB", "SY"].indexOf(c) >= 0) dialect = "levantine";
+  else if (["IQ"].indexOf(c) >= 0) dialect = "iraqi";
+  else if (["MA", "DZ", "TN", "LY"].indexOf(c) >= 0) dialect = "maghrebi";
+  else if (["US", "GB"].indexOf(c) >= 0) dialect = "english";
+  else if (lang === "en") dialect = "english";
+
+  let tone = "adult";
+  if (age < 15) tone = "teen";
+  else if (age < 22) tone = "young";
+  else if (age >= 40) tone = "mature";
+
+  return { dialect: dialect, tone: tone, country: c, age: age };
+}
+
+const DIALECT_TIPS = {
+  egyptian: {
+    empty: ["يلا نبدأ بمهمة صغيرة النهارده، حتى ١٠ دقايق هتفرّق!", "متستناش المثالية — ابدأ بأي حاجة بسيطة دلوقتي."],
+    overdue: ["عندك حاجات متأخرة يا بطل. خلّص أهم واحدة الأول وارتاح.", "المتاخرات بتضغط عليك — اقفل واحدة بس النهاردة."],
+    almost: ["قربت تخلّص كله! دَفعة أخيرة ونحتفل 🎉", "آخر شوية وهتخلّص — يلا نكمّل!"],
+    good: ["ماشي تمام كده، ثبّت الإيقاع ومتضغطش على نفسك.", "تقدمك حلو — خليك ثابت كل يوم شوية."],
+    study: ["راجع بطاقة واحدة بس دلوقتي — المراجعة القصيرة بتتثبت.", "افتح بطاقات التذكر دقيقة واحدة وهتفرق."],
+    celebrate: ["برافو عليك! خلّصت كل المهام 🔥 حط هدف جديد لو حابب."],
+    generic: ["قسّم الشغل الكبير لخطوات صغيرة.", "اصعب مهمة خلّيها في أول اليوم.", "قاعدة الدقيقتين: لو هتخلص في دقيقتين اعملها فوراً."]
+  },
+  gulf: {
+    empty: ["يلا نبدأ بمهمة بسيطة اليوم، عشر دقايق تكفي عشان نتحرك.", "لا تنتظر الكمال — ابدأ بشيء سهل الحين."],
+    overdue: ["عندك مهام متأخرة. خلّص الأهم أول عشان يخف الضغط.", "المتاخر يثقل — اقفل مهمة واحدة اليوم."],
+    almost: ["قربت تخلّص كل شي! دفعة أخيرة وترتاح.", "باقي شوي وتخلّص — كمّل بقوة!"],
+    good: ["تقدمك طيب، حافظ على الوتيرة بهدوء.", "ماشي زين — ثبات يومي أحسن من ضغط مرة واحدة."],
+    study: ["راجع بطاقة واحدة الحين — المراجعة القصيرة تنفع كثير.", "افتح بطاقات التذكر دقيقة بس."],
+    celebrate: ["أحسنت! خلّصت كل المهام 👏 حط هدف جديد إذا تبي."],
+    generic: ["قسّم المهام الكبيرة لخطوات صغار.", "أصعب مهمة سوّها في بداية يومك.", "لو المهمة تخلص بدقيقتين سوّها فوراً."]
+  },
+  levantine: {
+    empty: ["يلا نبلّش بمهمة صغيرة اليوم، حتى ١٠ دقايق بفرقوا.", "ما تستنا الكمال — ابدأ بشي بسيط هلّق."],
+    overdue: ["في عندك شغلات متأخرة. خلّص الأهم أول شي.", "المتأخرات بتضغط — سكّر واحدة بس اليوم."],
+    almost: ["قربت تخلّص كل شي! دَفعة أخيرة ومنرتاح.", "آخر شوي وبتخلّص — يلا نكمّل!"],
+    good: ["تقدمك منيح، حافظ على الإيقاع بهدوء.", "ماشي تمام — ثبات يومي أحسن من ضغط مرة."],
+    study: ["راجع بطاقة واحدة هلّق — المراجعة القصيرة بتثبّت.", "افتح بطاقات التذكّر دقيقة واحدة."],
+    celebrate: ["برافو! خلّصت كل المهام 🎉 حط هدف جديد إذا بدك."],
+    generic: ["قسّم الشغل الكبير لخطوات صغار.", "أصعب مهمة اعملها بأول اليوم.", "قاعدة الدقيقتين: إذا بتخلص بدقيقتين اعملها فوراً."]
+  },
+  iraqi: {
+    empty: ["يلا نبدي بمهمة بسيطة اليوم، عشر دقايق تكفي.", "لا تنتظر الكمال — ابدي بشي سهل هسه."],
+    overdue: ["عدّك مهام متأخرة. خلّص الأهم أول حتى يخف الضغط.", "المتأخر يثقل — سكّر مهمة وحدة اليوم."],
+    almost: ["قربت تخلّص كل شي! دَفعة أخيرة ونرتاح.", "باقي شوية وتخلّص — كمّل!"],
+    good: ["تقدمك زين، حافظ على الوتيرة بهدوء.", "ماشي تمام — ثبات يومي أحسن."],
+    study: ["راجع بطاقة وحدة هسه — المراجعة القصيرة تفيد.", "افتح بطاقات التذكر دقيقة."],
+    celebrate: ["أحسنت! خلّصت كل المهام 🔥 حط هدف جديد إذا تحب."],
+    generic: ["قسّم الشغل الكبير لخطوات صغار.", "أصعب مهمة سوّها بأول اليوم.", "إذا المهمة تخلص بدقيقتين سوّها فوراً."]
+  },
+  maghrebi: {
+    empty: ["يالا نبداو بمهمة صغيرة اليوم، حتى ١٠ دقايق كافية.", "ما تستناش الكمال — ابدا بشي ساهل دابا."],
+    overdue: ["عندك حاجات متأخرة. خلّص الأهم اللولة.", "المتأخرات كتضغط — سكّر وحدة غير اليوم."],
+    almost: ["قربتي تكمّل كلشي! دفعة أخيرة ونرتاحو.", "باقي شوية وتكمّل — يالا نكملو!"],
+    good: ["التقدم زوين، حافظ على الإيقاع بهدوء.", "ماشي مزيان — ثبات يومي حسن من الضغط."],
+    study: ["راجع بطاقة وحدة دابا — المراجعة القصيرة كاتفيد.", "حلّ بطاقات التذكر دقيقة."],
+    celebrate: ["برافو! كمّلتي كل المهام 🎉 دير هدف جديد إلا بغيتي."],
+    generic: ["قسّم الخدمة الكبيرة لخطوات صغار.", "أصعب مهمة ديرها فأول نهار.", "إلا المهمة كتسالي فـ دقيقتين ديرها دابا."]
+  },
+  msa: null, // يُملأ ديناميكياً من t()
+  english: {
+    empty: ["Let's start with one tiny task today — even 10 minutes counts.", "Don't wait for perfect — start small right now."],
+    overdue: ["You've got overdue tasks. Knock out the most important one first.", "Overdue stuff piles stress — close just one today."],
+    almost: ["You're almost done! One more push 🎉", "Last stretch — finish strong!"],
+    good: ["Nice pace — keep it steady, no burnout.", "Solid progress. Consistency beats cramming."],
+    study: ["Flip one flashcard now — short reviews stick.", "Open flashcards for one minute."],
+    celebrate: ["You crushed every task 🔥 Set a new goal if you want."],
+    generic: ["Break big work into tiny steps.", "Do the hardest task in the first hour.", "Two-minute rule: if it takes under 2 minutes, do it now."]
+  }
+};
+
+function pickFrom(arr) {
+  if (!arr || !arr.length) return t("tipGeneric1");
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getDialectPack(dialect) {
+  if (dialect === "msa" || !DIALECT_TIPS[dialect]) {
+    return {
+      empty: [t("tipEmpty")],
+      overdue: [t("tipOverdue")],
+      almost: [t("tipAlmost")],
+      good: [t("tipGood")],
+      study: [t("tipStudy")],
+      celebrate: [t("tipCelebrate")],
+      generic: [t("tipGeneric1"), t("tipGeneric2"), t("tipGeneric3"), t("tipGeneric4"), t("tipGeneric5")]
+    };
+  }
+  return DIALECT_TIPS[dialect];
+}
+
+function pickSmartTip() {
+  const s = getProgressSnapshot();
+  const d = getDialect();
+  const pack = getDialectPack(d.dialect);
+  const pool = [];
+
+  if (s.total === 0) pool.push(pickFrom(pack.empty));
+  if (s.overdue > 0) pool.push(pickFrom(pack.overdue));
+  if (s.percent === 100 && s.total > 0) pool.push(pickFrom(pack.celebrate));
+  else if (s.percent >= 70) pool.push(pickFrom(pack.almost));
+  else if (s.percent >= 30) pool.push(pickFrom(pack.good));
+
+  if (studentMode) {
+    if (!flashcards.length) pool.push(pickFrom(pack.study));
+    if (!notes.length) pool.push(t("tipNotes"));
+    if (!schedules.length) pool.push(t("tipSchedule"));
+  } else {
+    pool.push(t("tipStudent"));
+  }
+
+  pool.push(pickFrom(pack.generic));
+  pool.push(t("tipBreak"));
+
+  let tip = pool[Math.floor(Math.random() * pool.length)];
+
+  if (d.tone === "teen" && d.dialect === "egyptian") {
+    tip = tip.replace(/يا بطل/g, "يا صاحبي");
+  }
+
+  return tip;
+}
+
+function buildProgressReply() {
+  const s = getProgressSnapshot();
+  if (lang === "ar") {
+    return t("replyProgress") + "\n• الإجمالي: " + s.total +
+      "\n• المكتملة: " + s.completed +
+      "\n• المتبقية: " + s.pending +
+      "\n• النسبة: " + s.percent + "%" +
+      (s.overdue ? "\n• متأخرة: " + s.overdue : "") +
+      "\n\n💡 " + pickSmartTip();
+  }
+  return t("replyProgress") + "\n• Total: " + s.total +
+    "\n• Done: " + s.completed +
+    "\n• Remaining: " + s.pending +
+    "\n• Progress: " + s.percent + "%" +
+    (s.overdue ? "\n• Overdue: " + s.overdue : "") +
+    "\n\n💡 " + pickSmartTip();
+}
+
+function nemoThink(userText) {
+  const text = (userText || "").toLowerCase().trim();
+  const ar = lang === "ar";
+
+  // greetings
+  if (/^(hi|hello|hey|السلام|مرحبا|اهلا|أهلا|هاي)/i.test(text)) return t("replyHello");
+  if (/(شكر|thanks|thank you|thx)/i.test(text)) return t("replyThanks");
+
+  // progress
+  if (/(progress|تقدم|احصا|إحصا|نسبة|كم مهمة|how am i|status|وضع)/i.test(text) ||
+      text === t("nemoQ1").toLowerCase()) {
+    return buildProgressReply();
+  }
+
+  // tip
+  if (/(tip|نصيحة|نصح|advice|ماذا أفعل|what now|what should)/i.test(text) ||
+      text === t("nemoQ2").toLowerCase() || text === t("nemoQ3").toLowerCase()) {
+    return "💡 " + pickSmartTip();
+  }
+
+  // study related
+  if (/(flash|بطاق|تذكر|مذاكر)/i.test(text)) {
+    if (!studentMode) return t("tipStudent");
+    return flashcards.length
+      ? (ar ? "لديك " + flashcards.length + " بطاقة. راجع واحدة الآن!" : "You have " + flashcards.length + " cards. Review one now!")
+      : t("tipStudy");
+  }
+  if (/(note|ملاحظ)/i.test(text)) {
+    return notes.length
+      ? (ar ? "لديك " + notes.length + " ملاحظة. يمكنك إضافة المزيد من منطقة الطلاب." : "You have " + notes.length + " notes. Add more from the student zone.")
+      : t("tipNotes");
+  }
+  if (/(schedule|جدول|موعد|calendar|تقويم)/i.test(text)) {
+    return t("tipSchedule");
+  }
+  if (/(task|مهمة|مهام)/i.test(text)) {
+    return s_or_tip_tasks();
+  }
+
+  // default: smart tip mixed with unknown
+  if (text.length < 2) return t("replyUnknown");
+  return "💡 " + pickSmartTip();
+}
+
+function s_or_tip_tasks() {
+  const s = getProgressSnapshot();
+  if (s.total === 0) return t("tipEmpty");
+  if (s.overdue) return t("tipOverdue");
+  if (s.percent === 100) return t("tipCelebrate");
+  return pickSmartTip();
+}
+
+function appendNemoMsg(text, who) {
+  const box = document.getElementById("nemoMsgs");
+  if (!box) return;
+  const div = document.createElement("div");
+  div.className = "msg " + (who === "user" ? "user" : "bot");
+  div.textContent = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function showNemoTyping(cb) {
+  const box = document.getElementById("nemoMsgs");
+  const div = document.createElement("div");
+  div.className = "msg bot";
+  div.id = "nemoTyping";
+  div.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  document.getElementById("nemoFab").classList.add("talking");
+  setTimeout(function () {
+    const el = document.getElementById("nemoTyping");
+    if (el) el.remove();
+    document.getElementById("nemoFab").classList.remove("talking");
+    if (cb) cb();
+  }, 600 + Math.random() * 500);
+}
+
+function renderNemoQuick() {
+  const q = document.getElementById("nemoQuick");
+  if (!q) return;
+  q.innerHTML =
+    '<button type="button" onclick="nemoQuickAsk(\'q1\')">' + t("nemoQ1") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q2\')">' + t("nemoQ2") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q3\')">' + t("nemoQ3") + '</button>';
+}
+
+window.nemoQuickAsk = function (key) {
+  const map = { q1: t("nemoQ1"), q2: t("nemoQ2"), q3: t("nemoQ3") };
+  const text = map[key] || t("nemoQ2");
+  appendNemoMsg(text, "user");
+  showNemoTyping(function () {
+    appendNemoMsg(nemoThink(text), "bot");
+  });
+};
+
+window.toggleNemoChat = function () {
+  nemoChatOpen = !nemoChatOpen;
+  const chat = document.getElementById("nemoChat");
+  const hint = document.getElementById("nemoHint");
+  if (chat) chat.classList.toggle("open", nemoChatOpen);
+  if (hint) hint.classList.remove("show");
+  if (nemoChatOpen) {
+    renderNemoQuick();
+    if (!nemoGreeted) {
+      nemoGreeted = true;
+      const box = document.getElementById("nemoMsgs");
+      if (box) box.innerHTML = "";
+      showNemoTyping(function () {
+        appendNemoMsg(t("nemoWelcome"), "bot");
+        setTimeout(function () {
+          showNemoTyping(function () {
+            appendNemoMsg("💡 " + pickSmartTip(), "bot");
+          });
+        }, 400);
+      });
+    }
+    setTimeout(function () {
+      const input = document.getElementById("nemoInput");
+      if (input) input.focus();
+    }, 100);
+  }
+};
+
+window.sendNemoMsg = function () {
+  const input = document.getElementById("nemoInput");
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = "";
+  appendNemoMsg(text, "user");
+  showNemoTyping(function () {
+    appendNemoMsg(nemoThink(text), "bot");
+  });
+};
+
+function showNemoProactiveHint() {
+  if (nemoChatOpen) return;
+  const hint = document.getElementById("nemoHint");
+  if (!hint) return;
+  hint.textContent = "🐠 " + pickSmartTip();
+  hint.classList.add("show");
+  setTimeout(function () { hint.classList.remove("show"); }, 6000);
+}
+
+/* ========== Auth & Profile ========== */
+function parseJwt(token) {
+  try {
+    const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    return JSON.parse(decodeURIComponent(atob(base64).split("").map(function (c) {
+      return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join("")));
+  } catch (e) { return null; }
+}
+
+function isLoggedIn() {
+  return !!(currentUser && currentUser.id && userProfile && userProfile.country && userProfile.age);
+}
+
+function showLoginStep() {
+  document.getElementById("loginStep").classList.add("active");
+  document.getElementById("profileStep").classList.remove("active");
+}
+
+function showProfileStep() {
+  document.getElementById("loginStep").classList.remove("active");
+  document.getElementById("profileStep").classList.add("active");
+  if (currentUser && currentUser.provider === "google") {
+    document.getElementById("profileUserChip").style.display = "flex";
+    document.getElementById("profileAvatar").src = currentUser.picture || "";
+    document.getElementById("profileName").textContent = currentUser.name || "";
+    document.getElementById("profileEmail").textContent = currentUser.email || "";
+  } else {
+    document.getElementById("profileUserChip").style.display = "none";
+  }
+  if (userProfile) {
+    if (userProfile.country) document.getElementById("profileCountry").value = userProfile.country;
+    if (userProfile.age) document.getElementById("profileAge").value = userProfile.age;
+  }
+}
+
+function enterApp() {
+  document.getElementById("authGate").classList.add("hidden");
+  reloadUserData();
+  renderAll();
+  updateAccountUI();
+  // ضبط لغة تقريبية حسب الدولة
+  if (userProfile && ["US", "GB"].indexOf(userProfile.country) >= 0 && lang === "ar") {
+    // لا نفرض الإنجليزية تلقائياً
+  }
+}
+
+function updateAccountUI() {
+  const nameEl = document.getElementById("accountName");
+  const metaEl = document.getElementById("accountMeta");
+  if (!nameEl) return;
+  if (currentUser) {
+    nameEl.textContent = currentUser.name || t("guestUser");
+    const parts = [];
+    if (currentUser.email) parts.push(currentUser.email);
+    if (userProfile && userProfile.country) parts.push(userProfile.country);
+    if (userProfile && userProfile.age) parts.push((lang === "ar" ? "العمر: " : "Age: ") + userProfile.age);
+    const d = getDialect();
+    parts.push((lang === "ar" ? "لهجة: " : "Dialect: ") + d.dialect);
+    metaEl.textContent = parts.join(" · ");
+  } else {
+    nameEl.textContent = t("notSignedIn");
+    metaEl.textContent = "—";
+  }
+}
+
+window.continueAsGuest = function () {
+  currentUser = { id: "guest", name: t("guestUser"), email: "", picture: "", provider: "guest" };
+  localStorage.setItem("nemoUser", JSON.stringify(currentUser));
+  if (userProfile && userProfile.country && userProfile.age) {
+    enterApp();
+  } else {
+    showProfileStep();
+  }
+};
+
+window.saveProfile = function () {
+  const country = document.getElementById("profileCountry").value;
+  const age = parseInt(document.getElementById("profileAge").value, 10);
+  if (!age || age < 8 || age > 100) {
+    alert(t("needAge"));
+    return;
+  }
+  if (!currentUser) {
+    currentUser = { id: "guest", name: t("guestUser"), email: "", picture: "", provider: "guest" };
+  }
+  userProfile = { country: country, age: age, dialect: getDialect().dialect };
+  // إعادة حساب اللهجة بعد حفظ الدولة
+  userProfile.dialect = (function () {
+    const c = country;
+    if (["EG", "SD"].indexOf(c) >= 0) return "egyptian";
+    if (["SA", "AE", "KW", "QA", "BH", "OM", "YE"].indexOf(c) >= 0) return "gulf";
+    if (["JO", "PS", "LB", "SY"].indexOf(c) >= 0) return "levantine";
+    if (c === "IQ") return "iraqi";
+    if (["MA", "DZ", "TN", "LY"].indexOf(c) >= 0) return "maghrebi";
+    if (["US", "GB"].indexOf(c) >= 0) return "english";
+    return lang === "en" ? "english" : "msa";
+  })();
+
+  localStorage.setItem("nemoUser", JSON.stringify(currentUser));
+  localStorage.setItem("nemoProfile", JSON.stringify(userProfile));
+  showToast(t("profileSaved"));
+  enterApp();
+  nemoGreeted = false;
+};
+
+window.editProfile = function () {
+  document.getElementById("authGate").classList.remove("hidden");
+  showProfileStep();
+};
+
+window.signOutUser = function () {
+  currentUser = null;
+  userProfile = null;
+  localStorage.removeItem("nemoUser");
+  localStorage.removeItem("nemoProfile");
+  tasks = []; flashcards = []; notes = []; schedules = [];
+  document.getElementById("authGate").classList.remove("hidden");
+  showLoginStep();
+  initGoogleButton();
+  updateAccountUI();
+};
+
+function handleGoogleCredential(response) {
+  const payload = parseJwt(response.credential);
+  if (!payload) {
+    alert("Google sign-in failed");
+    return;
+  }
+  currentUser = {
+    id: payload.sub,
+    name: payload.name || payload.email,
+    email: payload.email || "",
+    picture: payload.picture || "",
+    provider: "google"
+  };
+  localStorage.setItem("nemoUser", JSON.stringify(currentUser));
+  // تحميل بيانات هذا المستخدم إن وُجدت
+  reloadUserData();
+  if (userProfile && userProfile.country && userProfile.age) {
+    enterApp();
+  } else {
+    showProfileStep();
+  }
+}
+
+window.handleGoogleCredential = handleGoogleCredential;
+
+function initGoogleButton() {
+  const wrap = document.getElementById("googleBtnWrap");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  if (!GOOGLE_CLIENT_ID) {
+    wrap.innerHTML = "";
+    const b = document.createElement("button");
+    b.className = "btn block";
+    b.type = "button";
+    b.style.opacity = ".85";
+    b.textContent = lang === "ar" ? "تسجيل الدخول بجوجل (يلزم Client ID)" : "Google Sign-In (needs Client ID)";
+    b.onclick = function () { alert(t("authGoogleHint")); };
+    wrap.appendChild(b);
+    return;
+  }
+  if (window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredential,
+      auto_select: false
+    });
+    google.accounts.id.renderButton(wrap, {
+      theme: "outline",
+      size: "large",
+      width: 320,
+      text: "continue_with",
+      shape: "pill"
+    });
+  } else {
+    wrap.innerHTML = '<p style="color:var(--muted);font-size:12px">Loading Google…</p>';
+    setTimeout(initGoogleButton, 500);
+  }
+}
+
+/* ========== Init ========== */
+function renderAll() {
+  renderHomeTasks();
+  renderAllTasks();
+  updateStats();
+  renderAnalysis();
+  drawChart(currentChart);
+  startReminderSystem();
+  applyStudentModeUI();
+  updateAccountUI();
+  if (document.getElementById("studentPage").classList.contains("active")) renderStudentAll();
+}
+
+// Apply saved theme, language & student mode
+document.documentElement.setAttribute("data-theme", theme);
+document.querySelectorAll(".theme-opt").forEach(function (el) {
+  el.classList.toggle("active", el.getAttribute("data-theme-opt") === theme);
+});
+applyI18n();
+applyStudentModeUI();
+renderNemoQuick();
+
+if (isLoggedIn()) {
+  document.getElementById("authGate").classList.add("hidden");
+  reloadUserData();
+  renderAll();
+} else if (currentUser && !userProfile) {
+  showProfileStep();
+} else {
+  showLoginStep();
+  initGoogleButton();
+}
+
+// تلميح استباقي من نيمو بعد قليل
+setTimeout(function () {
+  if (isLoggedIn()) showNemoProactiveHint();
+}, 8000);
+setInterval(function () {
+  if (isLoggedIn() && !nemoChatOpen && Math.random() < 0.4) showNemoProactiveHint();
+}, 120000);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
+
+window.addEventListener("load", function () {
+  if (!isLoggedIn()) initGoogleButton();
+});
+
+})();
+</script>
+</body>
+</html>

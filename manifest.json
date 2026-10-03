@@ -1,0 +1,19 @@
+{
+  "name": "Nemo",
+  "short_name": "Nemo",
+  "description": "Task & study app with Nemo assistant",
+  "start_url": "nemo.html",
+  "display": "standalone",
+  "background_color": "#07070c",
+  "theme_color": "#743cff",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
