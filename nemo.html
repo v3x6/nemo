@@ -405,6 +405,92 @@ textarea{min-height:88px;resize:vertical}
 }
 .nemo-quick button:hover{border-color:var(--accent);color:var(--text)}
 
+/* Voice mic */
+.nemo-chat-input .mic-btn{
+  background:var(--card3);color:var(--text);border-radius:12px;padding:0 14px;
+  border:1px solid var(--border);font-size:18px;min-width:44px
+}
+.nemo-chat-input .mic-btn.listening{
+  background:var(--red);color:#fff;animation:pulseMic 1s infinite;border-color:var(--red)
+}
+@keyframes pulseMic{0%,100%{box-shadow:0 0 0 0 rgba(255,80,119,.5)}50%{box-shadow:0 0 0 10px transparent}}
+.msg.bot img.week-table{max-width:100%;border-radius:12px;margin-top:8px;border:1px solid var(--border)}
+.msg .task-added{color:var(--green);font-size:12px;margin-top:4px}
+
+/* Ocean Pomodoro */
+.ocean-timer-page{
+  position:fixed;inset:0;z-index:80;display:none;flex-direction:column;
+  align-items:center;justify-content:center;overflow:hidden;
+  background:linear-gradient(180deg,#0a3a5c 0%,#021018 45%,#000508 100%)
+}
+.ocean-timer-page.open{display:flex}
+.ot-rays{position:absolute;inset:0;pointer-events:none;opacity:.4}
+.ot-ray{position:absolute;top:-5%;width:3px;height:110%;background:linear-gradient(180deg,rgba(180,230,255,.45),transparent);filter:blur(1px)}
+.ot-bubbles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ot-bubble{position:absolute;border-radius:50%;background:rgba(200,240,255,.35);animation:otRise linear infinite}
+@keyframes otRise{0%{transform:translateY(100vh) scale(1);opacity:0}15%{opacity:.6}100%{transform:translateY(-10vh) scale(1.2);opacity:0}}
+.ot-fish{position:absolute;width:48px;height:48px;opacity:.7;animation:otSwim 12s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(244,119,50,.4))}
+.ot-fish svg{width:100%;height:100%}
+@keyframes otSwim{0%,100%{transform:translate(0,0) scaleX(1)}50%{transform:translate(40px,-20px) scaleX(1)}}
+.ot-ring-wrap{position:relative;width:min(280px,70vw);height:min(280px,70vw);z-index:2}
+.ot-ring{
+  width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle at 50% 45%,rgba(45,226,230,.12),transparent 55%);
+  border:3px solid rgba(45,226,230,.25);
+  box-shadow:0 0 60px rgba(45,226,230,.15),inset 0 0 40px rgba(0,40,60,.5);
+  display:grid;place-items:center;position:relative;overflow:hidden
+}
+.ot-water{
+  position:absolute;left:0;right:0;bottom:0;height:0%;
+  background:linear-gradient(180deg,rgba(45,226,230,.35),rgba(10,60,90,.7));
+  transition:height .4s linear;border-radius:0 0 50% 50% / 0 0 20% 20%
+}
+.ot-water::before{
+  content:"";position:absolute;top:-12px;left:-10%;right:-10%;height:24px;
+  background:rgba(180,240,255,.25);border-radius:50%;animation:wave 2s ease-in-out infinite
+}
+@keyframes wave{0%,100%{transform:translateX(0)}50%{transform:translateX(8%)}}
+.ot-time{
+  position:relative;z-index:3;font-size:clamp(2.8rem,10vw,4rem);font-weight:800;
+  font-variant-numeric:tabular-nums;letter-spacing:2px;color:#e8f4ff;
+  text-shadow:0 0 30px rgba(45,226,230,.5)
+}
+.ot-label{position:relative;z-index:3;color:rgba(180,220,240,.8);font-size:14px;margin-top:4px;font-weight:600}
+.ot-controls{display:flex;gap:12px;margin-top:28px;z-index:2;flex-wrap:wrap;justify-content:center}
+.ot-controls button{
+  padding:12px 20px;border-radius:14px;font-weight:700;font-size:14px;border:0;cursor:pointer
+}
+.ot-btn-main{background:linear-gradient(135deg,#7c5cff,#2de2e6);color:#021018}
+.ot-btn-ghost{background:rgba(255,255,255,.08);color:#e8f4ff;border:1px solid rgba(45,226,230,.2)!important}
+.ot-modes{display:flex;gap:8px;margin-bottom:20px;z-index:2}
+.ot-modes button{
+  padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:rgba(255,255,255,.06);color:rgba(200,230,245,.7);border:1px solid transparent;cursor:pointer
+}
+.ot-modes button.active{background:rgba(45,226,230,.2);color:#2de2e6;border-color:rgba(45,226,230,.4)}
+.ot-close{
+  position:absolute;top:18px;inset-inline-end:18px;z-index:5;
+  width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);
+  color:#fff;font-size:22px;border:0;cursor:pointer
+}
+.ot-sound-toggle{
+  position:absolute;top:18px;inset-inline-start:18px;z-index:5;
+  padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.1);
+  color:#e8f4ff;font-size:13px;border:1px solid rgba(45,226,230,.2);cursor:pointer;font-weight:600
+}
+.home-timer-card{
+  margin-bottom:16px;cursor:pointer;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,rgba(10,50,80,.9),rgba(8,20,40,.95));
+  border:1px solid rgba(45,226,230,.2)!important
+}
+.home-timer-card:hover{border-color:rgba(45,226,230,.45)!important;transform:translateY(-2px)}
+.home-timer-card .ht-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.home-timer-card .ht-ico{font-size:32px}
+.home-timer-card h3{font-size:16px;margin-bottom:4px}
+.home-timer-card p{color:var(--muted);font-size:12.5px}
+.tag-repeat{font-size:10px;padding:2px 7px;border-radius:6px;background:rgba(45,226,230,.15);color:#2de2e6;margin-inline-start:6px}
+
+
 @media(max-width:900px){.content-grid{grid-template-columns:1fr}}
 @media(max-width:640px){
   .page{padding:16px 12px 28px}
@@ -595,6 +681,17 @@ textarea{min-height:88px;resize:vertical}
       <div class="lbl" data-i18n="tabCharts">الرسوم البيانية</div>
       <div class="sub" data-i18n="viewStats">عرض الإحصائيات</div>
     </button>
+  </div>
+</div>
+
+
+<div class="card home-timer-card" onclick="openOceanTimer()">
+  <div class="ht-row">
+    <div>
+      <h3 data-i18n="timerTitle">⏱ مؤقت المحيط</h3>
+      <p data-i18n="timerSub">بومودورو أو مؤقت حر — ادخل الأعماق وركّز</p>
+    </div>
+    <div class="ht-ico">🌊</div>
   </div>
 </div>
 
@@ -1026,6 +1123,36 @@ textarea{min-height:88px;resize:vertical}
   </div>
 </div>
 
+
+<!-- Ocean Focus Timer -->
+<div class="ocean-timer-page" id="oceanTimerPage">
+  <button type="button" class="ot-close" onclick="closeOceanTimer()">×</button>
+  <button type="button" class="ot-sound-toggle" id="otSoundBtn" onclick="toggleOceanSound()">🌊 صوت المحيط</button>
+  <div class="ot-rays" id="otRays"></div>
+  <div class="ot-bubbles" id="otBubbles"></div>
+  <div class="ot-fish" id="otFish1" style="top:18%;left:12%"><svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg></div>
+  <div class="ot-fish" id="otFish2" style="top:70%;right:14%;animation-duration:16s;animation-delay:-4s"><svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg></div>
+  <div class="ot-modes">
+    <button type="button" class="active" id="modePomo" onclick="setTimerMode('pomo')">Pomodoro 25</button>
+    <button type="button" id="modeShort" onclick="setTimerMode('short')">5</button>
+    <button type="button" id="modeLong" onclick="setTimerMode('long')">15</button>
+    <button type="button" id="modeCustom" onclick="setTimerMode('custom')">حر</button>
+  </div>
+  <div class="ot-ring-wrap">
+    <div class="ot-ring">
+      <div class="ot-water" id="otWater"></div>
+      <div>
+        <div class="ot-time" id="otTime">25:00</div>
+        <div class="ot-label" id="otLabel" data-i18n="focusTime">وقت التركيز</div>
+      </div>
+    </div>
+  </div>
+  <div class="ot-controls">
+    <button type="button" class="ot-btn-main" id="otStartBtn" onclick="toggleOceanTimerRun()" data-i18n="timerStart">ابدأ</button>
+    <button type="button" class="ot-btn-ghost" onclick="resetOceanTimer()" data-i18n="timerReset">إعادة</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <input id="fileInput" type="file" accept=".json" hidden>
 
@@ -1064,7 +1191,8 @@ textarea{min-height:88px;resize:vertical}
   <div class="nemo-chat-msgs" id="nemoMsgs"></div>
   <div class="nemo-quick" id="nemoQuick"></div>
   <div class="nemo-chat-input">
-    <input id="nemoInput" type="text" data-i18n-placeholder="nemoPlaceholder" placeholder="اكتب رسالة لنيمو..." onkeydown="if(event.key==='Enter')sendNemoMsg()">
+    <button type="button" class="mic-btn" id="nemoMic" onclick="toggleNemoVoice()" title="Voice">🎤</button>
+    <input id="nemoInput" type="text" data-i18n-placeholder="nemoPlaceholder" placeholder="اكتب أو تكلم لنيمو..." onkeydown="if(event.key==='Enter')sendNemoMsg()">
     <button type="button" onclick="sendNemoMsg()" data-i18n="nemoSend">إرسال</button>
   </div>
 </div>
@@ -1196,6 +1324,15 @@ const I18N = {
     guestUser: "زائر",
     profileSaved: "تم حفظ ملفك",
     needAge: "أدخل عمراً صالحاً (8–100)",
+        timerTitle: "⏱ مؤقت المحيط", timerSub: "بومودورو أو مؤقت حر — ادخل الأعماق وركّز",
+    focusTime: "وقت التركيز", breakTime: "استراحة", timerStart: "ابدأ", timerPause: "إيقاف مؤقت", timerReset: "إعادة",
+    oceanSound: "🌊 صوت المحيط", oceanSoundOff: "🔇 كتم الصوت",
+    nemoQ4: "نظّم أسبوعي", nemoQ5: "جدول الأسبوع",
+    voiceListening: "أستمع...", voiceNotSupported: "المتصفح لا يدعم التعرف على الصوت",
+    weekTableCaption: "جدول مهام الأسبوع",
+    nemoAddedTasks: "تم إضافة المهام التالية:",
+    nemoUpdatedTask: "تم تعديل المهمة.",
+    nemoNoUnderstandTask: "لم أفهم المهمة بوضوح. مثال: أضف مهمة مراجعة الرياضيات غداً بأولوية عالية",
     dialectNote: "نيمو بيتكلم بلهجتك حسب دولتك"
   },
   en: {
@@ -1319,6 +1456,15 @@ const I18N = {
     guestUser: "Guest",
     profileSaved: "Profile saved",
     needAge: "Enter a valid age (8–100)",
+        timerTitle: "⏱ Ocean timer", timerSub: "Pomodoro or free timer — dive in and focus",
+    focusTime: "Focus time", breakTime: "Break", timerStart: "Start", timerPause: "Pause", timerReset: "Reset",
+    oceanSound: "🌊 Ocean sound", oceanSoundOff: "🔇 Mute",
+    nemoQ4: "Plan my week", nemoQ5: "Week table",
+    voiceListening: "Listening...", voiceNotSupported: "Speech recognition not supported",
+    weekTableCaption: "Weekly tasks table",
+    nemoAddedTasks: "Added these tasks:",
+    nemoUpdatedTask: "Task updated.",
+    nemoNoUnderstandTask: "I didn't catch the task. Example: add study math tomorrow high priority",
     dialectNote: "Nemo matches your dialect based on your country"
   }
 };
@@ -1649,6 +1795,7 @@ function taskHTML(task) {
         '</span>' +
       '</div>' +
       '<span class="tag ' + escapeHTML(task.category) + '">' + escapeHTML(catName(task.category)) + '</span>' +
+      (task.repeat && task.repeat !== "none" ? '<span class="tag-repeat">' + escapeHTML(task.repeat) + '</span>' : '') +
       '<button class="icon-btn edit" type="button" onclick="openEdit(' + task.id + ')">✎</button>' +
       '<button class="icon-btn" type="button" onclick="deleteTask(' + task.id + ')">×</button>' +
     '</div>'
@@ -2456,27 +2603,338 @@ function buildProgressReply() {
     "\n\n💡 " + pickSmartTip();
 }
 
+
+function createTaskObj(title, opts) {
+  opts = opts || {};
+  return {
+    id: Date.now() + Math.floor(Math.random() * 999),
+    title: title,
+    category: opts.category || "personal",
+    categoryName: catName(opts.category || "personal"),
+    date: opts.date || todayStr(),
+    notes: opts.notes || "",
+    priority: opts.priority || "medium",
+    done: false,
+    completedAt: null,
+    repeat: opts.repeat || "none"
+  };
+}
+
+function parseRelativeDate(text) {
+  const lower = text.toLowerCase();
+  const d = new Date();
+  if (/اليوم|today/.test(lower)) return isoDate(d);
+  if (/بكر|غدا|غدًا|tomorrow/.test(lower)) { d.setDate(d.getDate() + 1); return isoDate(d); }
+  if (/بعد\s*بكر|بعد\s*غد|day after/.test(lower)) { d.setDate(d.getDate() + 2); return isoDate(d); }
+  const days = {
+    "السبت": 6, "الأحد": 0, "الاحد": 0, "الإثنين": 1, "الاثنين": 1, "الثلاثاء": 2,
+    "الأربعاء": 3, "الاربعاء": 3, "الخميس": 4, "الجمعة": 5,
+    saturday: 6, sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5
+  };
+  for (const k in days) {
+    if (lower.indexOf(k) >= 0) {
+      const target = days[k];
+      let add = (target - d.getDay() + 7) % 7;
+      if (add === 0) add = 7;
+      d.setDate(d.getDate() + add);
+      return isoDate(d);
+    }
+  }
+  const m = lower.match(/(\d{4}-\d{2}-\d{2})/);
+  if (m) return m[1];
+  return todayStr();
+}
+
+function parsePriority(text) {
+  const lower = text.toLowerCase();
+  if (/عالي|عالية|مهم|urgent|high|asap/.test(lower)) return "high";
+  if (/منخفض|منخفضة|low/.test(lower)) return "low";
+  return "medium";
+}
+
+function parseCategory(text) {
+  const lower = text.toLowerCase();
+  if (/دراس|مذاكر|امتحان|study|exam|homework|واجب/.test(lower)) return "study";
+  if (/عمل|شغل|work|meeting|اجتماع/.test(lower)) return "work";
+  return "personal";
+}
+
+function parseRepeat(text) {
+  const lower = text.toLowerCase();
+  if (/يومياً|يوميا|كل يوم|daily|every day/.test(lower)) return "daily";
+  if (/اسبوع|أسبوعي|أسبوعيًا|كل اسبوع|كل أسبوع|weekly|every week/.test(lower)) return "weekly";
+  return "none";
+}
+
+function extractTaskTitle(text) {
+  let s = text
+    .replace(/^(أضف|اضف|ضيف|ضيفلي|أضف لي|add|create|new)\s*(مهمة|مهام|task|tasks)?\s*/i, "")
+    .replace(/^(رتب|نظم|نظّم|organize|plan)\s*(لي|my)?\s*/i, "")
+    .trim();
+  // remove trailing meta
+  s = s.replace(/\s*(غداً|غدا|بكر|اليوم|tomorrow|today|بأولوية.*|اولوية.*|high priority|low priority|daily|weekly|كل يوم|أسبوعي).*$/i, "").trim();
+  if (s.length < 2) s = text.trim();
+  return s.slice(0, 120);
+}
+
+function listTasksSummary() {
+  const pending = tasks.filter(function (x) { return !x.done; });
+  if (!pending.length) return lang === "ar" ? "ما في مهام معلّقة حالياً ✨" : "No pending tasks ✨";
+  const lines = pending.slice(0, 12).map(function (task, i) {
+    return (i + 1) + ". " + task.title + " (" + (task.date || "—") + (task.repeat && task.repeat !== "none" ? " · " + task.repeat : "") + ")";
+  });
+  return (lang === "ar" ? "مهامك المعلّقة:\n" : "Your pending tasks:\n") + lines.join("\n");
+}
+
+function getWeekRange() {
+  const now = new Date();
+  const day = now.getDay();
+  const start = new Date(now);
+  start.setDate(now.getDate() - ((day + 6) % 7)); // Monday start
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+    dates.push(isoDate(d));
+  }
+  return dates;
+}
+
+function tasksForWeek() {
+  const week = getWeekRange();
+  return tasks.filter(function (task) {
+    if (task.done) return false;
+    if (week.indexOf(task.date) >= 0) return true;
+    if (task.repeat === "daily") return true;
+    if (task.repeat === "weekly" && task.date) {
+      const td = new Date(task.date + "T12:00:00").getDay();
+      return week.some(function (w) { return new Date(w + "T12:00:00").getDay() === td; });
+    }
+    return false;
+  });
+}
+
+function organizeWeekFromText(text) {
+  // Split by commas, "و", newlines, "ثم"
+  const chunks = text
+    .replace(/^(رتب|نظم|نظّم|organize|plan|عندي|أسبوعي|اسبوعي|week|my week)[:\s]*/i, "")
+    .split(/[,\n]| ثم | و | then | and /i)
+    .map(function (s) { return s.trim(); })
+    .filter(function (s) { return s.length > 2; });
+
+  const added = [];
+  if (!chunks.length) {
+    // fallback: one task from whole text
+    chunks.push(text);
+  }
+  const week = getWeekRange();
+  chunks.forEach(function (chunk, idx) {
+    const title = extractTaskTitle(chunk);
+    if (title.length < 2) return;
+    const date = parseRelativeDate(chunk);
+    // spread across week if no specific day
+    let finalDate = date;
+    if (date === todayStr() && !/(اليوم|today|غدا|بكر|tomorrow|سبت|أحد|اثنين|ثلاث|أربع|خميس|جمع|saturday|sunday|monday)/i.test(chunk)) {
+      finalDate = week[Math.min(idx, 6)];
+    }
+    const task = createTaskObj(title, {
+      date: finalDate,
+      priority: parsePriority(chunk),
+      category: parseCategory(chunk),
+      repeat: parseRepeat(chunk)
+    });
+    tasks.unshift(task);
+    added.push(task);
+  });
+  if (added.length) {
+    saveTasks();
+    renderAll();
+  }
+  return added;
+}
+
+function tryAddSingleTask(text) {
+  const title = extractTaskTitle(text);
+  if (title.length < 2) return null;
+  const task = createTaskObj(title, {
+    date: parseRelativeDate(text),
+    priority: parsePriority(text),
+    category: parseCategory(text),
+    repeat: parseRepeat(text)
+  });
+  tasks.unshift(task);
+  saveTasks();
+  renderAll();
+  return task;
+}
+
+function tryCompleteTask(text) {
+  const pending = tasks.filter(function (x) { return !x.done; });
+  for (let i = 0; i < pending.length; i++) {
+    const task = pending[i];
+    if (text.indexOf(task.title.toLowerCase()) >= 0 || task.title.toLowerCase().indexOf(text.replace(/.*(أكمل|خلصت|done|finish|complete)\s*/i, "").trim()) >= 0) {
+      toggleTask(task.id);
+      return task;
+    }
+  }
+  return null;
+}
+
+function buildWeekTableImage() {
+  const week = getWeekRange();
+  const dayNames = lang === "ar"
+    ? ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"]
+    : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const canvas = document.createElement("canvas");
+  canvas.width = 900;
+  canvas.height = 520;
+  const ctx = canvas.getContext("2d");
+  // background
+  const grd = ctx.createLinearGradient(0, 0, 0, 520);
+  grd.addColorStop(0, "#0a2030");
+  grd.addColorStop(1, "#021018");
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, 900, 520);
+  ctx.fillStyle = "#2de2e6";
+  ctx.font = "bold 28px Cairo, Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(t("weekTableCaption") + " · Nemo", 450, 42);
+  const colW = 120;
+  const startX = (900 - colW * 7) / 2;
+  week.forEach(function (date, i) {
+    const x = startX + i * colW;
+    ctx.fillStyle = "rgba(45,226,230,0.12)";
+    ctx.fillRect(x + 4, 60, colW - 8, 430);
+    ctx.strokeStyle = "rgba(45,226,230,0.25)";
+    ctx.strokeRect(x + 4, 60, colW - 8, 430);
+    ctx.fillStyle = "#a8e6ff";
+    ctx.font = "bold 14px Cairo, Arial";
+    ctx.fillText(dayNames[i], x + colW / 2, 82);
+    ctx.fillStyle = "#7a9bb0";
+    ctx.font = "11px Arial";
+    ctx.fillText(date.slice(5), x + colW / 2, 100);
+    const dayTasks = tasks.filter(function (task) {
+      if (task.done) return false;
+      if (task.date === date) return true;
+      if (task.repeat === "daily") return true;
+      if (task.repeat === "weekly" && task.date) {
+        return new Date(task.date + "T12:00:00").getDay() === new Date(date + "T12:00:00").getDay();
+      }
+      return false;
+    }).slice(0, 6);
+    dayTasks.forEach(function (task, j) {
+      const ty = 120 + j * 55;
+      ctx.fillStyle = task.priority === "high" ? "rgba(255,80,119,0.25)" : "rgba(116,60,255,0.2)";
+      ctx.fillRect(x + 10, ty, colW - 20, 48);
+      ctx.fillStyle = "#e8f4ff";
+      ctx.font = "12px Cairo, Arial";
+      ctx.textAlign = "center";
+      const title = task.title.length > 14 ? task.title.slice(0, 13) + "…" : task.title;
+      ctx.fillText(title, x + colW / 2, ty + 28);
+    });
+    if (!dayTasks.length) {
+      ctx.fillStyle = "#4a6070";
+      ctx.font = "11px Arial";
+      ctx.fillText("—", x + colW / 2, 160);
+    }
+  });
+  return canvas.toDataURL("image/png");
+}
+
+function appendNemoMsg(text, who, imageData) {
+  const box = document.getElementById("nemoMsgs");
+  if (!box) return;
+  const div = document.createElement("div");
+  div.className = "msg " + (who === "user" ? "user" : "bot");
+  div.style.whiteSpace = "pre-wrap";
+  div.textContent = text;
+  if (imageData) {
+    const img = document.createElement("img");
+    img.className = "week-table";
+    img.src = imageData;
+    img.alt = t("weekTableCaption");
+    div.appendChild(document.createElement("br"));
+    div.appendChild(img);
+  }
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function speakNemo(text) {
+  try {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text).replace(/[🐠💡✨⏱🌊]/g, ""));
+    u.lang = lang === "ar" ? "ar-SA" : "en-US";
+    u.rate = 1;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
 function nemoThink(userText) {
-  const text = (userText || "").toLowerCase().trim();
+  const raw = (userText || "").trim();
+  const text = raw.toLowerCase();
   const ar = lang === "ar";
 
-  // greetings
   if (/^(hi|hello|hey|السلام|مرحبا|اهلا|أهلا|هاي)/i.test(text)) return t("replyHello");
   if (/(شكر|thanks|thank you|thx)/i.test(text)) return t("replyThanks");
 
-  // progress
   if (/(progress|تقدم|احصا|إحصا|نسبة|كم مهمة|how am i|status|وضع)/i.test(text) ||
       text === t("nemoQ1").toLowerCase()) {
     return buildProgressReply();
   }
 
-  // tip
   if (/(tip|نصيحة|نصح|advice|ماذا أفعل|what now|what should)/i.test(text) ||
       text === t("nemoQ2").toLowerCase() || text === t("nemoQ3").toLowerCase()) {
     return "💡 " + pickSmartTip();
   }
 
-  // study related
+  // Week table image
+  if (/(جدول\s*الأسبوع|جدول الاسبوع|week table|week schedule|صورة.*أسبوع|weekly table)/i.test(text) ||
+      text === t("nemoQ5").toLowerCase()) {
+    const dataUrl = buildWeekTableImage();
+    setTimeout(function () {
+      appendNemoMsg(t("weekTableCaption"), "bot", dataUrl);
+    }, 50);
+    return ar ? "هذا جدول مهام أسبوعك 📋 (صورة من نيمو)" : "Here's your weekly tasks table 📋";
+  }
+
+  // Organize week
+  if (/(نظّم|نظم|رتب|organize|plan).*(أسبوع|اسبوع|week)|أسبوعى|اسبوعي|my week|خطة.*(أسبوع|اسبوع)/i.test(text) ||
+      text === t("nemoQ4").toLowerCase()) {
+    const added = organizeWeekFromText(raw);
+    if (!added.length) return t("nemoNoUnderstandTask");
+    const lines = added.map(function (task, i) {
+      return (i + 1) + ". " + task.title + " — " + task.date +
+        (task.repeat !== "none" ? " (" + task.repeat + ")" : "") +
+        " [" + priName(task.priority) + "]";
+    });
+    return t("nemoAddedTasks") + "\n" + lines.join("\n") + "\n\n💡 " + pickSmartTip();
+  }
+
+  // Add task
+  if (/(أضف|اضف|ضيف|add|create|new).*(مهمة|مهام|task)|مهمة\s*:/i.test(text) ||
+      /^(أضف|اضف|ضيف|add)\s+/i.test(text)) {
+    const task = tryAddSingleTask(raw);
+    if (!task) return t("nemoNoUnderstandTask");
+    return (ar
+      ? "✅ أضفت: «" + task.title + "»\nالتاريخ: " + task.date + "\nالأولوية: " + priName(task.priority) +
+        (task.repeat !== "none" ? "\nتكرار: " + task.repeat : "")
+      : "✅ Added: «" + task.title + "»\nDate: " + task.date + "\nPriority: " + priName(task.priority) +
+        (task.repeat !== "none" ? "\nRepeat: " + task.repeat : ""));
+  }
+
+  // Complete task
+  if (/(أكمل|خلصت|انتهيت|done|finish|complete|mark)/i.test(text)) {
+    const task = tryCompleteTask(text);
+    if (task) return ar ? "✅ تم تعليم «" + task.title + "» كمكتملة" : "✅ Marked «" + task.title + "» done";
+  }
+
+  // List tasks
+  if (/(ما هي مهامي|مهامي|list tasks|my tasks|عرض المهام|شو عندي)/i.test(text)) {
+    return listTasksSummary();
+  }
+
   if (/(flash|بطاق|تذكر|مذاكر)/i.test(text)) {
     if (!studentMode) return t("tipStudent");
     return flashcards.length
@@ -2485,37 +2943,29 @@ function nemoThink(userText) {
   }
   if (/(note|ملاحظ)/i.test(text)) {
     return notes.length
-      ? (ar ? "لديك " + notes.length + " ملاحظة. يمكنك إضافة المزيد من منطقة الطلاب." : "You have " + notes.length + " notes. Add more from the student zone.")
+      ? (ar ? "لديك " + notes.length + " ملاحظة." : "You have " + notes.length + " notes.")
       : t("tipNotes");
   }
-  if (/(schedule|جدول|موعد|calendar|تقويم)/i.test(text)) {
+  if (/(schedule|جدول|موعد|calendar|تقويم)/i.test(text) && !/أسبوع|اسبوع|week/.test(text)) {
     return t("tipSchedule");
   }
   if (/(task|مهمة|مهام)/i.test(text)) {
-    return s_or_tip_tasks();
+    return listTasksSummary() + "\n\n💡 " + pickSmartTip();
   }
 
-  // default: smart tip mixed with unknown
+  // Soft intent: long message looks like planning
+  if (raw.length > 40 && /(مذاكرة|امتحان|اجتماع|موعد|درس|عمل|study|meeting)/i.test(text)) {
+    const added = organizeWeekFromText(raw);
+    if (added.length) {
+      const lines = added.map(function (task, i) {
+        return (i + 1) + ". " + task.title + " — " + task.date;
+      });
+      return t("nemoAddedTasks") + "\n" + lines.join("\n");
+    }
+  }
+
   if (text.length < 2) return t("replyUnknown");
   return "💡 " + pickSmartTip();
-}
-
-function s_or_tip_tasks() {
-  const s = getProgressSnapshot();
-  if (s.total === 0) return t("tipEmpty");
-  if (s.overdue) return t("tipOverdue");
-  if (s.percent === 100) return t("tipCelebrate");
-  return pickSmartTip();
-}
-
-function appendNemoMsg(text, who) {
-  const box = document.getElementById("nemoMsgs");
-  if (!box) return;
-  const div = document.createElement("div");
-  div.className = "msg " + (who === "user" ? "user" : "bot");
-  div.textContent = text;
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
 }
 
 function showNemoTyping(cb) {
@@ -2532,7 +2982,7 @@ function showNemoTyping(cb) {
     if (el) el.remove();
     document.getElementById("nemoFab").classList.remove("talking");
     if (cb) cb();
-  }, 600 + Math.random() * 500);
+  }, 500 + Math.random() * 400);
 }
 
 function renderNemoQuick() {
@@ -2541,15 +2991,19 @@ function renderNemoQuick() {
   q.innerHTML =
     '<button type="button" onclick="nemoQuickAsk(\'q1\')">' + t("nemoQ1") + '</button>' +
     '<button type="button" onclick="nemoQuickAsk(\'q2\')">' + t("nemoQ2") + '</button>' +
-    '<button type="button" onclick="nemoQuickAsk(\'q3\')">' + t("nemoQ3") + '</button>';
+    '<button type="button" onclick="nemoQuickAsk(\'q3\')">' + t("nemoQ3") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q4\')">' + t("nemoQ4") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q5\')">' + t("nemoQ5") + '</button>';
 }
 
 window.nemoQuickAsk = function (key) {
-  const map = { q1: t("nemoQ1"), q2: t("nemoQ2"), q3: t("nemoQ3") };
+  const map = { q1: t("nemoQ1"), q2: t("nemoQ2"), q3: t("nemoQ3"), q4: t("nemoQ4"), q5: t("nemoQ5") };
   const text = map[key] || t("nemoQ2");
   appendNemoMsg(text, "user");
   showNemoTyping(function () {
-    appendNemoMsg(nemoThink(text), "bot");
+    const reply = nemoThink(text);
+    appendNemoMsg(reply, "bot");
+    speakNemo(reply);
   });
 };
 
@@ -2589,8 +3043,58 @@ window.sendNemoMsg = function () {
   input.value = "";
   appendNemoMsg(text, "user");
   showNemoTyping(function () {
-    appendNemoMsg(nemoThink(text), "bot");
+    const reply = nemoThink(text);
+    appendNemoMsg(reply, "bot");
+    speakNemo(reply);
   });
+};
+
+/* Voice recognition */
+let nemoRecognition = null;
+let nemoListening = false;
+
+window.toggleNemoVoice = function () {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const mic = document.getElementById("nemoMic");
+  if (!SR) {
+    alert(t("voiceNotSupported"));
+    return;
+  }
+  if (nemoListening && nemoRecognition) {
+    try { nemoRecognition.stop(); } catch (e) {}
+    nemoListening = false;
+    if (mic) mic.classList.remove("listening");
+    return;
+  }
+  nemoRecognition = new SR();
+  nemoRecognition.lang = lang === "ar" ? "ar-SA" : "en-US";
+  nemoRecognition.interimResults = false;
+  nemoRecognition.maxAlternatives = 1;
+  nemoRecognition.onstart = function () {
+    nemoListening = true;
+    if (mic) mic.classList.add("listening");
+  };
+  nemoRecognition.onend = function () {
+    nemoListening = false;
+    if (mic) mic.classList.remove("listening");
+  };
+  nemoRecognition.onerror = function () {
+    nemoListening = false;
+    if (mic) mic.classList.remove("listening");
+  };
+  nemoRecognition.onresult = function (ev) {
+    const said = ev.results[0][0].transcript;
+    const input = document.getElementById("nemoInput");
+    if (input) input.value = said;
+    if (!nemoChatOpen) toggleNemoChat();
+    appendNemoMsg("🎤 " + said, "user");
+    showNemoTyping(function () {
+      const reply = nemoThink(said);
+      appendNemoMsg(reply, "bot");
+      speakNemo(reply);
+    });
+  };
+  try { nemoRecognition.start(); } catch (e) { alert(t("voiceNotSupported")); }
 };
 
 function showNemoProactiveHint() {
@@ -2601,6 +3105,205 @@ function showNemoProactiveHint() {
   hint.classList.add("show");
   setTimeout(function () { hint.classList.remove("show"); }, 6000);
 }
+
+
+/* ========== Ocean Pomodoro Timer ========== */
+let otMode = "pomo";
+let otTotalSec = 25 * 60;
+let otLeft = otTotalSec;
+let otRunning = false;
+let otInterval = null;
+let oceanAudioCtx = null;
+let oceanNodes = null;
+let oceanSoundOn = false;
+
+function otModeSeconds(mode) {
+  if (mode === "pomo") return 25 * 60;
+  if (mode === "short") return 5 * 60;
+  if (mode === "long") return 15 * 60;
+  return 25 * 60;
+}
+
+window.setTimerMode = function (mode) {
+  otMode = mode;
+  if (mode === "custom") {
+    const mins = parseInt(prompt(lang === "ar" ? "دقائق المؤقت:" : "Minutes:") || "25", 10);
+    otTotalSec = Math.max(1, Math.min(180, mins || 25)) * 60;
+  } else {
+    otTotalSec = otModeSeconds(mode);
+  }
+  otLeft = otTotalSec;
+  document.querySelectorAll(".ot-modes button").forEach(function (b) { b.classList.remove("active"); });
+  const idMap = { pomo: "modePomo", short: "modeShort", long: "modeLong", custom: "modeCustom" };
+  const el = document.getElementById(idMap[mode]);
+  if (el) el.classList.add("active");
+  updateOtDisplay();
+  if (otRunning) {
+    clearInterval(otInterval);
+    otRunning = false;
+    document.getElementById("otStartBtn").textContent = t("timerStart");
+  }
+};
+
+function updateOtDisplay() {
+  const m = Math.floor(otLeft / 60);
+  const s = otLeft % 60;
+  const pad = function (n) { return n < 10 ? "0" + n : "" + n; };
+  const timeEl = document.getElementById("otTime");
+  if (timeEl) timeEl.textContent = pad(m) + ":" + pad(s);
+  const water = document.getElementById("otWater");
+  if (water) {
+    const pct = otTotalSec ? ((otTotalSec - otLeft) / otTotalSec) * 100 : 0;
+    water.style.height = pct + "%";
+  }
+  const label = document.getElementById("otLabel");
+  if (label) label.textContent = otMode === "short" || otMode === "long" ? t("breakTime") : t("focusTime");
+}
+
+window.openOceanTimer = function () {
+  const page = document.getElementById("oceanTimerPage");
+  if (!page) return;
+  page.classList.add("open");
+  // bubbles
+  const box = document.getElementById("otBubbles");
+  if (box && !box.dataset.ready) {
+    box.dataset.ready = "1";
+    for (let i = 0; i < 24; i++) {
+      const b = document.createElement("div");
+      b.className = "ot-bubble";
+      const sz = 4 + Math.random() * 10;
+      b.style.width = sz + "px";
+      b.style.height = sz + "px";
+      b.style.left = (Math.random() * 100) + "%";
+      b.style.animationDuration = (6 + Math.random() * 12) + "s";
+      b.style.animationDelay = (-Math.random() * 10) + "s";
+      box.appendChild(b);
+    }
+  }
+  const rays = document.getElementById("otRays");
+  if (rays && !rays.dataset.ready) {
+    rays.dataset.ready = "1";
+    for (let i = 0; i < 6; i++) {
+      const r = document.createElement("div");
+      r.className = "ot-ray";
+      r.style.right = (10 + i * 14) + "%";
+      r.style.transform = "rotate(" + (i * 3 - 6) + "deg)";
+      rays.appendChild(r);
+    }
+  }
+  updateOtDisplay();
+};
+
+window.closeOceanTimer = function () {
+  document.getElementById("oceanTimerPage").classList.remove("open");
+  if (otRunning) {
+    clearInterval(otInterval);
+    otRunning = false;
+    document.getElementById("otStartBtn").textContent = t("timerStart");
+  }
+  stopOceanSound();
+};
+
+window.toggleOceanTimerRun = function () {
+  const btn = document.getElementById("otStartBtn");
+  if (otRunning) {
+    clearInterval(otInterval);
+    otRunning = false;
+    if (btn) btn.textContent = t("timerStart");
+    return;
+  }
+  otRunning = true;
+  if (btn) btn.textContent = t("timerPause");
+  otInterval = setInterval(function () {
+    if (otLeft <= 0) {
+      clearInterval(otInterval);
+      otRunning = false;
+      if (btn) btn.textContent = t("timerStart");
+      try {
+        if (window.Notification && Notification.permission === "granted") {
+          new Notification("Nemo", { body: lang === "ar" ? "انتهى المؤقت! 🐠" : "Timer done! 🐠" });
+        }
+      } catch (e) {}
+      speakNemo(lang === "ar" ? "انتهى وقت المؤقت" : "Timer finished");
+      return;
+    }
+    otLeft--;
+    updateOtDisplay();
+  }, 1000);
+};
+
+window.resetOceanTimer = function () {
+  clearInterval(otInterval);
+  otRunning = false;
+  otLeft = otTotalSec;
+  document.getElementById("otStartBtn").textContent = t("timerStart");
+  updateOtDisplay();
+};
+
+function startOceanSound() {
+  try {
+    if (!oceanAudioCtx) oceanAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (oceanNodes) return;
+    const ctx = oceanAudioCtx;
+    // brown-ish noise via buffer
+    const bufferSize = 2 * ctx.sampleRate;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1;
+      last = (last + 0.02 * white) / 1.02;
+      data[i] = last * 3.5;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 400;
+    const gain = ctx.createGain();
+    gain.gain.value = 0.035;
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start();
+    // gentle wave LFO
+    const osc = ctx.createOscillator();
+    osc.frequency.value = 0.08;
+    const oscGain = ctx.createGain();
+    oscGain.gain.value = 0.012;
+    osc.connect(oscGain);
+    oscGain.connect(gain.gain);
+    osc.start();
+    oceanNodes = { noise: noise, osc: osc, gain: gain };
+    if (ctx.state === "suspended") ctx.resume();
+  } catch (e) {}
+}
+
+function stopOceanSound() {
+  oceanSoundOn = false;
+  try {
+    if (oceanNodes) {
+      oceanNodes.noise.stop();
+      oceanNodes.osc.stop();
+      oceanNodes = null;
+    }
+  } catch (e) { oceanNodes = null; }
+  const btn = document.getElementById("otSoundBtn");
+  if (btn) btn.textContent = t("oceanSound");
+}
+
+window.toggleOceanSound = function () {
+  const btn = document.getElementById("otSoundBtn");
+  if (oceanSoundOn) {
+    stopOceanSound();
+  } else {
+    oceanSoundOn = true;
+    startOceanSound();
+    if (btn) btn.textContent = t("oceanSoundOff");
+  }
+};
+
 
 /* ========== Auth & Profile ========== */
 function parseJwt(token) {
