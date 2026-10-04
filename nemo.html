@@ -488,6 +488,52 @@ textarea{min-height:88px;resize:vertical}
 .home-timer-card .ht-ico{font-size:32px}
 .home-timer-card h3{font-size:16px;margin-bottom:4px}
 .home-timer-card p{color:var(--muted);font-size:12.5px}
+
+/* Home embedded Nemo chat */
+.home-nemo-chat{
+  margin-bottom:16px;padding:0;overflow:hidden;display:flex;flex-direction:column;
+  min-height:380px;max-height:520px
+}
+.home-nemo-chat .hnc-head{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff
+}
+.home-nemo-chat .hnc-head .avatar-sm{
+  width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;flex-shrink:0
+}
+.home-nemo-chat .hnc-head .avatar-sm svg{width:28px;height:28px}
+.home-nemo-chat .hnc-head .info{flex:1;min-width:0}
+.home-nemo-chat .hnc-head .info strong{display:block;font-size:15px}
+.home-nemo-chat .hnc-head .info span{font-size:11.5px;opacity:.9}
+.home-nemo-chat .call-btn{
+  background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:8px 14px;
+  font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.25)
+}
+.home-nemo-chat .call-btn.on{
+  background:#20ce70;border-color:#20ce70;animation:pulseMic 1.5s infinite
+}
+.home-nemo-chat .nemo-chat-msgs{
+  flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;
+  background:var(--bg);min-height:200px;max-height:280px
+}
+.home-nemo-chat .nemo-quick{
+  display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;background:var(--card);flex-wrap:nowrap
+}
+.home-nemo-chat .nemo-quick button{
+  flex-shrink:0;background:var(--card2);border:1px solid var(--border);color:var(--muted);
+  border-radius:20px;padding:6px 12px;font-size:12px;white-space:nowrap
+}
+.home-nemo-chat .nemo-chat-input{
+  display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:var(--card)
+}
+.home-nemo-chat .nemo-chat-input input{
+  flex:1;background:var(--input-bg);border:1px solid var(--border);color:var(--text);
+  border-radius:12px;padding:10px 12px;font-size:13.5px
+}
+.nemo-fab{display:none!important}
+.nemo-chat:not(.home-nemo-chat){display:none!important}
+.nemo-bubble-hint{display:none!important}
+
 .tag-repeat{font-size:10px;padding:2px 7px;border-radius:6px;background:rgba(45,226,230,.15);color:#2de2e6;margin-inline-start:6px}
 
 
@@ -692,6 +738,33 @@ textarea{min-height:88px;resize:vertical}
       <p data-i18n="timerSub">بومودورو أو مؤقت حر — ادخل الأعماق وركّز</p>
     </div>
     <div class="ht-ico">🌊</div>
+  </div>
+</div>
+
+
+<div class="card home-nemo-chat" id="homeNemoChat">
+  <div class="hnc-head">
+    <div class="avatar-sm">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="72" cy="39" r="8" fill="#fff"/>
+        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+      </svg>
+    </div>
+    <div class="info">
+      <strong data-i18n="nemoName">Nemo 🐠</strong>
+      <span id="nemoCallStatus" data-i18n="nemoStatus">مساعدك الذكي — دردشة نصية</span>
+    </div>
+    <button type="button" class="call-btn" id="nemoCallBtn" onclick="toggleNemoCall()" data-i18n="startCall">📞 مكالمة</button>
+  </div>
+  <div class="nemo-chat-msgs" id="nemoMsgs"></div>
+  <div class="nemo-quick" id="nemoQuick"></div>
+  <div class="nemo-chat-input">
+    <button type="button" class="mic-btn" id="nemoMic" onclick="toggleNemoVoice()" title="Voice">🎤</button>
+    <input id="nemoInput" type="text" data-i18n-placeholder="nemoPlaceholder" placeholder="اكتب لنيمو..." onkeydown="if(event.key==='Enter')sendNemoMsg()">
+    <button type="button" onclick="sendNemoMsg()" data-i18n="nemoSend">إرسال</button>
   </div>
 </div>
 
@@ -1008,6 +1081,20 @@ textarea{min-height:88px;resize:vertical}
     </div>
   </div>
 
+
+  <div class="settings-group">
+    <h3 data-i18n="nemoVoiceSection">🎙️ صوت نيمو</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="nemoVoiceTitle">اختر صوت المساعد</strong>
+        <span data-i18n="nemoVoiceSub">يُستخدم فقط أثناء المكالمة الصوتية</span>
+      </div>
+    </div>
+    <div class="field" style="margin-top:8px">
+      <select id="nemoVoiceSelect" onchange="setNemoVoice(this.value)" style="width:100%;padding:10px;border-radius:10px;background:var(--input-bg);color:var(--text);border:1px solid var(--border)"></select>
+    </div>
+  </div>
+
   <div class="settings-group">
     <h3 data-i18n="supportSection">💬 الدعم والتواصل</h3>
     <div class="settings-row">
@@ -1171,31 +1258,7 @@ textarea{min-height:88px;resize:vertical}
 </button>
 <div class="nemo-bubble-hint" id="nemoHint"></div>
 
-<div class="nemo-chat" id="nemoChat">
-  <div class="nemo-chat-header">
-    <div class="avatar-sm">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
-        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
-        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
-        <circle cx="72" cy="39" r="8" fill="#fff"/>
-        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
-      </svg>
-    </div>
-    <div class="info">
-      <strong data-i18n="nemoName">Nemo 🐠</strong>
-      <span data-i18n="nemoStatus">مساعدك الذكي</span>
-    </div>
-    <button type="button" class="close-chat" onclick="toggleNemoChat()">×</button>
-  </div>
-  <div class="nemo-chat-msgs" id="nemoMsgs"></div>
-  <div class="nemo-quick" id="nemoQuick"></div>
-  <div class="nemo-chat-input">
-    <button type="button" class="mic-btn" id="nemoMic" onclick="toggleNemoVoice()" title="Voice">🎤</button>
-    <input id="nemoInput" type="text" data-i18n-placeholder="nemoPlaceholder" placeholder="اكتب أو تكلم لنيمو..." onkeydown="if(event.key==='Enter')sendNemoMsg()">
-    <button type="button" onclick="sendNemoMsg()" data-i18n="nemoSend">إرسال</button>
-  </div>
-</div>
+<!-- chat moved to home -->
 
 <script>
 (function () {
@@ -1333,6 +1396,8 @@ const I18N = {
     nemoAddedTasks: "تم إضافة المهام التالية:",
     nemoUpdatedTask: "تم تعديل المهمة.",
     nemoNoUnderstandTask: "لم أفهم المهمة بوضوح. مثال: أضف مهمة مراجعة الرياضيات غداً بأولوية عالية",
+        nemoVoiceSection: "🎙️ صوت نيمو", nemoVoiceTitle: "اختر صوت المساعد", nemoVoiceSub: "يُستخدم فقط أثناء المكالمة الصوتية",
+    startCall: "📞 مكالمة", endCall: "إنهاء المكالمة", callActive: "في مكالمة مع نيمو…", callIdle: "دردشة نصية — ابدأ مكالمة للكلام",
     dialectNote: "نيمو بيتكلم بلهجتك حسب دولتك"
   },
   en: {
@@ -1465,12 +1530,14 @@ const I18N = {
     nemoAddedTasks: "Added these tasks:",
     nemoUpdatedTask: "Task updated.",
     nemoNoUnderstandTask: "I didn't catch the task. Example: add study math tomorrow high priority",
+        nemoVoiceSection: "🎙️ Nemo voice", nemoVoiceTitle: "Choose assistant voice", nemoVoiceSub: "Used only during a voice call",
+    startCall: "📞 Call", endCall: "End call", callActive: "On a call with Nemo…", callIdle: "Text chat — start a call to speak",
     dialectNote: "Nemo matches your dialect based on your country"
   }
 };
 
 /* ===== ضع Client ID من Google Cloud Console هنا ===== */
-const GOOGLE_CLIENT_ID = ""; // مثال: "123456789-xxxx.apps.googleusercontent.com"
+const GOOGLE_CLIENT_ID = "559780117497-14pc457h2gmg65ijgv8lr9mm1itp6qpt.apps.googleusercontent.com";
 
 let lang = localStorage.getItem("nemoLang") || "ar";
 let theme = localStorage.getItem("nemoTheme") || "dark";
@@ -2860,13 +2927,99 @@ function appendNemoMsg(text, who, imageData) {
   box.scrollTop = box.scrollHeight;
 }
 
+let nemoInCall = false;
+let nemoVoiceURI = localStorage.getItem("nemoVoiceURI") || "";
+
+function getNemoVoices() {
+  try { return window.speechSynthesis ? window.speechSynthesis.getVoices() : []; }
+  catch (e) { return []; }
+}
+
+function populateNemoVoices() {
+  const sel = document.getElementById("nemoVoiceSelect");
+  if (!sel) return;
+  const voices = getNemoVoices();
+  const prefer = lang === "ar" ? "ar" : "en";
+  const list = voices.filter(function (v) {
+    return (v.lang || "").toLowerCase().indexOf(prefer) === 0 || voices.length < 8;
+  });
+  const use = list.length ? list : voices;
+  sel.innerHTML = "";
+  if (!use.length) {
+    const o = document.createElement("option");
+    o.value = "";
+    o.textContent = lang === "ar" ? "لا أصوات متاحة" : "No voices available";
+    sel.appendChild(o);
+    return;
+  }
+  use.forEach(function (v) {
+    const o = document.createElement("option");
+    o.value = v.voiceURI;
+    o.textContent = v.name + " (" + v.lang + ")";
+    if (nemoVoiceURI && v.voiceURI === nemoVoiceURI) o.selected = true;
+    sel.appendChild(o);
+  });
+  if (!nemoVoiceURI && use[0]) {
+    nemoVoiceURI = use[0].voiceURI;
+    localStorage.setItem("nemoVoiceURI", nemoVoiceURI);
+  }
+}
+
+window.setNemoVoice = function (uri) {
+  nemoVoiceURI = uri || "";
+  localStorage.setItem("nemoVoiceURI", nemoVoiceURI);
+  showToast(lang === "ar" ? "تم اختيار الصوت" : "Voice selected");
+};
+
+function updateCallUI() {
+  const btn = document.getElementById("nemoCallBtn");
+  const st = document.getElementById("nemoCallStatus");
+  if (btn) {
+    btn.classList.toggle("on", nemoInCall);
+    btn.textContent = nemoInCall ? t("endCall") : t("startCall");
+  }
+  if (st) st.textContent = nemoInCall ? t("callActive") : t("callIdle");
+}
+
+window.toggleNemoCall = function () {
+  nemoInCall = !nemoInCall;
+  updateCallUI();
+  if (nemoInCall) {
+    populateNemoVoices();
+    speakNemo(lang === "ar" ? "أهلاً، أنا نيمو. تكلم معي الآن." : "Hi, I'm Nemo. You can talk to me now.");
+    // auto start listening briefly
+    setTimeout(function () { try { toggleNemoVoice(); } catch (e) {} }, 600);
+  } else {
+    try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+    if (nemoListening && nemoRecognition) {
+      try { nemoRecognition.stop(); } catch (e) {}
+    }
+    showToast(lang === "ar" ? "انتهت المكالمة" : "Call ended");
+  }
+};
+
 function speakNemo(text) {
   try {
+    if (!nemoInCall) return; // يتكلم فقط أثناء المكالمة
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(String(text).replace(/[🐠💡✨⏱🌊]/g, ""));
+    const u = new SpeechSynthesisUtterance(String(text).replace(/[🐠💡✨⏱🌊✅📋]/g, ""));
     u.lang = lang === "ar" ? "ar-SA" : "en-US";
     u.rate = 1;
+    const voices = getNemoVoices();
+    let chosen = null;
+    if (nemoVoiceURI) {
+      for (let i = 0; i < voices.length; i++) {
+        if (voices[i].voiceURI === nemoVoiceURI) { chosen = voices[i]; break; }
+      }
+    }
+    if (!chosen) {
+      const prefer = lang === "ar" ? "ar" : "en";
+      for (let i = 0; i < voices.length; i++) {
+        if ((voices[i].lang || "").toLowerCase().indexOf(prefer) === 0) { chosen = voices[i]; break; }
+      }
+    }
+    if (chosen) u.voice = chosen;
     window.speechSynthesis.speak(u);
   } catch (e) {}
 }
@@ -2976,11 +3129,11 @@ function showNemoTyping(cb) {
   div.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
-  document.getElementById("nemoFab").classList.add("talking");
+  var fab = document.getElementById("nemoFab"); if (fab) fab.classList.add("talking");
   setTimeout(function () {
     const el = document.getElementById("nemoTyping");
     if (el) el.remove();
-    document.getElementById("nemoFab").classList.remove("talking");
+    var fab2 = document.getElementById("nemoFab"); if (fab2) fab2.classList.remove("talking");
     if (cb) cb();
   }, 500 + Math.random() * 400);
 }
@@ -3008,32 +3161,32 @@ window.nemoQuickAsk = function (key) {
 };
 
 window.toggleNemoChat = function () {
-  nemoChatOpen = !nemoChatOpen;
-  const chat = document.getElementById("nemoChat");
-  const hint = document.getElementById("nemoHint");
-  if (chat) chat.classList.toggle("open", nemoChatOpen);
-  if (hint) hint.classList.remove("show");
-  if (nemoChatOpen) {
-    renderNemoQuick();
-    if (!nemoGreeted) {
-      nemoGreeted = true;
-      const box = document.getElementById("nemoMsgs");
-      if (box) box.innerHTML = "";
-      showNemoTyping(function () {
-        appendNemoMsg(t("nemoWelcome"), "bot");
-        setTimeout(function () {
-          showNemoTyping(function () {
-            appendNemoMsg("💡 " + pickSmartTip(), "bot");
-          });
-        }, 400);
-      });
-    }
-    setTimeout(function () {
-      const input = document.getElementById("nemoInput");
-      if (input) input.focus();
-    }, 100);
-  }
+  showPage("homePage");
+  const el = document.getElementById("homeNemoChat");
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  ensureNemoGreeted();
+  setTimeout(function () {
+    const input = document.getElementById("nemoInput");
+    if (input) input.focus();
+  }, 100);
 };
+
+function ensureNemoGreeted() {
+  renderNemoQuick();
+  if (!nemoGreeted) {
+    nemoGreeted = true;
+    const box = document.getElementById("nemoMsgs");
+    if (box) box.innerHTML = "";
+    showNemoTyping(function () {
+      appendNemoMsg(t("nemoWelcome"), "bot");
+      setTimeout(function () {
+        showNemoTyping(function () {
+          appendNemoMsg("💡 " + pickSmartTip(), "bot");
+        });
+      }, 400);
+    });
+  }
+}
 
 window.sendNemoMsg = function () {
   const input = document.getElementById("nemoInput");
@@ -3521,6 +3674,13 @@ if (isLoggedIn()) {
 }
 
 // تلميح استباقي من نيمو بعد قليل
+
+if (window.speechSynthesis) {
+  populateNemoVoices();
+  window.speechSynthesis.onvoiceschanged = populateNemoVoices;
+}
+setTimeout(function () { try { ensureNemoGreeted(); updateCallUI(); } catch (e) {} }, 400);
+
 setTimeout(function () {
   if (isLoggedIn()) showNemoProactiveHint();
 }, 8000);
