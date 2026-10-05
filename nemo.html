@@ -1,83 +1,142 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nemo</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#743cff" id="metaTheme">
+<meta name="theme-color" content="#021018" id="metaTheme">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.svg" sizes="any">
 <link rel="apple-touch-icon" href="favicon.svg">
 <link rel="shortcut icon" href="favicon.svg">
 <style>
-/* ===== Base (Dark Purple) ===== */
-:root, [data-theme="dark"]{
-  --bg:#07070c; --card:#12121c; --card2:#1a1926; --card3:#222132; --border:#2a283a;
-  --text:#f5f4fa; --muted:#8b8999; --accent:#743cff; --accent2:#916dff;
-  --blue:#2694e8; --green:#20ce70; --yellow:#dce52c; --red:#ff5077; --orange:#F47732;
-  --shadow:0 8px 28px rgba(0,0,0,.35); --radius:18px;
-  --nav-bg:#0e0d16; --input-bg:#252432; --chart-bg:#0c0c14;
-  --tag-work-bg:#202d4d; --tag-work:#72afff;
-  --tag-study-bg:#243c2d; --tag-study:#6be99e;
-  --tag-personal-bg:#40283e; --tag-personal:#ff81c1;
-  --circle-track:#292837; --empty-title:#fff;
-  --progress-track:#292837;
+/* ===== Ocean themes ===== */
+:root, [data-theme="ocean"], [data-theme="dark"]{
+  --bg:#021018; --card:#0a1f2e; --card2:#0f2a3d; --card3:#153448; --border:#1e4a5f;
+  --text:#e8f4ff; --muted:#7a9bb0; --accent:#2de2e6; --accent2:#4facfe;
+  --blue:#4db8ff; --green:#2dd4a0; --yellow:#e8d44a; --red:#ff6b8a; --orange:#F47732;
+  --shadow:0 8px 32px rgba(0,40,60,.45); --radius:18px;
+  --nav-bg:rgba(2,16,24,.92); --input-bg:#0d2838; --chart-bg:#061820;
+  --tag-work-bg:#0d3a55; --tag-work:#7ad0ff;
+  --tag-study-bg:#0d4a40; --tag-study:#6be9c0;
+  --tag-personal-bg:#2a3050; --tag-personal:#c9a0ff;
+  --circle-track:#1a3a4a; --empty-title:#e8f4ff; --progress-track:#1a3a4a;
 }
 
-/* Pink */
-[data-theme="pink"]{
-  --bg:#140a12; --card:#1f121c; --card2:#2a1826; --card3:#351f30; --border:#4a2a40;
-  --text:#fff0f7; --muted:#c49bb0; --accent:#ff4d9a; --accent2:#ff7ab5;
-  --blue:#ff8ec8; --green:#5ee0a0; --yellow:#ffd56a; --red:#ff6b8a; --orange:#ff9a6b;
-  --shadow:0 8px 28px rgba(255,77,154,.12); --nav-bg:#180e16; --input-bg:#2e1a28;
-  --chart-bg:#120910; --tag-work-bg:#3a2040; --tag-work:#ff9ad4;
-  --tag-study-bg:#2a3040; --tag-study:#9ae0c0; --tag-personal-bg:#4a2040; --tag-personal:#ffb0d8;
-  --circle-track:#3a2435; --empty-title:#fff; --progress-track:#3a2435;
+/* Deep Abyss */
+[data-theme="abyss"]{
+  --bg:#01080e; --card:#071820; --card2:#0c222e; --card3:#123040; --border:#1a4050;
+  --text:#d8eef8; --muted:#6a8a9a; --accent:#1a9fff; --accent2:#2de2e6;
+  --blue:#3aa0e8; --green:#20c997; --yellow:#d4c04a; --red:#ff5c7a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(0,20,40,.5); --nav-bg:rgba(1,8,14,.95); --input-bg:#0a2030;
+  --chart-bg:#040e14; --tag-work-bg:#0a3048; --tag-work:#6bc4f0;
+  --tag-study-bg:#0a3830; --tag-study:#5ad4b0; --tag-personal-bg:#222848; --tag-personal:#b890e8;
+  --circle-track:#123040; --empty-title:#d8eef8; --progress-track:#123040;
 }
 
-/* Blue */
-[data-theme="blue"]{
-  --bg:#060b14; --card:#0e1624; --card2:#152033; --card3:#1c2a40; --border:#2a3d5a;
-  --text:#e8f1ff; --muted:#7a94b0; --accent:#2b7fff; --accent2:#5ca0ff;
-  --blue:#4db0ff; --green:#2dd4a0; --yellow:#e8d44a; --red:#ff5c7a; --orange:#ff9a4d;
-  --shadow:0 8px 28px rgba(43,127,255,.15); --nav-bg:#0a1220; --input-bg:#1a283c;
-  --chart-bg:#081018; --tag-work-bg:#1a3050; --tag-work:#7ab8ff;
-  --tag-study-bg:#1a3840; --tag-study:#6be0c0; --tag-personal-bg:#302040; --tag-personal:#d080ff;
-  --circle-track:#1e3048; --empty-title:#fff; --progress-track:#1e3048;
+/* Coral Reef */
+[data-theme="coral"]{
+  --bg:#0c1520; --card:#162636; --card2:#1e3348; --card3:#264058; --border:#3a5568;
+  --text:#fff5f0; --muted:#a89890; --accent:#ff7a59; --accent2:#2de2e6;
+  --blue:#4db8ff; --green:#2dd4a0; --yellow:#f0d060; --red:#ff6b8a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(255,122,89,.12); --nav-bg:rgba(12,21,32,.94); --input-bg:#1a3040;
+  --chart-bg:#0a1218; --tag-work-bg:#203848; --tag-work:#7ad0ff;
+  --tag-study-bg:#1a4038; --tag-study:#6be9c0; --tag-personal-bg:#403028; --tag-personal:#ffb090;
+  --circle-track:#2a4050; --empty-title:#fff; --progress-track:#2a4050;
 }
 
-/* Red + Black */
-[data-theme="red"]{
-  --bg:#0a0606; --card:#161010; --card2:#201616; --card3:#2a1c1c; --border:#3d2525;
-  --text:#ffeaea; --muted:#a88888; --accent:#e63946; --accent2:#ff5c69;
-  --blue:#ff6b6b; --green:#2dd4a0; --yellow:#f4d35e; --red:#ff3b4f; --orange:#ff8c42;
-  --shadow:0 8px 28px rgba(230,57,70,.18); --nav-bg:#100808; --input-bg:#241818;
-  --chart-bg:#0c0606; --tag-work-bg:#3a2028; --tag-work:#ff8a9a;
-  --tag-study-bg:#203028; --tag-study:#6be0a0; --tag-personal-bg:#3a2030; --tag-personal:#ff90b0;
-  --circle-track:#2e1c1c; --empty-title:#fff; --progress-track:#2e1c1c;
+/* Tropical Lagoon */
+[data-theme="lagoon"]{
+  --bg:#041e28; --card:#0c3340; --card2:#124858; --card3:#1a5a6a; --border:#2a7080;
+  --text:#e8fffa; --muted:#7ab0a8; --accent:#20e0c0; --accent2:#2de2e6;
+  --blue:#40c8e8; --green:#2dd4a0; --yellow:#e8d44a; --red:#ff6b8a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(32,224,192,.15); --nav-bg:rgba(4,30,40,.94); --input-bg:#0e3a48;
+  --chart-bg:#031820; --tag-work-bg:#0e4858; --tag-work:#70d8f0;
+  --tag-study-bg:#0e5040; --tag-study:#60e8b0; --tag-personal-bg:#304060; --tag-personal:#b0a0ff;
+  --circle-track:#1a4858; --empty-title:#e8fffa; --progress-track:#1a4858;
 }
 
-/* Light */
-[data-theme="light"]{
-  --bg:#f4f5fb; --card:#ffffff; --card2:#f0f1f8; --card3:#e6e8f2; --border:#d5d8e8;
-  --text:#1a1b2e; --muted:#6b6e85; --accent:#6b3fff; --accent2:#8b6aff;
+/* Surface Light */
+[data-theme="surface"], [data-theme="light"]{
+  --bg:#e8f4f8; --card:#ffffff; --card2:#f0f8fc; --card3:#e0eef4; --border:#c0d8e4;
+  --text:#0a2838; --muted:#5a7a8a; --accent:#0a9aaa; --accent2:#2b7fff;
   --blue:#1a7fd4; --green:#12a85a; --yellow:#c4a800; --red:#e03060; --orange:#e07020;
-  --shadow:0 8px 24px rgba(30,30,60,.08); --nav-bg:#ffffff; --input-bg:#eef0f8;
-  --chart-bg:#eef0f7; --tag-work-bg:#e0e8f8; --tag-work:#2a6bc0;
-  --tag-study-bg:#e0f2e8; --tag-study:#1a8a50; --tag-personal-bg:#f5e0ee; --tag-personal:#c03080;
-  --circle-track:#d8dae8; --empty-title:#1a1b2e; --progress-track:#d8dae8;
+  --shadow:0 8px 24px rgba(10,40,60,.08); --nav-bg:#ffffff; --input-bg:#e4f0f6;
+  --chart-bg:#eef6fa; --tag-work-bg:#d8ecf8; --tag-work:#1a6ab0;
+  --tag-study-bg:#d0f0e8; --tag-study:#0a8a60; --tag-personal-bg:#e8e0f4; --tag-personal:#7040a0;
+  --circle-track:#c8dce8; --empty-title:#0a2838; --progress-track:#c8dce8;
 }
 
-/* Mix — gradient accents */
+/* Bioluminescent Mix */
 [data-theme="mix"]{
-  --bg:#0a0a12; --card:#141420; --card2:#1c1c2c; --card3:#262638; --border:#32324a;
-  --text:#f0f0ff; --muted:#9090b0; --accent:#a855f7; --accent2:#ec4899;
-  --blue:#3b82f6; --green:#22c55e; --yellow:#eab308; --red:#f43f5e; --orange:#f97316;
-  --shadow:0 8px 28px rgba(168,85,247,.2); --nav-bg:#10101a; --input-bg:#222234;
-  --chart-bg:#0c0c16; --tag-work-bg:#1e3a5f; --tag-work:#60a5fa;
-  --tag-study-bg:#14532d; --tag-study:#4ade80; --tag-personal-bg:#4a1942; --tag-personal:#f472b6;
-  --circle-track:#2e2e45; --empty-title:#fff; --progress-track:#2e2e45;
+  --bg:#02101a; --card:#0a1c2e; --card2:#122838; --card3:#1a3448; --border:#2a4a60;
+  --text:#e8f8ff; --muted:#7a9ab0; --accent:#2de2e6; --accent2:#a855f7;
+  --blue:#4db8ff; --green:#22c55e; --yellow:#eab308; --red:#f43f5e; --orange:#F47732;
+  --shadow:0 8px 28px rgba(45,226,230,.18); --nav-bg:rgba(2,16,26,.94); --input-bg:#0e2838;
+  --chart-bg:#061018; --tag-work-bg:#0e3a55; --tag-work:#60b8ff;
+  --tag-study-bg:#0e4838; --tag-study:#4ade80; --tag-personal-bg:#3a2850; --tag-personal:#c084fc;
+  --circle-track:#1a3a50; --empty-title:#fff; --progress-track:#1a3a50;
+}
+
+
+/* Volcanic trench */
+[data-theme="volcanic"]{
+  --bg:#120808; --card:#1a0c0c; --card2:#241010; --card3:#2e1414; --border:#4a2020;
+  --text:#ffe8e0; --muted:#b08070; --accent:#ff5a2a; --accent2:#ffb347;
+  --blue:#ff8a50; --green:#2dd4a0; --yellow:#ffd060; --red:#ff3b4f; --orange:#F47732;
+  --shadow:0 8px 28px rgba(255,60,20,.2); --nav-bg:rgba(12,6,6,.95); --input-bg:#220e0e;
+  --chart-bg:#0e0606; --tag-work-bg:#3a1810; --tag-work:#ff9a70;
+  --tag-study-bg:#203018; --tag-study:#6be0a0; --tag-personal-bg:#3a1020; --tag-personal:#ff80a0;
+  --circle-track:#2e1414; --empty-title:#fff; --progress-track:#2e1414;
+}
+/* Arctic ice */
+[data-theme="arctic"]{
+  --bg:#0a141c; --card:#122028; --card2:#1a2c38; --card3:#223848; --border:#3a5a6a;
+  --text:#e8f6ff; --muted:#8aa8b8; --accent:#a8e6ff; --accent2:#e8f8ff;
+  --blue:#7ec8e8; --green:#6be0c0; --yellow:#e8e0a0; --red:#ff8aa0; --orange:#F47732;
+  --shadow:0 8px 28px rgba(168,230,255,.12); --nav-bg:rgba(8,16,24,.95); --input-bg:#152830;
+  --chart-bg:#081018; --tag-work-bg:#1a3848; --tag-work:#a0d8f0;
+  --tag-study-bg:#1a4038; --tag-study:#80e0c0; --tag-personal-bg:#283848; --tag-personal:#c0d0e8;
+  --circle-track:#1e3848; --empty-title:#fff; --progress-track:#1e3848;
+}
+/* Midnight deep */
+[data-theme="midnight"]{
+  --bg:#000510; --card:#060e1a; --card2:#0c1828; --card3:#122030; --border:#1a3050;
+  --text:#d0e8ff; --muted:#6080a0; --accent:#4060ff; --accent2:#2de2e6;
+  --blue:#5080ff; --green:#20c997; --yellow:#d4c04a; --red:#ff5c7a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(40,60,255,.2); --nav-bg:rgba(0,4,12,.96); --input-bg:#0a1525;
+  --chart-bg:#020810; --tag-work-bg:#102040; --tag-work:#7090ff;
+  --tag-study-bg:#0e3028; --tag-study:#40d0a0; --tag-personal-bg:#201838; --tag-personal:#a080ff;
+  --circle-track:#102030; --empty-title:#fff; --progress-track:#102030;
+}
+
+/* soft ocean body wash */
+body{
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(45,226,230,.12), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(79,172,254,.06), transparent 45%),
+    radial-gradient(ellipse 50% 30% at 0% 80%, rgba(244,119,50,.05), transparent 40%),
+    var(--bg);
+}
+.card{
+  backdrop-filter:blur(8px);
+  box-shadow:var(--shadow), 0 0 0 1px rgba(45,226,230,.04);
+}
+.btn, .add-nav{
+  background:linear-gradient(135deg, var(--accent), var(--accent2));
+  color:#021018; font-weight:700;
+}
+.bottom-nav{
+  border-top:1px solid rgba(45,226,230,.15);
+  backdrop-filter:blur(16px);
+}
+.home-timer-card{
+  background:linear-gradient(135deg, rgba(10,60,90,.85), rgba(2,20,40,.95))!important;
+  border:1px solid rgba(45,226,230,.25)!important;
+}
+.home-nemo-chat .hnc-head{
+  background:linear-gradient(135deg, #0a6a78, #1a4a8a, #0a3a50)!important;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Tahoma,sans-serif}
@@ -119,7 +178,7 @@ input,select,textarea{outline:none}
 .btn.block{width:100%}
 .btn.sm{padding:7px 11px;font-size:13px;border-radius:8px}
 [data-theme="mix"] .btn{background:linear-gradient(135deg,var(--accent),var(--accent2))}
-[data-theme="mix"] .add-nav{background:linear-gradient(135deg,#a855f7,#3b82f6,#ec4899)}
+[data-theme="mix"] .add-nav{background:linear-gradient(135deg,#2de2e6,#4facfe,#a855f7)}
 .content-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
 .task{display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:8px;background:var(--card2);border-radius:13px;border:1px solid transparent;transition:border-color .2s,background .3s}
 .task:hover{border-color:var(--accent)}
@@ -605,7 +664,8 @@ textarea{min-height:88px;resize:vertical}
       <div id="googleBtnWrap"></div>
       <p style="color:var(--muted);font-size:11.5px;margin:10px 0 0" data-i18n="authGoogleHint">يتطلب إعداد Google Client ID في الكود</p>
       <div class="divider"><span data-i18n="or">أو</span></div>
-      <button class="btn block secondary" type="button" onclick="continueAsGuest()" data-i18n="continueGuest">المتابعة كزائر</button>
+      <button class="btn block secondary" type="button" onclick="continueAsGuest()" data-i18n="continueGuest" id="guestBtn" style="display:none">Guest (disabled)</button>
+      <p style="color:var(--muted);font-size:12px;margin-top:10px;text-align:center" data-i18n="loginRequired">Sign in with Google to use Nemo</p>
     </div>
 
     <div id="profileStep" class="profile-step">
@@ -655,8 +715,8 @@ textarea{min-height:88px;resize:vertical}
 <section id="homePage" class="page active">
 <header class="topbar">
   <div>
-    <h1 data-i18n="homeTitle">مرحباً بك في Nemo 👋</h1>
-    <p data-i18n="homeSub">نظّم مهامك، وادرس بذكاء، وتابع تقدمك</p>
+    <h1 data-i18n="homeTitle">Welcome to Nemo 👋</h1>
+    <p data-i18n="homeSub">Organize tasks, study smart, track progress</p>
   </div>
   <a href="index.html" class="avatar" aria-label="Nemo website" title="الموقع التعريفي" style="text-decoration:none">
     <svg class="nemo-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -741,6 +801,19 @@ textarea{min-height:88px;resize:vertical}
   </div>
 </div>
 
+
+
+<div class="card" id="focusTodayCard" style="margin-bottom:16px;border-color:rgba(45,226,230,.25)">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <div>
+      <h3 data-i18n="focusToday">Focus today</h3>
+      <p style="color:var(--muted);font-size:13px;margin-top:4px"><span id="focusTodayMin">0</span> <span data-i18n="focusMin">min</span>
+        · <span data-i18n="prodVsYesterday">vs yesterday</span>: <strong id="focusDelta">—</strong></p>
+    </div>
+    <div style="font-size:28px">🎯</div>
+  </div>
+  <div class="progress" style="margin-top:12px"><i id="focusBar" style="width:0%"></i></div>
+</div>
 
 <div class="card home-nemo-chat" id="homeNemoChat">
   <div class="hnc-head">
@@ -963,8 +1036,8 @@ textarea{min-height:88px;resize:vertical}
 <section id="settingsPage" class="page">
 <header class="topbar">
   <div>
-    <h1 data-i18n="settingsTitle">الإعدادات</h1>
-    <p data-i18n="settingsSub">إدارة بيانات ومظهر Nemo</p>
+    <h1 data-i18n="settingsTitle">Settings</h1>
+    <p data-i18n="settingsSub">Manage Nemo data & look</p>
   </div>
 </header>
 <div class="card">
@@ -973,35 +1046,50 @@ textarea{min-height:88px;resize:vertical}
     <h3 data-i18n="appearance">🎨 المظهر</h3>
     <p style="color:var(--muted);font-size:13px;margin-bottom:12px" data-i18n="themeHint">اختر وضع الألوان المفضل لديك</p>
     <div class="theme-grid" id="themeGrid">
-      <div class="theme-opt active" data-theme-opt="dark" onclick="setTheme('dark')">
+      <div class="theme-opt active" data-theme-opt="ocean" onclick="setTheme('ocean')">
         <div class="check-mark">✓</div>
-        <div class="swatch"><span style="background:#07070c"></span><span style="background:#743cff"></span><span style="background:#12121c"></span></div>
-        <div class="name" data-i18n="themeDark">داكن</div>
+        <div class="swatch"><span style="background:#021018"></span><span style="background:#2de2e6"></span><span style="background:#0a1f2e"></span></div>
+        <div class="name" data-i18n="themeOcean">Ocean</div>
       </div>
-      <div class="theme-opt" data-theme-opt="pink" onclick="setTheme('pink')">
+      <div class="theme-opt" data-theme-opt="abyss" onclick="setTheme('abyss')">
         <div class="check-mark">✓</div>
-        <div class="swatch"><span style="background:#140a12"></span><span style="background:#ff4d9a"></span><span style="background:#1f121c"></span></div>
-        <div class="name" data-i18n="themePink">وردي</div>
+        <div class="swatch"><span style="background:#01080e"></span><span style="background:#1a9fff"></span><span style="background:#071820"></span></div>
+        <div class="name" data-i18n="themeAbyss">Abyss</div>
       </div>
-      <div class="theme-opt" data-theme-opt="blue" onclick="setTheme('blue')">
+      <div class="theme-opt" data-theme-opt="coral" onclick="setTheme('coral')">
         <div class="check-mark">✓</div>
-        <div class="swatch"><span style="background:#060b14"></span><span style="background:#2b7fff"></span><span style="background:#0e1624"></span></div>
-        <div class="name" data-i18n="themeBlue">أزرق</div>
+        <div class="swatch"><span style="background:#0c1520"></span><span style="background:#ff7a59"></span><span style="background:#162636"></span></div>
+        <div class="name" data-i18n="themeCoral">Coral</div>
       </div>
-      <div class="theme-opt" data-theme-opt="red" onclick="setTheme('red')">
+      <div class="theme-opt" data-theme-opt="lagoon" onclick="setTheme('lagoon')">
         <div class="check-mark">✓</div>
-        <div class="swatch"><span style="background:#0a0606"></span><span style="background:#e63946"></span><span style="background:#161010"></span></div>
-        <div class="name" data-i18n="themeRed">أحمر وأسود</div>
+        <div class="swatch"><span style="background:#041e28"></span><span style="background:#20e0c0"></span><span style="background:#0c3340"></span></div>
+        <div class="name" data-i18n="themeLagoon">Lagoon</div>
       </div>
-      <div class="theme-opt" data-theme-opt="light" onclick="setTheme('light')">
+      <div class="theme-opt" data-theme-opt="surface" onclick="setTheme('surface')">
         <div class="check-mark">✓</div>
-        <div class="swatch"><span style="background:#f4f5fb"></span><span style="background:#6b3fff"></span><span style="background:#ffffff"></span></div>
-        <div class="name" data-i18n="themeLight">فاتح</div>
+        <div class="swatch"><span style="background:#e8f4f8"></span><span style="background:#0a9aaa"></span><span style="background:#ffffff"></span></div>
+        <div class="name" data-i18n="themeSurface">Surface</div>
       </div>
       <div class="theme-opt" data-theme-opt="mix" onclick="setTheme('mix')">
         <div class="check-mark">✓</div>
-        <div class="swatch"><span style="background:#a855f7"></span><span style="background:#3b82f6"></span><span style="background:#ec4899"></span></div>
-        <div class="name" data-i18n="themeMix">ميكس</div>
+        <div class="swatch"><span style="background:#2de2e6"></span><span style="background:#4facfe"></span><span style="background:#a855f7"></span></div>
+        <div class="name" data-i18n="themeBio">Bio</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="volcanic" onclick="setTheme('volcanic')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#120808"></span><span style="background:#ff5a2a"></span><span style="background:#1a0c0c"></span></div>
+        <div class="name" data-i18n="themeVolcanic">Volcanic</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="arctic" onclick="setTheme('arctic')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#0a141c"></span><span style="background:#a8e6ff"></span><span style="background:#122028"></span></div>
+        <div class="name" data-i18n="themeArctic">Arctic</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="midnight" onclick="setTheme('midnight')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#000510"></span><span style="background:#4060ff"></span><span style="background:#060e1a"></span></div>
+        <div class="name" data-i18n="themeMidnight">Midnight</div>
       </div>
     </div>
   </div>
@@ -1009,8 +1097,8 @@ textarea{min-height:88px;resize:vertical}
   <div class="settings-group">
     <h3 data-i18n="language">🌐 اللغة</h3>
     <div class="lang-toggle">
-      <button type="button" id="langAr" class="active" onclick="setLang('ar')">العربية</button>
-      <button type="button" id="langEn" onclick="setLang('en')">English</button>
+      <button type="button" id="langEn" class="active" onclick="setLang('en')">English</button>
+      <button type="button" id="langAr" onclick="setLang('ar')">العربية</button>
     </div>
   </div>
 
@@ -1220,10 +1308,15 @@ textarea{min-height:88px;resize:vertical}
   <div class="ot-fish" id="otFish1" style="top:18%;left:12%"><svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg></div>
   <div class="ot-fish" id="otFish2" style="top:70%;right:14%;animation-duration:16s;animation-delay:-4s"><svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg></div>
   <div class="ot-modes">
-    <button type="button" class="active" id="modePomo" onclick="setTimerMode('pomo')">Pomodoro 25</button>
-    <button type="button" id="modeShort" onclick="setTimerMode('short')">5</button>
-    <button type="button" id="modeLong" onclick="setTimerMode('long')">15</button>
-    <button type="button" id="modeCustom" onclick="setTimerMode('custom')">حر</button>
+    <button type="button" class="active" id="modePomo" onclick="setTimerMode('pomo')">Focus 25</button>
+    <button type="button" id="modeShort" onclick="setTimerMode('short')">Break 5</button>
+    <button type="button" id="modeLong" onclick="setTimerMode('long')">Break 15</button>
+    <button type="button" id="modeCustom" onclick="setTimerMode('custom')">Custom</button>
+  </div>
+  <div id="otCustomRow" style="display:none;gap:8px;margin-bottom:12px;z-index:2;flex-wrap:wrap;justify-content:center;align-items:center">
+    <label style="color:#a8e6ff;font-size:12px">Focus <input id="otWorkMin" type="number" min="1" max="180" value="25" style="width:56px;margin:0 4px;padding:6px;border-radius:8px;border:0"></label>
+    <label style="color:#a8e6ff;font-size:12px">Break <input id="otBreakMin" type="number" min="1" max="60" value="5" style="width:56px;margin:0 4px;padding:6px;border-radius:8px;border:0"></label>
+    <button type="button" class="ot-btn-ghost" onclick="applyCustomTimer()">Apply</button>
   </div>
   <div class="ot-ring-wrap">
     <div class="ot-ring">
@@ -1267,7 +1360,7 @@ textarea{min-height:88px;resize:vertical}
 /* ========== i18n ========== */
 const I18N = {
   ar: {
-    homeTitle: "مرحباً بك في Nemo 👋", homeSub: "نظّم مهامك، وادرس بذكاء، وتابع تقدمك",
+    homeTitle: "Welcome to Nemo 👋", homeSub: "Organize tasks, study smart, track progress",
     totalTasks: "إجمالي المهام", totalTasksSub: "كل المهام التي أضفتها",
     completedTasks: "المهام المكتملة", completedTasksSub: "المهام التي أنجزتها",
     progressLabel: "نسبة التقدم", progressSub: "نسبة إنجازك الحالية",
@@ -1288,6 +1381,20 @@ const I18N = {
     date: "التاريخ", priority: "الأولوية", priMedium: "متوسطة", priHigh: "عالية", priLow: "منخفضة",
     notes: "ملاحظات", notesPh: "ملاحظات اختيارية", saveTask: "حفظ المهمة",
     settingsTitle: "الإعدادات", settingsSub: "إدارة بيانات ومظهر Nemo",
+    themeOcean: "محيط", themeAbyss: "أعماق", themeCoral: "مرجان", themeLagoon: "بحيرة", themeSurface: "سطح", themeBio: "توهج",
+    themeVolcanic: "بركاني",
+    themeArctic: "قطبي",
+    themeMidnight: "منتصف الليل",
+    loginRequired: "سجّل الدخول بجوجل لاستخدام نيمو",
+    focusToday: "تركيز اليوم",
+    focusMin: "دقيقة",
+    prodVsYesterday: "مقابل أمس",
+    weekView: "أسبوعي",
+    monthView: "شهري",
+    addTaskDay: "＋ مهمة لهذا اليوم",
+    wellbeingTitle: "الرفاهية الرقمية",
+    wellbeingNote: "يتتبع نيمو جلسات التركيز داخل التطبيق. مراقبة تطبيقات النظام الحقيقية تحتاج صلاحيات نظام/تطبيق أصلي.",
+    logUsage: "تسجيل استخدام يدوي",
     appearance: "🎨 المظهر", themeHint: "اختر وضع الألوان المفضل لديك",
     themeDark: "داكن", themePink: "وردي", themeBlue: "أزرق", themeRed: "أحمر وأسود", themeLight: "فاتح", themeMix: "ميكس",
     language: "🌐 اللغة", backup: "💾 النسخ الاحتياطي", exportImport: "تصدير واستيراد",
@@ -1422,6 +1529,20 @@ const I18N = {
     date: "Date", priority: "Priority", priMedium: "Medium", priHigh: "High", priLow: "Low",
     notes: "Notes", notesPh: "Optional notes", saveTask: "Save task",
     settingsTitle: "Settings", settingsSub: "Manage data and appearance",
+    themeOcean: "Ocean", themeAbyss: "Abyss", themeCoral: "Coral", themeLagoon: "Lagoon", themeSurface: "Surface", themeBio: "Bio",
+    themeVolcanic: "Volcanic",
+    themeArctic: "Arctic",
+    themeMidnight: "Midnight",
+    loginRequired: "Sign in with Google to use Nemo",
+    focusToday: "Focus today",
+    focusMin: "min",
+    prodVsYesterday: "vs yesterday",
+    weekView: "Week",
+    monthView: "Month",
+    addTaskDay: "+ Task for this day",
+    wellbeingTitle: "Digital wellbeing",
+    wellbeingNote: "Nemo tracks focus sessions inside the app. Real OS app usage needs native permissions.",
+    logUsage: "Log manual usage",
     appearance: "🎨 Appearance", themeHint: "Choose your preferred color theme",
     themeDark: "Dark", themePink: "Pink", themeBlue: "Blue", themeRed: "Red & Black", themeLight: "Light", themeMix: "Mix",
     language: "🌐 Language", backup: "💾 Backup", exportImport: "Export & Import",
@@ -1539,8 +1660,12 @@ const I18N = {
 /* ===== ضع Client ID من Google Cloud Console هنا ===== */
 const GOOGLE_CLIENT_ID = "559780117497-14pc457h2gmg65ijgv8lr9mm1itp6qpt.apps.googleusercontent.com";
 
-let lang = localStorage.getItem("nemoLang") || "ar";
-let theme = localStorage.getItem("nemoTheme") || "dark";
+let lang = localStorage.getItem("nemoLang") || "en";
+let theme = localStorage.getItem("nemoTheme") || "ocean";
+
+const THEME_MIGRATE = { dark: "ocean", pink: "coral", blue: "abyss", red: "lagoon", light: "surface" };
+if (THEME_MIGRATE[theme]) { theme = THEME_MIGRATE[theme]; localStorage.setItem("nemoTheme", theme); }
+
 let studentMode = localStorage.getItem("nemoStudentMode") === "true";
 
 let currentUser = loadJSON_raw("nemoUser", null); // {id,name,email,picture,provider}
@@ -2021,7 +2146,41 @@ function drawBarChart(svgId, labelsId, data) {
   document.getElementById(labelsId).innerHTML = data.labels.map(function (x) { return "<span>" + x + "</span>"; }).join("");
 }
 
+
+function getLastNDaysFocus(n) {
+  const out = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = isoDate(d);
+    out.push({ date: key, focus: getFocusMin(key), done: tasks.filter(function (t) { return t.done && t.completedAt && t.completedAt.slice(0, 10) === key; }).length });
+  }
+  return out;
+}
+function renderProductivityStrip() {
+  const el = document.getElementById("prodStrip");
+  if (!el) return;
+  const days = getLastNDaysFocus(7);
+  let html = '<div style="display:flex;gap:6px;align-items:flex-end;height:90px;margin-top:8px">';
+  const maxF = Math.max(1, Math.max.apply(null, days.map(function (d) { return d.focus; })));
+  days.forEach(function (d, i) {
+    const h = Math.round((d.focus / maxF) * 80);
+    const prev = i > 0 ? days[i - 1].focus : d.focus;
+    const up = d.focus >= prev;
+    html += '<div style="flex:1;text-align:center"><div style="height:' + h + 'px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:6px 6px 2px 2px;opacity:.85"></div>';
+    html += '<div style="font-size:10px;color:var(--muted);margin-top:4px">' + d.date.slice(5) + '</div>';
+    html += '<div style="font-size:11px;color:' + (up ? 'var(--green)' : 'var(--red)') + '">' + (up ? '↑' : '↓') + d.focus + '</div></div>';
+  });
+  html += '</div>';
+  const today = days[days.length - 1].focus;
+  const yday = days.length > 1 ? days[days.length - 2].focus : 0;
+  const delta = today - yday;
+  html += '<p style="margin-top:10px;font-size:13px">' + t("prodVsYesterday") + ': <strong style="color:' + (delta >= 0 ? 'var(--green)' : 'var(--red)') + '">' + (delta >= 0 ? '↑ +' : '↓ ') + delta + ' ' + t("focusMin") + '</strong></p>';
+  el.innerHTML = html;
+}
+
 function drawChart(type) {
+  try { renderProductivityStrip(); } catch (e) {}
+
   currentChart = type;
   const data = getChartData(type);
   document.getElementById("chartTitle").textContent =
@@ -2210,9 +2369,64 @@ window.selectDay = function (iso) {
   renderCalendar();
 };
 
+
+let calView = "month"; // month | week
+window.setCalView = function (v, btn) {
+  calView = v;
+  document.querySelectorAll(".cal-view-btn").forEach(function (b) { b.classList.remove("active"); });
+  if (btn) btn.classList.add("active");
+  renderCalendar();
+};
+window.addTaskForSelectedDay = function () {
+  const title = prompt(lang === "ar" ? "عنوان المهمة:" : "Task title:");
+  if (!title) return;
+  let task;
+  if (typeof createTaskObj === "function") task = createTaskObj(title, { date: selectedDate, category: "personal" });
+  else task = { id: Date.now(), title: title, category: "personal", categoryName: catName("personal"), date: selectedDate, notes: "", priority: "medium", done: false, completedAt: null, repeat: "none" };
+  tasks.unshift(task);
+  saveTasks();
+  renderAll();
+  showToast(lang === "ar" ? "أُضيفت للتقويم" : "Added to calendar");
+};
+
 function renderCalendar() {
-  const titleEl = document.getElementById("calMonthTitle");
   const grid = document.getElementById("calGrid");
+  const label = document.getElementById("calLabel");
+  if (!grid) return;
+  if (calView === "week") {
+    const base = new Date(calYear, calMonth, 1);
+    // use selectedDate week
+    const sel = selectedDate ? new Date(selectedDate + "T12:00:00") : new Date();
+    const day = (sel.getDay() + 6) % 7; // mon-based
+    const start = new Date(sel); start.setDate(sel.getDate() - day);
+    if (label) label.textContent = isoDate(start) + " → " + isoDate(new Date(start.getFullYear(), start.getMonth(), start.getDate() + 6));
+    const names = lang === "ar" ? ["ن","ث","ر","خ","ج","س","ح"] : ["M","T","W","T","F","S","S"];
+    let html = "";
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(start); d.setDate(start.getDate() + i);
+      const iso = isoDate(d);
+      const dayTasks = tasks.filter(function (task) {
+        if (task.date === iso) return true;
+        if (task.repeat === "daily" && !task.done) return true;
+        if (task.repeat === "weekly" && task.date) {
+          return new Date(task.date + "T12:00:00").getDay() === d.getDay();
+        }
+        return false;
+      });
+      const selC = iso === selectedDate ? " selected" : "";
+      html += '<div class="cal-day' + selC + '" onclick="selectCalDay(\'' + iso + '\')" style="min-height:72px">';
+      html += '<div class="num">' + names[i] + " " + d.getDate() + '</div>';
+      dayTasks.slice(0, 3).forEach(function (task) {
+        html += '<div style="font-size:10px;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">• ' + escapeHTML(task.title) + '</div>';
+      });
+      html += '</div>';
+    }
+    grid.innerHTML = html;
+    grid.style.gridTemplateColumns = "repeat(7,1fr)";
+    return;
+  }
+
+  const titleEl = document.getElementById("calMonthTitle");
   if (!titleEl || !grid) return;
 
   titleEl.textContent = new Date(calYear, calMonth, 1).toLocaleDateString(lang === "ar" ? "ar-EG" : "en-US", {
@@ -3260,8 +3474,97 @@ function showNemoProactiveHint() {
 }
 
 
+
+/* ========== Focus & wellbeing tracking ========== */
+function loadFocusLog() {
+  try { return JSON.parse(localStorage.getItem(userKey("nemoFocus")) || "{}"); }
+  catch (e) { return {}; }
+}
+function saveFocusLog(map) {
+  localStorage.setItem(userKey("nemoFocus"), JSON.stringify(map));
+}
+function addFocusMinutes(mins) {
+  if (!mins || mins < 1) return;
+  const map = loadFocusLog();
+  const d = todayStr();
+  map[d] = (map[d] || 0) + mins;
+  saveFocusLog(map);
+  updateFocusUI();
+}
+function getFocusMin(dateStr) {
+  return loadFocusLog()[dateStr] || 0;
+}
+function updateFocusUI() {
+  const today = getFocusMin(todayStr());
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yMin = getFocusMin(isoDate(y));
+  const el = document.getElementById("focusTodayMin");
+  if (el) el.textContent = String(today);
+  const delta = document.getElementById("focusDelta");
+  if (delta) {
+    if (!yMin && !today) delta.textContent = "—";
+    else {
+      const diff = today - yMin;
+      const pct = yMin ? Math.round((diff / yMin) * 100) : (today ? 100 : 0);
+      const arrow = diff > 0 ? "↑" : diff < 0 ? "↓" : "→";
+      delta.textContent = arrow + " " + (diff >= 0 ? "+" : "") + diff + " min (" + (pct >= 0 ? "+" : "") + pct + "%)";
+      delta.style.color = diff > 0 ? "var(--green)" : diff < 0 ? "var(--red)" : "var(--muted)";
+    }
+  }
+  const bar = document.getElementById("focusBar");
+  if (bar) bar.style.width = Math.min(100, (today / 120) * 100) + "%";
+}
+function loadUsageLog() {
+  try { return JSON.parse(localStorage.getItem(userKey("nemoUsage")) || "[]"); }
+  catch (e) { return []; }
+}
+function saveUsageLog(arr) {
+  localStorage.setItem(userKey("nemoUsage"), JSON.stringify(arr));
+}
+window.logManualUsage = function () {
+  const device = prompt(lang === "ar" ? "الجهاز (phone/laptop/desktop):" : "Device (phone/laptop/desktop):", "phone");
+  if (!device) return;
+  const appName = prompt(lang === "ar" ? "التطبيق/الفئة (مثل social):" : "App/category (e.g. social):", "social");
+  if (!appName) return;
+  const mins = parseInt(prompt(lang === "ar" ? "الدقائق:" : "Minutes:") || "0", 10);
+  if (!mins) return;
+  const arr = loadUsageLog();
+  arr.unshift({ id: Date.now(), device: device, app: appName, mins: mins, date: todayStr() });
+  saveUsageLog(arr.slice(0, 200));
+  showToast(lang === "ar" ? "تم تسجيل الاستخدام" : "Usage logged");
+  renderWellbeing();
+};
+function renderWellbeing() {
+  const box = document.getElementById("wellbeingBox");
+  if (!box) return;
+  const arr = loadUsageLog().filter(function (x) { return x.date === todayStr(); });
+  const focus = getFocusMin(todayStr());
+  let html = "<p style='color:var(--muted);font-size:12.5px;margin-bottom:10px'>" + t("wellbeingNote") + "</p>";
+  html += "<p><strong>" + t("focusToday") + ":</strong> " + focus + " " + t("focusMin") + "</p>";
+  if (!arr.length) html += "<p style='color:var(--muted);font-size:13px;margin-top:8px'>—</p>";
+  else {
+    html += "<ul style='margin-top:8px;padding-inline-start:18px;font-size:13px'>";
+    arr.slice(0, 8).forEach(function (x) {
+      html += "<li>" + escapeHTML(x.device) + " · " + escapeHTML(x.app) + " · " + x.mins + "m</li>";
+    });
+    html += "</ul>";
+  }
+  // Nemo tip
+  let tip = "";
+  const social = arr.filter(function (x) { return /social|instagram|tiktok|twitter|facebook|يوتيوب|سوشيال/i.test(x.app); })
+    .reduce(function (s, x) { return s + x.mins; }, 0);
+  if (social > 90) tip = lang === "ar" ? "نيمو: سوشيال اليوم مرتفع. جرّب حد 30 دقيقة بعد جلسة تركيز." : "Nemo: social time is high today. Try a 30-min cap after one focus block.";
+  else if (focus < 25 && arr.length) tip = lang === "ar" ? "نيمو: ابدأ بومودورو 25 دقيقة قبل فتح السوشيال." : "Nemo: start a 25-min Pomodoro before opening social apps.";
+  else if (focus >= 50) tip = lang === "ar" ? "نيمو: تركيز جيد اليوم. حافظ على استراحة قصيرة." : "Nemo: solid focus today. Keep short breaks.";
+  if (tip) html += "<p style='margin-top:10px;color:var(--accent);font-size:13px'>🐠 " + tip + "</p>";
+  box.innerHTML = html;
+}
+
+
 /* ========== Ocean Pomodoro Timer ========== */
 let otMode = "pomo";
+let otPhase = "work";
+let otBreakSec = 5 * 60;
 let otTotalSec = 25 * 60;
 let otLeft = otTotalSec;
 let otRunning = false;
@@ -3279,11 +3582,15 @@ function otModeSeconds(mode) {
 
 window.setTimerMode = function (mode) {
   otMode = mode;
+  const crow = document.getElementById("otCustomRow");
+  if (crow) crow.style.display = mode === "custom" ? "flex" : "none";
   if (mode === "custom") {
-    const mins = parseInt(prompt(lang === "ar" ? "دقائق المؤقت:" : "Minutes:") || "25", 10);
-    otTotalSec = Math.max(1, Math.min(180, mins || 25)) * 60;
+    const w = parseInt((document.getElementById("otWorkMin") || {}).value || "25", 10);
+    otTotalSec = Math.max(1, Math.min(180, w || 25)) * 60;
+    otPhase = "work";
   } else {
     otTotalSec = otModeSeconds(mode);
+    otPhase = (mode === "short" || mode === "long") ? "break" : "work";
   }
   otLeft = otTotalSec;
   document.querySelectorAll(".ot-modes button").forEach(function (b) { b.classList.remove("active"); });
@@ -3377,6 +3684,7 @@ window.toggleOceanTimerRun = function () {
           new Notification("Nemo", { body: lang === "ar" ? "انتهى المؤقت! 🐠" : "Timer done! 🐠" });
         }
       } catch (e) {}
+      if (otMode === "pomo" || otMode === "custom" || (otMode !== "short" && otMode !== "long")) { addFocusMinutes(Math.round(otTotalSec / 60)); }
       speakNemo(lang === "ar" ? "انتهى وقت المؤقت" : "Timer finished");
       return;
     }
@@ -3642,6 +3950,7 @@ function initGoogleButton() {
 
 /* ========== Init ========== */
 function renderAll() {
+  try { updateFocusUI(); renderWellbeing(); } catch (e) {}
   renderHomeTasks();
   renderAllTasks();
   updateStats();
