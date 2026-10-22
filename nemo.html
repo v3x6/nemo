@@ -246,6 +246,24 @@ a{color:var(--accent);text-decoration:none}
   display:grid;place-items:center;font-size:18px;cursor:pointer;flex-shrink:0
 }
 .habit-ring.done{border-color:var(--accent);background:rgba(86,229,224,.12)}
+
+.ico-svg{width:18px;height:18px;display:block;flex-shrink:0}
+.nav-item .ico-svg{width:18px;height:18px;opacity:.85}
+.nav-item.active .ico-svg{opacity:1;color:var(--accent)}
+.mobile-nav .ico-svg{width:20px;height:20px;margin:0 auto 2px}
+.ai-fab .ico-svg{width:24px;height:24px;color:#061522}
+.empty-cta{margin-top:12px}
+.stat-hint{font-size:11px;color:var(--muted);margin-top:4px}
+.onboarding-card{
+  text-align:center;padding:28px 20px;border:1px dashed var(--border);border-radius:var(--radius);
+  background:rgba(86,229,224,.03);margin-bottom:14px
+}
+.onboarding-card p{color:var(--muted);font-size:14px;margin:8px 0 14px}
+.logo-mark{width:36px;height:36px;display:block}
+.logo-mark.lg{width:64px;height:64px;margin:0 auto 16px}
+.ai-status-badge{font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(86,229,224,.1);color:var(--accent)}
+.ai-status-badge.off{background:rgba(255,107,138,.12);color:var(--danger)}
+
 </style>
 </head>
 <body>
@@ -254,7 +272,7 @@ a{color:var(--accent);text-decoration:none}
 <!-- AUTH -->
 <div class="auth-gate" id="authGate">
   <div class="auth-box">
-    <div class="logo">
+    <div class="logo logo-mark lg" style="width:64px;height:64px;margin:0 auto 16px">
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/><circle cx="72" cy="39" r="8" fill="#fff"/><circle cx="75" cy="39" r="3.5" fill="#101018"/><path d="M48 18L57 8L66 18Z" fill="#56E5E0"/><rect x="43" y="17" width="27" height="5" rx="2.5" fill="#56E5E0"/></svg>
     </div>
     <div id="loginStep" class="step active">
@@ -265,7 +283,7 @@ a{color:var(--accent);text-decoration:none}
       <button class="btn soft block" style="margin-top:10px" type="button" onclick="continueLocal()" data-i18n="continueLocal">Continue</button>
     </div>
     <div id="profileStep" class="step">
-      <h1 data-i18n="nemoAskName">🐠 Nomy asks: What should I call you?</h1>
+      <h1 data-i18n="nemoAskName">Nomy asks: What should I call you?</h1>
       <p class="sub" data-i18n="profileSub">A name helps personalize your ocean.</p>
       <div class="user-chip" id="profileUserChip" style="display:none">
         <img id="profileAvatar" alt=""><div><strong id="profileGName"></strong><div style="font-size:12px;color:var(--muted)" id="profileEmail"></div></div>
@@ -294,20 +312,17 @@ a{color:var(--accent);text-decoration:none}
 
 <div class="shell">
 <aside class="sidebar" id="sidebar">
-  <div class="brand">
-    <svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg>
-    Nomy
-  </div>
-  <button class="nav-item active" data-page="home" onclick="go('home',this)"><span class="ico">🌊</span><span data-i18n="navHome">Ocean Home</span></button>
-  <button class="nav-item" data-page="journey" onclick="go('journey',this)"><span class="ico">🗺️</span><span data-i18n="navJourney">My Journey</span></button>
-  <button class="nav-item" data-page="study" onclick="go('study',this)"><span class="ico">📚</span><span data-i18n="navStudy">Study Zone</span></button>
-  <button class="nav-item" data-page="daily" onclick="go('daily',this)"><span class="ico">✓</span><span data-i18n="navDaily">Daily Life</span></button>
-  <button class="nav-item" data-page="habits" onclick="go('habits',this)"><span class="ico">🔁</span><span data-i18n="navHabits">Habits</span></button>
-  <button class="nav-item" data-page="insights" onclick="go('insights',this)"><span class="ico">📊</span><span data-i18n="navInsights">Insights</span></button>
-  <button class="nav-item" data-page="journal" onclick="go('journal',this)"><span class="ico">📝</span><span data-i18n="navJournal">Journal</span></button>
-  <button class="nav-item" data-page="ai" onclick="go('ai',this)"><span class="ico">🐠</span><span data-i18n="navAI">Nomy AI</span></button>
+  <div class="brand"><svg class="logo-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/><path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><circle cx="72" cy="39" r="8" fill="#fff"/><circle cx="75" cy="39" r="3.5" fill="#101018"/><path d="M48 18L57 8L66 18Z" fill="#56E5E0"/><rect x="43" y="17" width="27" height="5" rx="2.5" fill="#56E5E0"/></svg><span>Nomy</span></div>
+  <button class="nav-item active" data-page="home" onclick="go('home',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg></span><span data-i18n="navHome">Ocean Home</span></button>
+  <button class="nav-item" data-page="journey" onclick="go('journey',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></span><span data-i18n="navJourney">My Journey</span></button>
+  <button class="nav-item" data-page="study" onclick="go('study',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span data-i18n="navStudy">Study Zone</span></button>
+  <button class="nav-item" data-page="daily" onclick="go('daily',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span data-i18n="navDaily">Daily Life</span></button>
+  <button class="nav-item" data-page="habits" onclick="go('habits',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 1 4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="m7 23-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span><span data-i18n="navHabits">Habits</span></button>
+  <button class="nav-item" data-page="insights" onclick="go('insights',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span data-i18n="navInsights">Insights</span></button>
+  <button class="nav-item" data-page="journal" onclick="go('journal',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></span><span data-i18n="navJournal">Journal</span></button>
+  <button class="nav-item" data-page="ai" onclick="go('ai',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span><span data-i18n="navAI">Nomy AI</span></button>
   <div class="spacer"></div>
-  <button class="nav-item" data-page="settings" onclick="go('settings',this)"><span class="ico">⚙</span><span data-i18n="navSettings">Settings</span></button>
+  <button class="nav-item" data-page="settings" onclick="go('settings',this)"><span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg></span><span data-i18n="navSettings">Settings</span></button>
 </aside>
 
 <main class="main">
@@ -473,10 +488,13 @@ a{color:var(--accent);text-decoration:none}
     <h1 data-i18n="navJournal">Journal & Reflection</h1>
     <p data-i18n="journalSub">Private notes — stored only on this device</p>
   </div>
+  <div class="row" style="margin-bottom:12px">
+    <input id="journalSearch" type="search" data-i18n-placeholder="searchJournal" placeholder="Search entries…" oninput="renderJournal()" style="flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--input)">
+  </div>
   <div class="card">
     <div class="field">
       <label data-i18n="mood">Mood (optional)</label>
-      <select id="journalMood"><option value="">—</option><option value="great">😊</option><option value="ok">😐</option><option value="low">😔</option></select>
+      <select id="journalMood"><option value="">—</option><option value="great">Good</option><option value="ok">Okay</option><option value="low">Low</option></select>
     </div>
     <div class="field">
       <label data-i18n="entry">Entry</label>
@@ -501,6 +519,7 @@ a{color:var(--accent);text-decoration:none}
       <button class="btn" onclick="sendAI('page')" data-i18n="send">Send</button>
     </div>
   </div>
+  <button class="btn ghost sm" style="margin-top:10px" onclick="clearAIChat()" data-i18n="clearChat">Clear chat</button>
   <p style="font-size:12px;color:var(--muted);margin-top:10px" data-i18n="aiPrivacy">On-device assistant using your local data. External AI API can be connected server-side later.</p>
 </section>
 
@@ -531,6 +550,12 @@ a{color:var(--accent);text-decoration:none}
     </div>
   </div>
   <div class="card">
+    <h2 data-i18n="aiConfig">Nomy AI connection</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:10px" data-i18n="aiConfigHint">Optional: URL of your secure server endpoint that proxies a language model. Leave empty for on-device guidance only.</p>
+    <div class="field"><label>Endpoint URL</label><input id="aiEndpointInput" type="url" placeholder="https://your-api.example.com/chat" onchange="saveAiEndpoint()"></div>
+    <p id="aiEndpointStatus" class="stat-hint"></p>
+  </div>
+  <div class="card">
     <h2 data-i18n="data">Data</h2>
     <div class="row">
       <button class="btn soft sm" onclick="exportData()" data-i18n="export">Export JSON</button>
@@ -542,18 +567,18 @@ a{color:var(--accent);text-decoration:none}
 </div>
 
 <nav class="mobile-nav" id="mobileNav">
-  <button class="active" data-page="home" onclick="go('home',this)"><span>🌊</span><span data-i18n="navHomeShort">Home</span></button>
-  <button data-page="daily" onclick="go('daily',this)"><span>✓</span><span data-i18n="navDailyShort">Daily</span></button>
-  <button data-page="study" onclick="go('study',this)"><span>📚</span><span data-i18n="navStudyShort">Study</span></button>
-  <button data-page="insights" onclick="go('insights',this)"><span>📊</span><span data-i18n="navInsightsShort">Insights</span></button>
-  <button data-page="settings" onclick="go('settings',this)"><span>⚙</span><span data-i18n="navSettingsShort">More</span></button>
+  <button class="active" data-page="home" onclick="go('home',this)"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/></svg><span data-i18n="navHomeShort">Home</span></button>
+  <button data-page="daily" onclick="go('daily',this)"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span data-i18n="navDailyShort">Daily</span></button>
+  <button data-page="study" onclick="go('study',this)"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span data-i18n="navStudyShort">Study</span></button>
+  <button data-page="insights" onclick="go('insights',this)"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span data-i18n="navInsightsShort">Insights</span></button>
+  <button data-page="settings" onclick="go('settings',this)"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg><span data-i18n="navSettingsShort">More</span></button>
 </nav>
 
-<button type="button" class="ai-fab" id="aiFab" onclick="toggleAIPanel()" aria-label="Nomy AI">🐠</button>
+<button type="button" class="ai-fab" id="aiFab" onclick="toggleAIPanel()" aria-label="Nomy AI"><svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></button>
 <div class="ai-panel" id="aiPanel">
   <div class="head">
     <strong>Nomy AI</strong>
-    <span style="flex:1;font-size:12px;color:var(--muted)" data-i18n="aiStatus">On-device</span>
+    <span id="aiPanelStatus" class="ai-status-badge" style="flex:1" data-i18n="aiStatus">On-device</span>
     <button class="icon-btn" onclick="toggleAIPanel()">×</button>
   </div>
   <div class="msgs" id="aiPanelMsgs"></div>
@@ -602,7 +627,7 @@ const I18N = {
 en:{
   authWelcome:"Welcome to Nomy", authSub:"Your underwater world for study, habits, and growth.",
   orLocal:"Or continue with a local profile", continueLocal:"Continue",
-  nemoAskName:"🐠 Nomy asks: What should I call you?", profileSub:"A name helps personalize your ocean.",
+  nemoAskName:"Nomy asks: What should I call you?", profileSub:"A name helps personalize your ocean.",
   yourName:"Your name", country:"Country", age:"Age", saveStart:"Save & dive in",
   navHome:"Ocean Home", navJourney:"My Journey", navStudy:"Study Zone", navDaily:"Daily Life",
   navHabits:"Habits", navInsights:"Insights", navJournal:"Journal", navAI:"Nomy AI", navSettings:"Settings",
@@ -633,12 +658,19 @@ en:{
   noSessions:"No sessions logged", noHabits:"Add a habit to start building consistency",
   noJournal:"No entries yet", noInsights:"Not enough data yet. Complete a few tasks and habits.",
   needName:"Please enter your name", needAge:"Enter a valid age (8–100)", saved:"Saved",
-  confirmClear:"Clear all local Nomy data on this device?", confirmDelete:"Delete this item?"
+  confirmClear:"Clear all local Nomy data on this device?", confirmDelete:"Delete this item?",
+  createFirstTask:"Create your first task", createFirstHabit:"Add your first habit", createFirstGoal:"Set a goal",
+  searchJournal:"Search entries…", aiConfig:"Nomy AI connection",
+  aiConfigHint:"Optional: URL of your secure server endpoint that proxies a language model. Leave empty for on-device guidance only.",
+  aiLocalMode:"On-device guidance (no remote model)", aiRemoteMode:"Connected to remote endpoint",
+  aiMissing:"Remote AI is not configured. Add a secure endpoint in Settings, or continue with on-device guidance.",
+  aiError:"Could not reach the AI endpoint. Check the URL and try again.", clearChat:"Clear chat",
+  locked:"Locked", onboardingHome:"Start by adding a task for today, a habit, or a study session. Your dashboard will fill with real progress.",
 },
 ar:{
   authWelcome:"أهلاً بك في نومي", authSub:"عالمك تحت الماء للدراسة والعادات والنمو.",
   orLocal:"أو المتابعة بملف محلي", continueLocal:"متابعة",
-  nemoAskName:"🐠 نومي يسأل: أناديك بإيه؟", profileSub:"الاسم يساعد على تخصيص تجربتك.",
+  nemoAskName:"نومي يسأل: أناديك بإيه؟", profileSub:"الاسم يساعد على تخصيص تجربتك.",
   yourName:"اسمك", country:"الدولة", age:"العمر", saveStart:"حفظ والغوص",
   navHome:"الرئيسية", navJourney:"رحلتي", navStudy:"منطقة الدراسة", navDaily:"حياتي اليومية",
   navHabits:"العادات", navInsights:"التحليل", navJournal:"يومياتي", navAI:"مساعد نومي", navSettings:"الإعدادات",
@@ -669,7 +701,14 @@ ar:{
   noSessions:"لا جلسات مسجّلة", noHabits:"أضف عادة لبناء الانتظام",
   noJournal:"لا مدخلات بعد", noInsights:"بيانات غير كافية بعد. أنجز بعض المهام والعادات.",
   needName:"اكتب اسمك من فضلك", needAge:"أدخل عمراً صالحاً (٨–١٠٠)", saved:"تم الحفظ",
-  confirmClear:"مسح كل بيانات نومي المحلية على هذا الجهاز؟", confirmDelete:"حذف هذا العنصر؟"
+  confirmClear:"مسح كل بيانات نومي المحلية على هذا الجهاز؟", confirmDelete:"حذف هذا العنصر؟",
+  createFirstTask:"أنشئ أول مهمة", createFirstHabit:"أضف أول عادة", createFirstGoal:"ضع هدفاً",
+  searchJournal:"بحث في اليوميات…", aiConfig:"اتصال مساعد نومي",
+  aiConfigHint:"اختياري: رابط خادمك الآمن الذي يمرّر طلبات نموذج اللغة. اتركه فارغاً للإرشاد المحلي فقط.",
+  aiLocalMode:"إرشاد محلي (بدون نموذج خارجي)", aiRemoteMode:"متصل بنقطة خارجية",
+  aiMissing:"المساعد الخارجي غير مضبوط. أضف رابطاً آمناً في الإعدادات، أو تابع بالإرشاد المحلي.",
+  aiError:"تعذّر الوصول لنقطة المساعد. تحقق من الرابط وحاول مجدداً.", clearChat:"مسح المحادثة",
+  locked:"مقفل", onboardingHome:"ابدأ بإضافة مهمة لليوم أو عادة أو جلسة دراسة. ستمتلئ اللوحة بتقدمك الفعلي.",
 }
 };
 
@@ -946,7 +985,7 @@ function renderTasks(){
   if(f==="overdue") list=list.filter(isOverdue);
   const box=document.getElementById("tasksList");
   if(!box) return;
-  box.innerHTML=list.length?list.map(taskHTML).join(""):"<div class='empty'><div class='big'>🌊</div>"+t("noTasks")+"</div>";
+  box.innerHTML=list.length?list.map(taskHTML).join(""):"<div class='empty'>"+t("noTasks")+"</div><div class='empty-cta'><button class=\'btn sm\' onclick=\'openTaskModal()\'>"+t("addTask")+"</button></div>";
 }
 
 /* Calendar */
@@ -1025,7 +1064,7 @@ function renderJourney(){
     return "<div class='zone-card"+(unlocked?"":" locked")+"'><div class='glow'></div>"+
       "<h4>"+(z.name[lang]||z.name.en)+"</h4>"+
       "<p>"+(z.desc[lang]||z.desc.en)+"</p>"+
-      "<div class='chip' style='margin-top:8px'>"+(unlocked?"✓":"🔒 "+z.unlock)+"</div></div>";
+      "<div class='chip' style='margin-top:8px'>"+(unlocked?"✓":t("locked")+" "+z.unlock)+"</div></div>";
   }).join("");
   const gl=document.getElementById("goalsList");
   gl.innerHTML=goals.length?goals.map(function(g){
@@ -1102,13 +1141,13 @@ function renderStudy(){
 /* Habits */
 window.openHabitModal=function(){
   openModal("<h2>"+t("addHabit")+"</h2><div class='field'><label>Name</label><input id='hName'></div>"+
-    "<div class='field'><label>Icon</label><input id='hIcon' value='💧' maxlength='2'></div>"+
+    "<div class='field'><label>Icon</label><input id='hIcon' value='H' maxlength='2'></div>"+
     "<button class='btn block' onclick='saveHabit()'>"+t("saved")+"</button>");
 };
 window.saveHabit=function(){
   const name=(document.getElementById("hName").value||"").trim();
   if(!name) return;
-  habits.unshift({id:uid(), name:name, icon:document.getElementById("hIcon").value||"✨", history:{}});
+  habits.unshift({id:uid(), name:name, icon:document.getElementById("hIcon").value||"H", history:{}});
   save("habits",habits); closeModal(); renderHabits(); toast(t("saved"));
 };
 window.toggleHabit=function(id){
@@ -1162,12 +1201,17 @@ window.deleteJournal=function(id){
 function renderJournal(){
   const box=document.getElementById("journalList");
   if(!box) return;
-  box.innerHTML=journal.length?journal.map(function(j){
-    return "<div class='card'><div class='meta' style='font-size:12px;color:var(--muted);margin-bottom:6px'>"+esc(j.date)+(j.mood?" · "+j.mood:"")+
+  const q=((document.getElementById("journalSearch")||{}).value||"").toLowerCase().trim();
+  let list=journal.slice();
+  if(q) list=list.filter(function(j){ return (j.text||"").toLowerCase().indexOf(q)>=0 || (j.date||"").indexOf(q)>=0; });
+  box.innerHTML=list.length?list.map(function(j){
+    return "<div class='card'><div class='meta' style='font-size:12px;color:var(--muted);margin-bottom:6px'>"+esc(j.date)+(j.mood?" · "+esc(j.mood):"")+
+      (j.at?" · "+esc(String(j.at).slice(11,16)):"")+
       "</div><div style='font-size:14px;white-space:pre-wrap'>"+esc(j.text)+"</div>"+
-      "<button class='icon-btn' style='margin-top:8px' onclick='deleteJournal(\""+j.id+"\")'>✕</button></div>";
+      "<button class='icon-btn' style='margin-top:8px' onclick='deleteJournal(\""+j.id+"\")' aria-label='Delete'>×</button></div>";
   }).join(""):"<div class='empty'>"+t("noJournal")+"</div>";
 }
+
 
 /* Insights — real calculations */
 function lastNDates(n){
@@ -1290,18 +1334,51 @@ function renderHome(){
   const td=today();
   const todayTasks=tasks.filter(function(x){return taskMatchesDay(x,td);});
   const done=todayTasks.filter(function(x){return x.done;}).length;
-  document.getElementById("statTasksToday").textContent=done+"/"+todayTasks.length;
+  const st=document.getElementById("statTasksToday");
+  if(st){
+    st.textContent=todayTasks.length?(done+"/"+todayTasks.length):"0";
+    let hint=st.parentElement.querySelector(".stat-hint");
+    if(!hint){ hint=document.createElement("div"); hint.className="stat-hint"; st.parentElement.appendChild(hint); }
+    hint.textContent=todayTasks.length?"":t("createFirstTask");
+  }
   const hDone=habits.filter(function(h){return h.history&&h.history[td];}).length;
-  document.getElementById("statHabits").textContent=habits.length?Math.round(hDone/habits.length*100)+"%":"—";
-  document.getElementById("statFocus").textContent=(focusLog[td]||0)+"m";
-  document.getElementById("homeTasks").innerHTML=todayTasks.length?todayTasks.slice(0,8).map(taskHTML).join(""):"<div class='empty'>"+t("noTasks")+"</div>";
-  document.getElementById("dailyFocusInput").value=dailyFocus||"";
-  document.getElementById("homeGoals").innerHTML=goals.slice(0,3).map(function(g){
-    return "<div style='margin-bottom:8px'><div style='font-size:13px;font-weight:600'>"+esc(g.title)+"</div><div class='progress'><i style='width:"+g.progress+"%'></i></div></div>";
-  }).join("")||"<div class='empty' style='padding:8px'>"+t("noGoals")+"</div>";
+  const sh=document.getElementById("statHabits");
+  if(sh){
+    sh.textContent=habits.length?(hDone+"/"+habits.length):"0";
+    let hint=sh.parentElement.querySelector(".stat-hint");
+    if(!hint){ hint=document.createElement("div"); hint.className="stat-hint"; sh.parentElement.appendChild(hint); }
+    hint.textContent=habits.length?Math.round(hDone/Math.max(1,habits.length)*100)+"%":t("createFirstHabit");
+  }
+  const sf=document.getElementById("statFocus");
+  if(sf){
+    const mins=focusLog[td]||0;
+    sf.textContent=mins+"m";
+    let hint=sf.parentElement.querySelector(".stat-hint");
+    if(!hint){ hint=document.createElement("div"); hint.className="stat-hint"; sf.parentElement.appendChild(hint); }
+    hint.textContent=mins?"":t("focusTimer");
+  }
+  const ht=document.getElementById("homeTasks");
+  if(ht){
+    if(todayTasks.length){
+      ht.innerHTML=todayTasks.slice(0,10).map(taskHTML).join("");
+    } else if(!tasks.length){
+      ht.innerHTML="<div class='onboarding-card'><p>"+t("onboardingHome")+"</p><button class='btn sm' onclick='openTaskModal()'>"+t("createFirstTask")+"</button></div>";
+    } else {
+      ht.innerHTML="<div class='empty'>"+t("noTasks")+"</div><div class='empty-cta'><button class='btn sm' onclick='openTaskModal()'>"+t("addTask")+"</button></div>";
+    }
+  }
+  const dfi=document.getElementById("dailyFocusInput");
+  if(dfi) dfi.value=dailyFocus||"";
+  const hg=document.getElementById("homeGoals");
+  if(hg){
+    hg.innerHTML=goals.length?goals.slice(0,3).map(function(g){
+      return "<div style='margin-bottom:8px'><div style='font-size:13px;font-weight:600'>"+esc(g.title)+"</div><div class='progress'><i style='width:"+g.progress+"%'></i></div></div>";
+    }).join(""):"<div class='empty' style='padding:8px'>"+t("noGoals")+"</div><button class='btn sm soft' onclick=\"go('journey')\">"+t("createFirstGoal")+"</button>";
+  }
 }
 
 function renderSettings(){
+  updateAiStatus();
   const n=getName();
   document.getElementById("settingsProfile").textContent=
     (n||"—")+" · "+(userProfile&&userProfile.country||"")+" · "+(userProfile&&userProfile.age? "age "+userProfile.age:"");
@@ -1339,7 +1416,7 @@ window.toggleFocusRun=function(){
       const mins=Math.round(focusTotal/60);
       focusLog[today()]=(focusLog[today()]||0)+mins; save("focusLog",focusLog);
       document.getElementById("focusStartBtn").textContent=t("start");
-      toast("✓ "+mins+"m"); renderHome(); return;
+      toast(mins+"m focus saved"); renderHome(); return;
     }
     focusLeft--; updateFocusDisplay();
   },1000);
@@ -1360,6 +1437,59 @@ function snapshot(){
     studyWeek:sessions.filter(function(s){ const d=(Date.now()-new Date(s.date+"T12:00:00").getTime())/864e5; return d<=7; }).reduce(function(a,b){return a+b.mins;},0)
   };
 }
+
+function getAiEndpoint(){
+  return (localStorage.getItem("nomyAiEndpoint")||"").trim();
+}
+window.saveAiEndpoint=function(){
+  const v=(document.getElementById("aiEndpointInput").value||"").trim();
+  localStorage.setItem("nomyAiEndpoint", v);
+  updateAiStatus();
+  toast(t("saved"));
+};
+function updateAiStatus(){
+  const el=document.getElementById("aiEndpointStatus");
+  const input=document.getElementById("aiEndpointInput");
+  const ep=getAiEndpoint();
+  if(input && !input.dataset.filled){ input.value=ep; input.dataset.filled="1"; }
+  if(el) el.textContent = ep ? t("aiRemoteMode") : t("aiLocalMode");
+  document.querySelectorAll(".ai-status-badge, #aiPanel .head span").forEach(function(s){
+    if(s.id==="aiPanelStatus" || (s.classList && s.classList.contains("ai-status-badge"))){
+      s.textContent = ep ? t("aiRemoteMode") : t("aiLocalMode");
+    }
+  });
+  const ps=document.getElementById("aiPanelStatus");
+  if(ps){ ps.textContent = ep ? t("aiRemoteMode") : t("aiLocalMode"); ps.className = "ai-status-badge"+(ep?"":" off"); }
+}
+
+async function callRemoteAI(userText){
+  const ep=getAiEndpoint();
+  if(!ep) return null;
+  const ctx=snapshot();
+  const body={
+    message: userText,
+    language: lang,
+    context: {
+      name: ctx.name,
+      tasksTodayOpen: ctx.tasksToday,
+      overdue: ctx.overdue,
+      habitsDone: ctx.habitsDone,
+      habitsTotal: ctx.habitsTotal,
+      focusMinutesToday: ctx.focus,
+      goalsCount: ctx.goals,
+      studyMinutesWeek: ctx.studyWeek
+    }
+  };
+  const res=await fetch(ep, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify(body)
+  });
+  if(!res.ok) throw new Error("HTTP "+res.status);
+  const data=await res.json();
+  return data.reply || data.message || data.content || JSON.stringify(data);
+}
+
 function aiThink(text){
   const s=snapshot();
   const q=(text||"").toLowerCase();
@@ -1414,8 +1544,8 @@ function seedAI(where){
   box.dataset.seeded="1";
   const n=getName();
   appendAI(where, lang==="ar"
-    ? ("أهلاً"+(n?" "+n:"")+"، أنا نومي 🐠. اسألني عن يومك أو دراستك أو عاداتك.")
-    : ("Hey"+(n?" "+n:"")+", I'm Nomy 🐠. Ask about your day, study plan, or habits."), "bot");
+    ? ("أهلاً"+(n?" "+n:"")+"، أنا نومي. اسألني عن يومك أو دراستك أو عاداتك.")
+    : ("Hey"+(n?" "+n:"")+", I'm Nomy. Ask about your day, study plan, or habits."), "bot");
 }
 function renderAISuggest(where){
   const id=where==="page"?"aiPageSuggest":"aiPanelSuggest";
@@ -1433,15 +1563,39 @@ window.quickAI=function(where,text){
   if(input) input.value=text;
   sendAI(where);
 };
-window.sendAI=function(where){
+window.sendAI=async function(where){
   const input=document.getElementById(where==="page"?"aiPageInput":"aiPanelInput");
   const text=(input&&input.value||"").trim();
   if(!text) return;
   input.value="";
   seedAI(where);
   appendAI(where, text, "user");
-  setTimeout(function(){ appendAI(where, aiThink(text), "bot"); }, 350);
+  appendAI(where, "…", "bot");
+  const boxId=where==="page"?"aiPageMsgs":"aiPanelMsgs";
+  const box=document.getElementById(boxId);
+  const loading=box && box.lastChild;
+  try{
+    let reply=null;
+    if(getAiEndpoint()){
+      try { reply = await callRemoteAI(text); }
+      catch(err){ reply = t("aiError")+"\n\n"+aiThink(text); }
+    } else {
+      reply = aiThink(text);
+    }
+    if(loading) loading.textContent=reply;
+    else appendAI(where, reply, "bot");
+  }catch(e){
+    if(loading) loading.textContent=t("aiError");
+  }
 };
+
+window.clearAIChat=function(){
+  ["aiPageMsgs","aiPanelMsgs"].forEach(function(id){
+    const b=document.getElementById(id); if(b){ b.innerHTML=""; b.dataset.seeded=""; }
+  });
+  toast(t("saved"));
+};
+
 window.toggleAIPanel=function(){
   aiOpen=!aiOpen;
   document.getElementById("aiPanel").classList.toggle("open", aiOpen);
@@ -1489,6 +1643,7 @@ function boot(){
     }catch(e){}
   }
   initAmbient();
+  updateAiStatus();
   if(isLoggedIn()){ enterApp(); }
   else {
     document.getElementById("authGate").classList.remove("hidden");
