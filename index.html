@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -349,8 +349,8 @@ footer strong{color:var(--text)}
       <a href="nemo.html" class="nav-cta" data-i18n="navCta">ادخل المحيط</a>
     </div>
     <div class="lang-switch">
-      <button type="button" id="btnAr" class="active" onclick="setSiteLang('ar')">عربي</button>
-      <button type="button" id="btnEn" onclick="setSiteLang('en')">EN</button>
+      <button type="button" id="btnAr" onclick="setSiteLang('ar')">عربي</button>
+      <button type="button" id="btnEn" class="active" onclick="setSiteLang('en')">EN</button>
     </div>
   </div>
 </nav>
@@ -558,7 +558,7 @@ footer strong{color:var(--text)}
     }
   };
 
-  var lang = localStorage.getItem("nemoSiteLang") || "ar";
+  var lang = localStorage.getItem("nemoSiteLang") || "en";
 
   function t(key) {
     return (I18N[lang] && I18N[lang][key]) || (I18N.ar[key]) || key;

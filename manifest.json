@@ -1,13 +1,12 @@
 {
-  "name": "Nemo",
-  "short_name": "Nemo",
-  "description": "Task & study app with Nemo assistant",
+  "name": "Nomy",
+  "short_name": "Nomy",
+  "description": "Underwater world for study, habits, and growth",
   "start_url": "nemo.html",
   "display": "standalone",
-  "background_color": "#07070c",
-  "theme_color": "#743cff",
-  "lang": "ar",
-  "dir": "rtl",
+  "background_color": "#061522",
+  "theme_color": "#061522",
+  "lang": "en",
   "icons": [
     {
       "src": "favicon.svg",
