@@ -351,7 +351,11 @@ a{color:var(--accent);text-decoration:none}
       <div class="card">
         <div class="section-title"><h2 data-i18n="quickReflect">Quick reflection</h2></div>
         <p style="font-size:13px;color:var(--muted);margin-bottom:8px" data-i18n="reflectQ">One thing you did well today?</p>
-        <button class="btn soft sm" onclick="go('journal')" data-i18n="openJournal">Open journal</button>
+        <textarea id="quickReflectInput" rows="2" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--input);margin-bottom:8px" data-i18n-placeholder="journalPh" placeholder="What stood out today?"></textarea>
+        <div class="row">
+          <button class="btn sm" onclick="saveQuickReflect()" data-i18n="saveEntry">Save entry</button>
+          <button class="btn soft sm" onclick="go('journal')" data-i18n="openJournal">Open journal</button>
+        </div>
       </div>
       <div class="card">
         <div class="section-title"><h2 data-i18n="goalsSnap">Goals snapshot</h2></div>
@@ -550,6 +554,17 @@ a{color:var(--accent);text-decoration:none}
     </div>
   </div>
   <div class="card">
+    <h2 data-i18n="privacyAI">AI privacy</h2>
+    <label style="display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer">
+      <input type="checkbox" id="aiShareData" onchange="saveAiPrivacy()">
+      <span data-i18n="aiShareData">Allow AI to use tasks, habits, and study stats</span>
+    </label>
+    <label style="display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer;margin-top:10px">
+      <input type="checkbox" id="aiShareJournal" onchange="saveAiPrivacy()">
+      <span data-i18n="aiShareJournal">Allow AI to use journal entries (optional)</span>
+    </label>
+  </div>
+  <div class="card">
     <h2 data-i18n="aiConfig">Nomy AI connection</h2>
     <p style="font-size:13px;color:var(--muted);margin-bottom:10px" data-i18n="aiConfigHint">Optional: URL of your secure server endpoint that proxies a language model. Leave empty for on-device guidance only.</p>
     <div class="field"><label>Endpoint URL</label><input id="aiEndpointInput" type="url" placeholder="https://your-api.example.com/chat" onchange="saveAiEndpoint()"></div>
@@ -608,6 +623,10 @@ a{color:var(--accent);text-decoration:none}
     <button class="btn soft sm" onclick="setFocusMins(50)">50</button>
     <button class="btn soft sm" onclick="setFocusMins(15)">15</button>
   </div>
+  <div class="row" style="margin-top:10px">
+    <button class="btn ghost sm" onclick="setFocusBreak(5)">Break 5</button>
+    <button class="btn ghost sm" onclick="setFocusBreak(10)">Break 10</button>
+  </div>
 </div>
 
 <script>
@@ -658,6 +677,11 @@ en:{
   noSessions:"No sessions logged", noHabits:"Add a habit to start building consistency",
   noJournal:"No entries yet", noInsights:"Not enough data yet. Complete a few tasks and habits.",
   needName:"Please enter your name", needAge:"Enter a valid age (8–100)", saved:"Saved",
+    editTask:"Edit task", titleLabel:"Title", notes:"Notes", priority:"Priority", repeat:"Repeat",
+  editGoal:"Edit goal", category:"Category", deadline:"Deadline", milestonesHint:"Milestones (one per line)",
+  streak:"Streak", best:"Best", breakLabel:"Break", breakDone:"Break finished — ready to focus",
+  edit:"Edit", privacyAI:"AI privacy", aiShareData:"Allow AI to use tasks, habits, and study stats",
+  aiShareJournal:"Allow AI to use journal entries (optional)",
   confirmClear:"Clear all local Nomy data on this device?", confirmDelete:"Delete this item?",
   createFirstTask:"Create your first task", createFirstHabit:"Add your first habit", createFirstGoal:"Set a goal",
   searchJournal:"Search entries…", aiConfig:"Nomy AI connection",
@@ -701,6 +725,11 @@ ar:{
   noSessions:"لا جلسات مسجّلة", noHabits:"أضف عادة لبناء الانتظام",
   noJournal:"لا مدخلات بعد", noInsights:"بيانات غير كافية بعد. أنجز بعض المهام والعادات.",
   needName:"اكتب اسمك من فضلك", needAge:"أدخل عمراً صالحاً (٨–١٠٠)", saved:"تم الحفظ",
+    editTask:"تعديل مهمة", titleLabel:"العنوان", notes:"ملاحظات", priority:"الأولوية", repeat:"تكرار",
+  editGoal:"تعديل هدف", category:"التصنيف", deadline:"الموعد", milestonesHint:"مراحل (سطر لكل مرحلة)",
+  streak:"سلسلة", best:"أفضل", breakLabel:"استراحة", breakDone:"انتهت الاستراحة — جاهز للتركيز",
+  edit:"تعديل", privacyAI:"خصوصية المساعد", aiShareData:"السماح للمساعد باستخدام المهام والعادات وإحصاءات الدراسة",
+  aiShareJournal:"السماح باستخدام مدخلات اليوميات (اختياري)",
   confirmClear:"مسح كل بيانات نومي المحلية على هذا الجهاز؟", confirmDelete:"حذف هذا العنصر؟",
   createFirstTask:"أنشئ أول مهمة", createFirstHabit:"أضف أول عادة", createFirstGoal:"ضع هدفاً",
   searchJournal:"بحث في اليوميات…", aiConfig:"اتصال مساعد نومي",
@@ -718,7 +747,7 @@ let currentUser = null;
 let userProfile = null;
 let insightRange = 7;
 let calYear, calMonth, selectedDate;
-let focusTotal = 25*60, focusLeft = 25*60, focusRun = false, focusTimer = null;
+let focusTotal = 25*60, focusLeft = 25*60, focusRun = false, focusTimer = null, focusPhase = "work", focusBreakSec = 5*60, focusSessionId = null;
 let aiOpen = false;
 
 function t(k){ return (I18N[lang]&&I18N[lang][k]) || (I18N.en[k]) || k; }
@@ -783,7 +812,7 @@ window.setTheme=function(name){
   document.getElementById("metaTheme").content = name==="pearl"?"#eef6f6":"#061522";
 };
 
-function go(page, btn){
+window.go = function go(page, btn){
   document.querySelectorAll(".page").forEach(function(p){ p.classList.remove("active"); });
   const el=document.getElementById("page-"+page);
   if(el) el.classList.add("active");
@@ -919,11 +948,12 @@ window.closeModal=closeModal;
 window.openTaskModal=function(id){
   const task=id?tasks.find(function(x){return x.id===id;}):null;
   openModal(
-    "<h2>"+t("addTask")+"</h2>"+
-    "<div class='field'><label>"+t("entry")+"</label><input id='mTitle' value='"+(task?esc(task.title):"")+"'></div>"+
+    "<h2>"+(task?t("editTask"):t("addTask"))+"</h2>"+
+    "<div class='field'><label>"+t("titleLabel")+"</label><input id='mTitle' value='"+(task?esc(task.title):"")+"'></div>"+
+    "<div class='field'><label>"+t("notes")+"</label><textarea id='mNotes' rows='2'>"+(task?esc(task.notes||""):"")+"</textarea></div>"+
     "<div class='field'><label>"+t("calendar")+"</label><input id='mDate' type='date' value='"+(task&&task.date?task.date:today())+"'></div>"+
-    "<div class='field'><label>Priority</label><select id='mPri'><option value='medium'>Medium</option><option value='high'>High</option><option value='low'>Low</option></select></div>"+
-    "<div class='field'><label>Repeat</label><select id='mRep'><option value='none'>None</option><option value='daily'>Daily</option><option value='weekly'>Weekly</option></select></div>"+
+    "<div class='field'><label>"+t("priority")+"</label><select id='mPri'><option value='medium'>Medium</option><option value='high'>High</option><option value='low'>Low</option></select></div>"+
+    "<div class='field'><label>"+t("repeat")+"</label><select id='mRep'><option value='none'>None</option><option value='daily'>Daily</option><option value='weekly'>Weekly</option></select></div>"+
     "<button class='btn block' onclick='saveTask("+(task?"\""+task.id+"\"":"null")+")'>"+t("saved")+"</button>"
   );
   if(task){ document.getElementById("mPri").value=task.priority||"medium"; document.getElementById("mRep").value=task.repeat||"none"; }
@@ -931,16 +961,17 @@ window.openTaskModal=function(id){
 window.saveTask=function(id){
   const title=(document.getElementById("mTitle").value||"").trim();
   if(!title) return;
-  const data={ title:title, date:document.getElementById("mDate").value||today(),
-    priority:document.getElementById("mPri").value, repeat:document.getElementById("mRep").value,
-    done:false, completedAt:null, category:"personal" };
+  const notes=((document.getElementById("mNotes")||{}).value||"").trim();
+  const base={ title:title, notes:notes, date:document.getElementById("mDate").value||today(),
+    priority:document.getElementById("mPri").value, repeat:document.getElementById("mRep").value, category:"personal" };
   if(id){
-    tasks=tasks.map(function(x){ return x.id===id?Object.assign({},x,data):x; });
+    tasks=tasks.map(function(x){ return x.id===id?Object.assign({},x,base):x; });
   } else {
-    data.id=uid(); tasks.unshift(data);
+    base.id=uid(); base.done=false; base.completedAt=null; tasks.unshift(base);
   }
   save("tasks",tasks); closeModal(); renderAll(); toast(t("saved"));
 };
+
 window.toggleTask=function(id){
   tasks=tasks.map(function(x){
     if(x.id!==id) return x;
@@ -967,13 +998,15 @@ function isOverdue(task){
   return !task.done && task.date && task.date<today() && task.repeat==="none";
 }
 function taskHTML(task){
+  const pri = task.priority==="high"?" · H":task.priority==="low"?" · L":"";
   return "<div class='list-item"+(task.done?" done":"")+"'>"+
     "<div class='check"+(task.done?" on":"")+"' onclick='toggleTask(\""+task.id+"\")'>"+(task.done?"✓":"")+"</div>"+
-    "<div><div class='title'>"+esc(task.title)+"</div>"+
-    "<div class='meta'>"+esc(task.date||"—")+(isOverdue(task)?" · <span class=\"chip danger\">overdue</span>":"")+
-    (task.repeat&&task.repeat!=="none"?" · "+task.repeat:"")+"</div></div>"+
-    "<div class='acts'><button class='icon-btn' onclick='openTaskModal(\""+task.id+"\")'>✎</button>"+
-    "<button class='icon-btn' onclick='deleteTask(\""+task.id+"\")'>✕</button></div></div>";
+    "<div style='flex:1;min-width:0'><div class='title'>"+esc(task.title)+"</div>"+
+    "<div class='meta'>"+esc(task.date||"—")+pri+(isOverdue(task)?" · <span class=\"chip danger\">overdue</span>":"")+
+    (task.repeat&&task.repeat!=="none"?" · "+task.repeat:"")+
+    (task.notes?" · "+esc(String(task.notes).slice(0,40)):"")+"</div></div>"+
+    "<div class='acts'><button class='icon-btn' onclick='openTaskModal(\""+task.id+"\")' aria-label='Edit'>✎</button>"+
+    "<button class='icon-btn' onclick='deleteTask(\""+task.id+"\")' aria-label='Delete'>×</button></div></div>";
 }
 
 function renderTasks(){
@@ -1028,27 +1061,69 @@ window.setDailyTab=function(tab,btn){
 };
 
 /* Goals */
-window.openGoalModal=function(){
-  openModal("<h2>"+t("addGoal")+"</h2>"+
-    "<div class='field'><label>Title</label><input id='gTitle'></div>"+
-    "<div class='field'><label>Category</label><select id='gCat'><option value='academic'>Academic</option><option value='personal'>Personal</option><option value='health'>Health</option><option value='creative'>Creative</option><option value='career'>Career</option></select></div>"+
-    "<div class='field'><label>Target %</label><input id='gProg' type='number' min='0' max='100' value='0'></div>"+
-    "<button class='btn block' onclick='saveGoal()'>"+t("saved")+"</button>");
+function goalProgress(g){
+  const ms=g.milestones||[];
+  if(ms.length){
+    const done=ms.filter(function(m){return m.done;}).length;
+    return Math.round(done/ms.length*100);
+  }
+  return Math.max(0,Math.min(100,g.progress||0));
+}
+window.openGoalModal=function(id){
+  const g=id?goals.find(function(x){return x.id===id;}):null;
+  openModal("<h2>"+(g?t("editGoal"):t("addGoal"))+"</h2>"+
+    "<div class='field'><label>"+t("titleLabel")+"</label><input id='gTitle' value='"+(g?esc(g.title):"")+"'></div>"+
+    "<div class='field'><label>"+t("category")+"</label><select id='gCat'><option value='academic'>Academic</option><option value='personal'>Personal</option><option value='health'>Health</option><option value='creative'>Creative</option><option value='career'>Career</option></select></div>"+
+    "<div class='field'><label>"+t("deadline")+"</label><input id='gDue' type='date' value='"+(g&&g.due?g.due:"")+"'></div>"+
+    "<div class='field'><label>"+t("milestonesHint")+"</label><textarea id='gMs' rows='3' placeholder='One milestone per line'>"+(g&&g.milestones?g.milestones.map(function(m){return m.title;}).join("\n"):"")+"</textarea></div>"+
+    "<button class='btn block' onclick='saveGoal("+(g?"\""+g.id+"\"":"null")+")'>"+t("saved")+"</button>");
+  if(g) document.getElementById("gCat").value=g.category||"personal";
 };
-window.saveGoal=function(){
+window.saveGoal=function(id){
   const title=(document.getElementById("gTitle").value||"").trim();
   if(!title) return;
-  goals.unshift({id:uid(), title:title, category:document.getElementById("gCat").value,
-    progress:parseInt(document.getElementById("gProg").value,10)||0, created:today()});
+  const lines=(document.getElementById("gMs").value||"").split("\n").map(function(s){return s.trim();}).filter(Boolean);
+  let milestones=lines.map(function(line){ return {id:uid(), title:line, done:false}; });
+  if(id){
+    const old=goals.find(function(x){return x.id===id;});
+    if(old&&old.milestones&&old.milestones.length){
+      milestones=lines.map(function(line){
+        const prev=old.milestones.find(function(m){return m.title===line;});
+        return prev?Object.assign({},prev):{id:uid(), title:line, done:false};
+      });
+    }
+  }
+  const data={ title:title, category:document.getElementById("gCat").value, due:document.getElementById("gDue").value||"",
+    milestones:milestones, progress:0, updated:today() };
+  data.progress=goalProgress(data);
+  if(id){
+    goals=goals.map(function(g){ return g.id===id?Object.assign({},g,data):g; });
+  } else {
+    data.id=uid(); data.created=today(); goals.unshift(data);
+  }
   save("goals",goals); closeModal(); renderJourney(); renderHome(); toast(t("saved"));
 };
+window.toggleMilestone=function(gid, mid){
+  goals=goals.map(function(g){
+    if(g.id!==gid) return g;
+    const ms=(g.milestones||[]).map(function(m){ return m.id===mid?Object.assign({},m,{done:!m.done}):m; });
+    const ng=Object.assign({},g,{milestones:ms});
+    ng.progress=goalProgress(ng);
+    return ng;
+  });
+  save("goals",goals); renderJourney(); renderHome();
+};
 window.setGoalProg=function(id,v){
-  goals=goals.map(function(g){ if(g.id!==id) return g; return Object.assign({},g,{progress:Math.max(0,Math.min(100,parseInt(v,10)||0))}); });
-  save("goals",goals); renderJourney();
+  goals=goals.map(function(g){
+    if(g.id!==id) return g;
+    if(g.milestones&&g.milestones.length) return g; // driven by milestones
+    return Object.assign({},g,{progress:Math.max(0,Math.min(100,parseInt(v,10)||0))});
+  });
+  save("goals",goals); renderJourney(); renderHome();
 };
 window.deleteGoal=function(id){
   if(!confirm(t("confirmDelete"))) return;
-  goals=goals.filter(function(g){return g.id!==id;}); save("goals",goals); renderJourney();
+  goals=goals.filter(function(g){return g.id!==id;}); save("goals",goals); renderJourney(); renderHome();
 };
 function milestonesDone(){
   return goals.filter(function(g){return g.progress>=100;}).length +
@@ -1068,11 +1143,20 @@ function renderJourney(){
   }).join("");
   const gl=document.getElementById("goalsList");
   gl.innerHTML=goals.length?goals.map(function(g){
-    return "<div class='list-item'><div style='flex:1'><div class='title'>"+esc(g.title)+"</div>"+
-      "<div class='meta'>"+esc(g.category)+" · "+g.progress+"%</div>"+
-      "<div class='progress'><i style='width:"+g.progress+"%'></i></div>"+
-      "<input type='range' min='0' max='100' value='"+g.progress+"' style='width:100%;margin-top:8px' onchange='setGoalProg(\""+g.id+"\",this.value)'>"+
-      "</div><button class='icon-btn' onclick='deleteGoal(\""+g.id+"\")'>✕</button></div>";
+    const p=goalProgress(g);
+    const ms=(g.milestones||[]).map(function(m){
+      return "<label style='display:flex;align-items:center;gap:8px;font-size:12.5px;margin-top:6px;cursor:pointer'>"+
+        "<input type='checkbox' "+(m.done?"checked":"")+" onchange='toggleMilestone(\""+g.id+"\",\""+m.id+"\")'> "+esc(m.title)+"</label>";
+    }).join("");
+    return "<div class='list-item' style='flex-direction:column;align-items:stretch'>"+
+      "<div style='display:flex;gap:8px;align-items:flex-start'>"+
+      "<div style='flex:1'><div class='title'>"+esc(g.title)+"</div>"+
+      "<div class='meta'>"+esc(g.category)+(g.due?" · due "+esc(g.due):"")+" · "+p+"%</div>"+
+      "<div class='progress'><i style='width:"+p+"%'></i></div>"+ms+
+      (!(g.milestones&&g.milestones.length)?"<input type='range' min='0' max='100' value='"+p+"' style='width:100%;margin-top:8px' onchange='setGoalProg(\""+g.id+"\",this.value)'>":"")+
+      "</div>"+
+      "<div class='acts'><button class='icon-btn' onclick='openGoalModal(\""+g.id+"\")'>✎</button>"+
+      "<button class='icon-btn' onclick='deleteGoal(\""+g.id+"\")'>×</button></div></div></div>";
   }).join(""):"<div class='empty'>"+t("noGoals")+"</div>";
 }
 
@@ -1138,6 +1222,33 @@ function renderStudy(){
   }).join(""):"<div class='empty'>"+t("noSessions")+"</div>";
 }
 
+
+function habitStreak(h){
+  const hist=h.history||{};
+  let streak=0;
+  const d=new Date();
+  // if today not done, start from yesterday for "current" soft streak display
+  if(!hist[iso(d)]) d.setDate(d.getDate()-1);
+  for(let i=0;i<400;i++){
+    const key=iso(d);
+    if(hist[key]){ streak++; d.setDate(d.getDate()-1); }
+    else break;
+  }
+  return streak;
+}
+function habitLongest(h){
+  const days=Object.keys(h.history||{}).filter(function(k){return h.history[k];}).sort();
+  if(!days.length) return 0;
+  let best=1, cur=1;
+  for(let i=1;i<days.length;i++){
+    const a=new Date(days[i-1]+"T12:00:00"), b=new Date(days[i]+"T12:00:00");
+    const diff=Math.round((b-a)/864e5);
+    if(diff===1){ cur++; best=Math.max(best,cur); }
+    else cur=1;
+  }
+  return best;
+}
+
 /* Habits */
 window.openHabitModal=function(){
   openModal("<h2>"+t("addHabit")+"</h2><div class='field'><label>Name</label><input id='hName'></div>"+
@@ -1171,12 +1282,15 @@ function renderHabits(){
   box.innerHTML=habits.length?habits.map(function(h){
     const done=!!(h.history&&h.history[d]);
     const week=lastNDates(7).filter(function(day){return h.history&&h.history[day];}).length;
-    return "<div class='list-item'><div class='habit-ring"+(done?" done":"")+"' onclick='toggleHabit(\""+h.id+"\")'>"+esc(h.icon||"✓")+"</div>"+
-      "<div style='flex:1'><div class='title'>"+esc(h.name)+"</div><div class='meta'>"+week+"/7 "+(lang==="ar"?"هذا الأسبوع":"this week")+"</div>"+
+    const st=habitStreak(h), lg=habitLongest(h);
+    return "<div class='list-item'><div class='habit-ring"+(done?" done":"")+"' onclick='toggleHabit(\""+h.id+"\")' title='Toggle'>"+esc(h.icon||"H")+"</div>"+
+      "<div style='flex:1'><div class='title'>"+esc(h.name)+"</div>"+
+      "<div class='meta'>"+week+"/7 · "+t("streak")+": "+st+" · "+t("best")+": "+lg+"</div>"+
       "<div class='progress'><i style='width:"+(week/7*100)+"%'></i></div></div>"+
-      "<button class='icon-btn' onclick='deleteHabit(\""+h.id+"\")'>✕</button></div>";
+      "<button class='icon-btn' onclick='deleteHabit(\""+h.id+"\")'>×</button></div>";
   }).join(""):"<div class='empty'>"+t("noHabits")+"</div>";
   const chart=document.getElementById("habitChart");
+  if(!chart) return;
   const days=lastNDates(7);
   chart.innerHTML=days.map(function(day){
     const c=habits.filter(function(h){return h.history&&h.history[day];}).length;
@@ -1208,7 +1322,7 @@ function renderJournal(){
     return "<div class='card'><div class='meta' style='font-size:12px;color:var(--muted);margin-bottom:6px'>"+esc(j.date)+(j.mood?" · "+esc(j.mood):"")+
       (j.at?" · "+esc(String(j.at).slice(11,16)):"")+
       "</div><div style='font-size:14px;white-space:pre-wrap'>"+esc(j.text)+"</div>"+
-      "<button class='icon-btn' style='margin-top:8px' onclick='deleteJournal(\""+j.id+"\")' aria-label='Delete'>×</button></div>";
+      "<div class='row' style='margin-top:8px'><button class='btn soft sm' onclick='editJournal(\""+j.id+"\")'>"+t("edit")+"</button>"+"<button class='icon-btn' onclick='deleteJournal(\""+j.id+"\")' aria-label='Delete'>×</button></div></div>";
   }).join(""):"<div class='empty'>"+t("noJournal")+"</div>";
 }
 
@@ -1379,6 +1493,10 @@ function renderHome(){
 
 function renderSettings(){
   updateAiStatus();
+  const priv=loadAiPrivacy();
+  const sd=document.getElementById("aiShareData"); if(sd) sd.checked=!!priv.shareData;
+  const sj=document.getElementById("aiShareJournal"); if(sj) sj.checked=!!priv.shareJournal;
+
   const n=getName();
   document.getElementById("settingsProfile").textContent=
     (n||"—")+" · "+(userProfile&&userProfile.country||"")+" · "+(userProfile&&userProfile.age? "age "+userProfile.age:"");
@@ -1402,7 +1520,8 @@ window.closeFocusTimer=function(){
   document.getElementById("focusOverlay").style.display="none";
   if(focusRun){ clearInterval(focusTimer); focusRun=false; }
 };
-window.setFocusMins=function(m){ focusTotal=m*60; focusLeft=focusTotal; updateFocusDisplay(); };
+window.setFocusMins=function(m){ focusPhase="work"; focusTotal=m*60; focusLeft=focusTotal; focusSessionId=null; updateFocusDisplay(); };
+window.setFocusBreak=function(m){ focusBreakSec=m*60; if(focusPhase==="break"){ focusTotal=focusBreakSec; focusLeft=focusTotal; updateFocusDisplay(); } toast("Break "+m+"m"); };
 function updateFocusDisplay(){
   const m=Math.floor(focusLeft/60), s=focusLeft%60;
   document.getElementById("focusTime").textContent=(m<10?"0":"")+m+":"+(s<10?"0":"")+s;
@@ -1410,43 +1529,42 @@ function updateFocusDisplay(){
 window.toggleFocusRun=function(){
   if(focusRun){ clearInterval(focusTimer); focusRun=false; document.getElementById("focusStartBtn").textContent=t("start"); return; }
   focusRun=true; document.getElementById("focusStartBtn").textContent="Pause";
+  if(!focusSessionId) focusSessionId=uid();
   focusTimer=setInterval(function(){
     if(focusLeft<=0){
       clearInterval(focusTimer); focusRun=false;
-      const mins=Math.round(focusTotal/60);
-      focusLog[today()]=(focusLog[today()]||0)+mins; save("focusLog",focusLog);
       document.getElementById("focusStartBtn").textContent=t("start");
-      toast(mins+"m focus saved"); renderHome(); return;
+      if(focusPhase==="work"){
+        const mins=Math.max(1, Math.round(focusTotal/60));
+        // single record per session id
+        const exists=sessions.some(function(s){return s.focusSessionId===focusSessionId;});
+        if(!exists){
+          sessions.unshift({id:uid(), focusSessionId:focusSessionId, subjectId:"", mins:mins, date:today(), type:"focus"});
+          save("sessions",sessions);
+          focusLog[today()]=(focusLog[today()]||0)+mins; save("focusLog",focusLog);
+        }
+        toast(mins+"m "+t("focusLabel"));
+        // auto offer break
+        focusPhase="break";
+        focusTotal=focusBreakSec; focusLeft=focusBreakSec; focusSessionId=null;
+        updateFocusDisplay();
+        const lab=document.querySelector("#focusOverlay [data-i18n=focusLabel]");
+        if(lab) lab.textContent=t("breakLabel");
+        renderHome(); renderStudy();
+      } else {
+        focusPhase="work"; focusTotal=25*60; focusLeft=focusTotal; focusSessionId=null;
+        updateFocusDisplay();
+        const lab=document.querySelector("#focusOverlay [data-i18n=focusLabel]");
+        if(lab) lab.textContent=t("focusLabel");
+        toast(t("breakDone"));
+      }
+      return;
     }
     focusLeft--; updateFocusDisplay();
   },1000);
 };
-window.resetFocus=function(){ clearInterval(focusTimer); focusRun=false; focusLeft=focusTotal; updateFocusDisplay(); document.getElementById("focusStartBtn").textContent=t("start"); };
+window.resetFocus=function(){ clearInterval(focusTimer); focusRun=false; focusPhase="work"; focusLeft=focusTotal; focusSessionId=null; updateFocusDisplay(); document.getElementById("focusStartBtn").textContent=t("start"); const lab=document.querySelector("#focusOverlay [data-i18n=focusLabel]"); if(lab) lab.textContent=t("focusLabel"); };
 
-/* AI on-device */
-function snapshot(){
-  const td=today();
-  return {
-    name:getName(),
-    tasksToday:tasks.filter(function(x){return taskMatchesDay(x,td)&&!x.done;}).length,
-    overdue:tasks.filter(isOverdue).length,
-    habitsDone:habits.filter(function(h){return h.history&&h.history[td];}).length,
-    habitsTotal:habits.length,
-    focus:focusLog[td]||0,
-    goals:goals.length,
-    studyWeek:sessions.filter(function(s){ const d=(Date.now()-new Date(s.date+"T12:00:00").getTime())/864e5; return d<=7; }).reduce(function(a,b){return a+b.mins;},0)
-  };
-}
-
-function getAiEndpoint(){
-  return (localStorage.getItem("nomyAiEndpoint")||"").trim();
-}
-window.saveAiEndpoint=function(){
-  const v=(document.getElementById("aiEndpointInput").value||"").trim();
-  localStorage.setItem("nomyAiEndpoint", v);
-  updateAiStatus();
-  toast(t("saved"));
-};
 function updateAiStatus(){
   const el=document.getElementById("aiEndpointStatus");
   const input=document.getElementById("aiEndpointInput");
@@ -1465,11 +1583,12 @@ function updateAiStatus(){
 async function callRemoteAI(userText){
   const ep=getAiEndpoint();
   if(!ep) return null;
+  const priv=loadAiPrivacy();
   const ctx=snapshot();
   const body={
     message: userText,
     language: lang,
-    context: {
+    context: priv.shareData ? {
       name: ctx.name,
       tasksTodayOpen: ctx.tasksToday,
       overdue: ctx.overdue,
@@ -1477,8 +1596,9 @@ async function callRemoteAI(userText){
       habitsTotal: ctx.habitsTotal,
       focusMinutesToday: ctx.focus,
       goalsCount: ctx.goals,
-      studyMinutesWeek: ctx.studyWeek
-    }
+      studyMinutesWeek: ctx.studyWeek,
+      journalSnippets: priv.shareJournal ? journal.slice(0,3).map(function(j){return {date:j.date, text:String(j.text||"").slice(0,200)};}) : undefined
+    } : { name: ctx.name }
   };
   const res=await fetch(ep, {
     method:"POST",
@@ -1602,7 +1722,7 @@ window.toggleAIPanel=function(){
   if(aiOpen){ renderAISuggest("panel"); seedAI("panel"); }
 };
 
-function renderAll(){
+window.renderAll = function renderAll(){
   renderHome(); renderTasks(); renderHabits(); renderStudy(); renderJourney(); renderJournal();
   if(document.getElementById("page-insights").classList.contains("active")) renderInsights();
 }
