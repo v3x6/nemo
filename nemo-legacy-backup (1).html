@@ -1,0 +1,4317 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nemo</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#021018" id="metaTheme">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg" sizes="any">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.svg">
+<style>
+/* ===== Ocean themes ===== */
+:root, [data-theme="ocean"], [data-theme="dark"]{
+  --bg:#021018; --card:#0a1f2e; --card2:#0f2a3d; --card3:#153448; --border:#1e4a5f;
+  --text:#e8f4ff; --muted:#7a9bb0; --accent:#2de2e6; --accent2:#4facfe;
+  --blue:#4db8ff; --green:#2dd4a0; --yellow:#e8d44a; --red:#ff6b8a; --orange:#F47732;
+  --shadow:0 8px 32px rgba(0,40,60,.45); --radius:18px;
+  --nav-bg:rgba(2,16,24,.92); --input-bg:#0d2838; --chart-bg:#061820;
+  --tag-work-bg:#0d3a55; --tag-work:#7ad0ff;
+  --tag-study-bg:#0d4a40; --tag-study:#6be9c0;
+  --tag-personal-bg:#2a3050; --tag-personal:#c9a0ff;
+  --circle-track:#1a3a4a; --empty-title:#e8f4ff; --progress-track:#1a3a4a;
+}
+
+/* Deep Abyss */
+[data-theme="abyss"]{
+  --bg:#01080e; --card:#071820; --card2:#0c222e; --card3:#123040; --border:#1a4050;
+  --text:#d8eef8; --muted:#6a8a9a; --accent:#1a9fff; --accent2:#2de2e6;
+  --blue:#3aa0e8; --green:#20c997; --yellow:#d4c04a; --red:#ff5c7a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(0,20,40,.5); --nav-bg:rgba(1,8,14,.95); --input-bg:#0a2030;
+  --chart-bg:#040e14; --tag-work-bg:#0a3048; --tag-work:#6bc4f0;
+  --tag-study-bg:#0a3830; --tag-study:#5ad4b0; --tag-personal-bg:#222848; --tag-personal:#b890e8;
+  --circle-track:#123040; --empty-title:#d8eef8; --progress-track:#123040;
+}
+
+/* Coral Reef */
+[data-theme="coral"]{
+  --bg:#0c1520; --card:#162636; --card2:#1e3348; --card3:#264058; --border:#3a5568;
+  --text:#fff5f0; --muted:#a89890; --accent:#ff7a59; --accent2:#2de2e6;
+  --blue:#4db8ff; --green:#2dd4a0; --yellow:#f0d060; --red:#ff6b8a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(255,122,89,.12); --nav-bg:rgba(12,21,32,.94); --input-bg:#1a3040;
+  --chart-bg:#0a1218; --tag-work-bg:#203848; --tag-work:#7ad0ff;
+  --tag-study-bg:#1a4038; --tag-study:#6be9c0; --tag-personal-bg:#403028; --tag-personal:#ffb090;
+  --circle-track:#2a4050; --empty-title:#fff; --progress-track:#2a4050;
+}
+
+/* Tropical Lagoon */
+[data-theme="lagoon"]{
+  --bg:#041e28; --card:#0c3340; --card2:#124858; --card3:#1a5a6a; --border:#2a7080;
+  --text:#e8fffa; --muted:#7ab0a8; --accent:#20e0c0; --accent2:#2de2e6;
+  --blue:#40c8e8; --green:#2dd4a0; --yellow:#e8d44a; --red:#ff6b8a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(32,224,192,.15); --nav-bg:rgba(4,30,40,.94); --input-bg:#0e3a48;
+  --chart-bg:#031820; --tag-work-bg:#0e4858; --tag-work:#70d8f0;
+  --tag-study-bg:#0e5040; --tag-study:#60e8b0; --tag-personal-bg:#304060; --tag-personal:#b0a0ff;
+  --circle-track:#1a4858; --empty-title:#e8fffa; --progress-track:#1a4858;
+}
+
+/* Surface Light */
+[data-theme="surface"], [data-theme="light"]{
+  --bg:#e8f4f8; --card:#ffffff; --card2:#f0f8fc; --card3:#e0eef4; --border:#c0d8e4;
+  --text:#0a2838; --muted:#5a7a8a; --accent:#0a9aaa; --accent2:#2b7fff;
+  --blue:#1a7fd4; --green:#12a85a; --yellow:#c4a800; --red:#e03060; --orange:#e07020;
+  --shadow:0 8px 24px rgba(10,40,60,.08); --nav-bg:#ffffff; --input-bg:#e4f0f6;
+  --chart-bg:#eef6fa; --tag-work-bg:#d8ecf8; --tag-work:#1a6ab0;
+  --tag-study-bg:#d0f0e8; --tag-study:#0a8a60; --tag-personal-bg:#e8e0f4; --tag-personal:#7040a0;
+  --circle-track:#c8dce8; --empty-title:#0a2838; --progress-track:#c8dce8;
+}
+
+/* Bioluminescent Mix */
+[data-theme="mix"]{
+  --bg:#02101a; --card:#0a1c2e; --card2:#122838; --card3:#1a3448; --border:#2a4a60;
+  --text:#e8f8ff; --muted:#7a9ab0; --accent:#2de2e6; --accent2:#a855f7;
+  --blue:#4db8ff; --green:#22c55e; --yellow:#eab308; --red:#f43f5e; --orange:#F47732;
+  --shadow:0 8px 28px rgba(45,226,230,.18); --nav-bg:rgba(2,16,26,.94); --input-bg:#0e2838;
+  --chart-bg:#061018; --tag-work-bg:#0e3a55; --tag-work:#60b8ff;
+  --tag-study-bg:#0e4838; --tag-study:#4ade80; --tag-personal-bg:#3a2850; --tag-personal:#c084fc;
+  --circle-track:#1a3a50; --empty-title:#fff; --progress-track:#1a3a50;
+}
+
+
+/* Volcanic trench */
+[data-theme="volcanic"]{
+  --bg:#120808; --card:#1a0c0c; --card2:#241010; --card3:#2e1414; --border:#4a2020;
+  --text:#ffe8e0; --muted:#b08070; --accent:#ff5a2a; --accent2:#ffb347;
+  --blue:#ff8a50; --green:#2dd4a0; --yellow:#ffd060; --red:#ff3b4f; --orange:#F47732;
+  --shadow:0 8px 28px rgba(255,60,20,.2); --nav-bg:rgba(12,6,6,.95); --input-bg:#220e0e;
+  --chart-bg:#0e0606; --tag-work-bg:#3a1810; --tag-work:#ff9a70;
+  --tag-study-bg:#203018; --tag-study:#6be0a0; --tag-personal-bg:#3a1020; --tag-personal:#ff80a0;
+  --circle-track:#2e1414; --empty-title:#fff; --progress-track:#2e1414;
+}
+/* Arctic ice */
+[data-theme="arctic"]{
+  --bg:#0a141c; --card:#122028; --card2:#1a2c38; --card3:#223848; --border:#3a5a6a;
+  --text:#e8f6ff; --muted:#8aa8b8; --accent:#a8e6ff; --accent2:#e8f8ff;
+  --blue:#7ec8e8; --green:#6be0c0; --yellow:#e8e0a0; --red:#ff8aa0; --orange:#F47732;
+  --shadow:0 8px 28px rgba(168,230,255,.12); --nav-bg:rgba(8,16,24,.95); --input-bg:#152830;
+  --chart-bg:#081018; --tag-work-bg:#1a3848; --tag-work:#a0d8f0;
+  --tag-study-bg:#1a4038; --tag-study:#80e0c0; --tag-personal-bg:#283848; --tag-personal:#c0d0e8;
+  --circle-track:#1e3848; --empty-title:#fff; --progress-track:#1e3848;
+}
+/* Midnight deep */
+[data-theme="midnight"]{
+  --bg:#000510; --card:#060e1a; --card2:#0c1828; --card3:#122030; --border:#1a3050;
+  --text:#d0e8ff; --muted:#6080a0; --accent:#4060ff; --accent2:#2de2e6;
+  --blue:#5080ff; --green:#20c997; --yellow:#d4c04a; --red:#ff5c7a; --orange:#F47732;
+  --shadow:0 8px 28px rgba(40,60,255,.2); --nav-bg:rgba(0,4,12,.96); --input-bg:#0a1525;
+  --chart-bg:#020810; --tag-work-bg:#102040; --tag-work:#7090ff;
+  --tag-study-bg:#0e3028; --tag-study:#40d0a0; --tag-personal-bg:#201838; --tag-personal:#a080ff;
+  --circle-track:#102030; --empty-title:#fff; --progress-track:#102030;
+}
+
+/* soft ocean body wash */
+body{
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(45,226,230,.12), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(79,172,254,.06), transparent 45%),
+    radial-gradient(ellipse 50% 30% at 0% 80%, rgba(244,119,50,.05), transparent 40%),
+    var(--bg);
+}
+.card{
+  backdrop-filter:blur(8px);
+  box-shadow:var(--shadow), 0 0 0 1px rgba(45,226,230,.04);
+}
+.btn, .add-nav{
+  background:linear-gradient(135deg, var(--accent), var(--accent2));
+  color:#021018; font-weight:700;
+}
+.bottom-nav{
+  border-top:1px solid rgba(45,226,230,.15);
+  backdrop-filter:blur(16px);
+}
+.home-timer-card{
+  background:linear-gradient(135deg, rgba(10,60,90,.85), rgba(2,20,40,.95))!important;
+  border:1px solid rgba(45,226,230,.25)!important;
+}
+.home-nemo-chat .hnc-head{
+  background:linear-gradient(135deg, #0a6a78, #1a4a8a, #0a3a50)!important;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Tahoma,sans-serif}
+html{transition:background .3s}
+body{background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;transition:background .3s,color .3s}
+button,input,select,textarea{font:inherit}
+button{border:0;cursor:pointer}
+input,select,textarea{outline:none}
+.app{min-height:100vh;padding-bottom:88px}
+.page{display:none;width:min(1100px,100%);margin:auto;padding:22px 16px 30px}
+.page.active{display:block}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:12px}
+.topbar h1{font-size:26px;margin-bottom:6px;letter-spacing:-.3px}
+.topbar p{color:var(--muted);font-size:13.5px}
+.avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid var(--accent);overflow:hidden;box-shadow:0 4px 18px color-mix(in srgb,var(--accent) 40%,transparent);flex-shrink:0}
+.nemo-logo{width:100%;height:100%;display:block}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:16px;box-shadow:var(--shadow);transition:background .3s,border-color .3s}
+.stat{min-height:150px;position:relative;overflow:hidden;padding-inline-end:100px}
+.stat h3{color:var(--muted);font-size:13px;font-weight:normal;margin-bottom:12px}
+.stat strong{font-size:30px;letter-spacing:-.5px}
+.stat small{color:var(--muted);display:block;margin-top:6px;font-size:12px}
+.circle{position:absolute;inset-inline-end:14px;top:34px;left:auto;right:auto;width:82px;height:82px;border-radius:50%;display:grid;place-items:center;font-weight:bold;font-size:14px;background:radial-gradient(closest-side,var(--card) 78%,transparent 80%),conic-gradient(var(--accent) var(--percent,0%),var(--circle-track) 0)}
+[dir="rtl"] .circle{left:14px;right:auto}
+[dir="ltr"] .circle{right:14px;left:auto}
+.circle.green{background:radial-gradient(closest-side,var(--card) 78%,transparent 80%),conic-gradient(var(--green) var(--percent,0%),var(--circle-track) 0)}
+.circle.yellow{background:radial-gradient(closest-side,var(--card) 78%,transparent 80%),conic-gradient(var(--yellow) var(--percent,0%),var(--circle-track) 0)}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.section-title h2{font-size:18px}
+.section-title span{color:var(--muted);font-size:12.5px}
+.btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;transition:background .2s,transform .15s,filter .2s;font-weight:600}
+.btn:hover{background:var(--accent2);filter:brightness(1.05)}
+.btn:active{transform:scale(.97)}
+.btn.secondary{background:var(--card3);color:var(--text);border:1px solid var(--border)}
+.btn.secondary:hover{filter:brightness(1.1)}
+.btn.blue{background:var(--blue)}
+.btn.green{background:var(--green);color:#062210}
+.btn.red{background:var(--red);color:#fff}
+.btn.block{width:100%}
+.btn.sm{padding:7px 11px;font-size:13px;border-radius:8px}
+[data-theme="mix"] .btn{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+[data-theme="mix"] .add-nav{background:linear-gradient(135deg,#2de2e6,#4facfe,#a855f7)}
+.content-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+.task{display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:8px;background:var(--card2);border-radius:13px;border:1px solid transparent;transition:border-color .2s,background .3s}
+.task:hover{border-color:var(--accent)}
+.task.done .task-name{text-decoration:line-through;color:var(--muted)}
+.task.overdue:not(.done){border-color:color-mix(in srgb,var(--red) 50%,transparent)}
+.check{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0}
+.task-info{flex:1;min-width:0}
+.task-name{display:block;word-break:break-word;margin-bottom:4px;font-size:14.5px}
+.task-date{color:var(--muted);font-size:11.5px}
+.tag{border-radius:7px;padding:4px 8px;font-size:11px;white-space:nowrap;flex-shrink:0}
+.work{background:var(--tag-work-bg);color:var(--tag-work)}
+.study{background:var(--tag-study-bg);color:var(--tag-study)}
+.personal{background:var(--tag-personal-bg);color:var(--tag-personal)}
+.icon-btn{background:none;color:var(--muted);font-size:16px;padding:4px;border-radius:6px;transition:color .15s}
+.icon-btn:hover{color:var(--red)}
+.edit:hover{color:var(--blue)!important}
+.empty{text-align:center;color:var(--muted);padding:36px 12px}
+.empty div{font-size:38px;margin-bottom:10px}
+.empty h3{color:var(--empty-title);margin-bottom:6px;font-size:16px}
+.empty p{font-size:13px}
+.analysis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.analysis div{background:var(--card2);border-radius:11px;padding:12px}
+.analysis span{color:var(--muted);font-size:11.5px;display:block;margin-bottom:6px}
+.analysis b{font-size:22px}
+.progress{height:10px;background:var(--progress-track);border-radius:20px;overflow:hidden}
+.progress div{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,var(--accent),var(--blue));transition:.4s}
+.message{color:var(--muted);margin-top:12px;line-height:1.65;font-size:13.5px}
+.chart-tabs,.filter,.sub-tabs{display:flex;gap:7px;margin-bottom:14px;overflow:auto;padding-bottom:2px}
+.chart-tabs button,.filter button,.sub-tabs button{color:var(--muted);background:var(--card3);padding:8px 13px;border-radius:8px;white-space:nowrap;font-size:13px;transition:background .2s,color .2s;border:1px solid transparent}
+.chart-tabs button.active,.filter button.active,.sub-tabs button.active{color:#fff;background:var(--accent)}
+[data-theme="light"] .chart-tabs button.active,[data-theme="light"] .filter button.active,[data-theme="light"] .sub-tabs button.active{color:#fff}
+.chart{width:100%;height:230px;background:var(--chart-bg);border-radius:14px;padding:10px}
+.chart svg{width:100%;height:175px;overflow:visible}
+.line{fill:none;stroke:var(--accent);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.point{fill:var(--blue);stroke:var(--text);stroke-width:2}
+.chart-labels{display:flex;justify-content:space-around;color:var(--muted);font-size:11px}
+.form-card{max-width:620px;margin:auto}
+.field{margin-bottom:13px}
+.field label{color:var(--muted);font-size:12.5px;display:block;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 12px;transition:border-color .2s,background .3s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+textarea{min-height:88px;resize:vertical}
+.bottom-nav{position:fixed;bottom:0;right:0;left:0;height:74px;background:var(--nav-bg);border-top:1px solid var(--border);display:flex;justify-content:center;gap:4px;z-index:10;padding:0 4px;transition:background .3s}
+.nav-btn{min-width:62px;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;font-size:10.5px;padding:6px 2px;border-radius:10px;transition:color .2s}
+.nav-btn span{font-size:20px;line-height:1}
+.nav-btn.active{color:var(--text)}
+.add-nav{width:50px;height:50px;min-width:50px;margin-top:-18px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--blue));color:white;font-size:26px;box-shadow:0 5px 20px color-mix(in srgb,var(--accent) 45%,transparent);padding:0}
+.modal{display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:16px}
+.modal.show{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--border);width:min(440px,100%);border-radius:20px;padding:20px;max-height:90vh;overflow:auto;box-shadow:var(--shadow)}
+.modal-box h2{margin-bottom:16px;font-size:18px}
+.modal-actions{display:flex;gap:9px;margin-top:16px}
+.modal-actions button{flex:1;padding:11px;border-radius:10px}
+.cancel{background:var(--card3);color:var(--text)}
+.settings-group{margin-bottom:22px}
+.settings-group h3{font-size:14px;color:var(--muted);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;background:var(--card2);border-radius:12px;margin-bottom:8px;border:1px solid transparent}
+.settings-row:hover{border-color:var(--border)}
+.settings-row .info{flex:1;min-width:0}
+.settings-row .info strong{display:block;font-size:14px;margin-bottom:3px}
+.settings-row .info span{color:var(--muted);font-size:12px;line-height:1.5}
+.settings-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+/* Theme picker */
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.theme-opt{
+  border:2px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center;
+  cursor:pointer;background:var(--card2);transition:border-color .2s,transform .15s;position:relative
+}
+.theme-opt:hover{transform:translateY(-2px)}
+.theme-opt.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.theme-opt .swatch{
+  height:28px;border-radius:8px;margin-bottom:8px;display:flex;overflow:hidden
+}
+.theme-opt .swatch span{flex:1}
+.theme-opt .name{font-size:12px;font-weight:600}
+.theme-opt .check-mark{
+  position:absolute;top:6px;left:6px;width:18px;height:18px;border-radius:50%;
+  background:var(--accent);color:#fff;font-size:11px;display:none;align-items:center;justify-content:center
+}
+.theme-opt.active .check-mark{display:flex}
+
+/* Language toggle */
+.lang-toggle{display:flex;gap:8px}
+.lang-toggle button{
+  flex:1;padding:12px;border-radius:12px;background:var(--card2);color:var(--muted);
+  border:2px solid var(--border);font-weight:600;transition:all .2s
+}
+.lang-toggle button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.student-panel{display:none}
+.student-panel.active{display:block}
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.flash-card{background:linear-gradient(145deg,var(--card2),var(--card3));border:1px solid var(--border);border-radius:16px;padding:16px;min-height:130px;cursor:pointer;position:relative;transition:transform .2s,border-color .2s}
+.flash-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.flash-card .back{display:none}
+.flash-card.flipped .front{display:none}
+.flash-card.flipped .back{display:block}
+.flash-card .label{font-size:11px;color:var(--muted);margin-bottom:8px}
+.flash-card .content{font-size:15px;word-break:break-word;line-height:1.55}
+.flash-actions{display:flex;gap:6px;margin-top:12px;justify-content:flex-end}
+.flash-actions button{font-size:12px;padding:4px 8px;border-radius:6px;background:var(--card3);color:var(--muted)}
+.flash-actions button:hover{color:var(--text)}
+.notes-list{display:flex;flex-direction:column;gap:10px}
+.note-item{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px;transition:border-color .2s}
+.note-item:hover{border-color:var(--accent)}
+.note-item h4{font-size:15px;margin-bottom:6px}
+.note-item p{color:var(--muted);font-size:13px;white-space:pre-wrap;word-break:break-word;max-height:72px;overflow:hidden}
+.note-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
+.note-meta span{font-size:11.5px;color:var(--muted)}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-header h3{font-size:16px}
+.cal-nav{display:flex;gap:6px;align-items:center}
+.cal-nav button{background:var(--card3);color:var(--text);width:34px;height:34px;border-radius:8px;font-size:16px}
+.cal-nav button:hover{background:var(--accent);color:#fff}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-dow{font-size:11px;color:var(--muted);padding:6px 0;font-weight:600}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:13px;background:var(--card2);cursor:pointer;border:1px solid transparent;position:relative;transition:background .15s,border-color .15s}
+.cal-day:hover{border-color:var(--accent)}
+.cal-day.other{opacity:.35;cursor:default}
+.cal-day.today{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 15%,transparent)}
+.cal-day.selected{background:var(--accent);color:#fff}
+.cal-day .dot{width:5px;height:5px;border-radius:50%;background:var(--green);position:absolute;bottom:5px;display:none}
+.cal-day.has-task .dot{display:block}
+
+.day-tasks{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--border)
+}
+.day-tasks h4{font-size:14px;margin-bottom:10px;color:var(--text)}
+.day-tasks #dayTasksList{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto}
+.day-tasks .day-empty{color:var(--muted);font-size:13px;padding:12px;text-align:center}
+.cal-day.selected{outline:2px solid var(--accent);background:rgba(45,226,230,.12)}
+margin-top:14px}
+.day-tasks h4{font-size:14px;margin-bottom:10px;color:var(--muted)}
+.schedule-list{display:flex;flex-direction:column;gap:8px}
+.schedule-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--card2);border-radius:12px;border-right:3px solid var(--accent)}
+[dir="ltr"] .schedule-item{border-right:0;border-left:3px solid var(--accent)}
+.schedule-time{min-width:70px;font-size:12px;color:var(--blue);font-weight:600;padding-top:2px}
+.schedule-body{flex:1;min-width:0}
+.schedule-body strong{display:block;font-size:14px;margin-bottom:3px}
+.schedule-body span{font-size:12px;color:var(--muted)}
+.mini-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.mini-stat{background:var(--card2);border-radius:12px;padding:14px;text-align:center}
+.mini-stat b{display:block;font-size:22px;margin-bottom:4px}
+.mini-stat span{font-size:12px;color:var(--muted)}
+.priority-high{border-right-color:var(--red)!important}
+.priority-medium{border-right-color:var(--yellow)!important}
+.priority-low{border-right-color:var(--green)!important}
+[dir="ltr"] .priority-high{border-left-color:var(--red)!important;border-right-color:transparent!important}
+[dir="ltr"] .priority-medium{border-left-color:var(--yellow)!important;border-right-color:transparent!important}
+[dir="ltr"] .priority-low{border-left-color:var(--green)!important;border-right-color:transparent!important}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:6px;background:color-mix(in srgb,var(--accent) 20%,transparent);color:var(--accent2);margin-inline-start:4px}
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:12px 20px;border-radius:12px;box-shadow:var(--shadow);z-index:50;
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;font-size:14px;max-width:90%
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Toggle switch */
+.switch{
+  position:relative;width:52px;height:30px;flex-shrink:0
+}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{
+  position:absolute;inset:0;background:var(--card3);border:1px solid var(--border);
+  border-radius:30px;cursor:pointer;transition:.25s
+}
+.switch .slider:before{
+  content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;
+  background:#fff;border-radius:50%;transition:.25s;box-shadow:0 2px 6px rgba(0,0,0,.25)
+}
+.switch input:checked + .slider{background:var(--accent);border-color:var(--accent)}
+.switch input:checked + .slider:before{transform:translateX(22px)}
+[dir="rtl"] .switch .slider:before{left:auto;right:3px}
+[dir="rtl"] .switch input:checked + .slider:before{transform:translateX(-22px)}
+
+/* Home student shortcuts */
+.home-student{display:none;margin-bottom:16px}
+.home-student.visible{display:block}
+.student-shortcuts{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px
+}
+.student-shortcut{
+  background:var(--card2);border:1px solid var(--border);border-radius:14px;
+  padding:16px 10px;text-align:center;cursor:pointer;transition:border-color .2s,transform .15s,background .2s
+}
+.student-shortcut:hover{border-color:var(--accent);transform:translateY(-2px);background:var(--card3)}
+.student-shortcut .ico{font-size:26px;margin-bottom:8px;line-height:1}
+.student-shortcut .lbl{font-size:12px;font-weight:600;color:var(--text)}
+.student-shortcut .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.nav-btn.hidden-nav{display:none!important}
+
+/* ===== Nemo Chat Assistant ===== */
+.nemo-fab{
+  position:fixed;bottom:90px;inset-inline-end:18px;z-index:25;
+  width:64px;height:64px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(145deg,var(--accent),var(--blue));
+  box-shadow:0 6px 24px color-mix(in srgb,var(--accent) 45%,transparent);
+  display:grid;place-items:center;padding:0;transition:transform .2s
+}
+.nemo-fab:hover{transform:scale(1.08)}
+.nemo-fab .fish-wrap{
+  width:44px;height:44px;animation:swim 2.4s ease-in-out infinite
+}
+.nemo-fab .fish-wrap svg{width:100%;height:100%;display:block}
+@keyframes swim{
+  0%,100%{transform:translateY(0) rotate(-4deg)}
+  50%{transform:translateY(-5px) rotate(4deg)}
+}
+.nemo-fab.talking .fish-wrap{animation:talk 0.35s ease-in-out infinite}
+@keyframes talk{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.12) rotate(6deg)}
+}
+.nemo-bubble-hint{
+  position:fixed;bottom:160px;inset-inline-end:18px;z-index:24;
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:10px 14px;border-radius:14px;font-size:12.5px;max-width:200px;
+  box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;
+  transform:translateY(8px)
+}
+.nemo-bubble-hint.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.nemo-bubble-hint::after{
+  content:"";position:absolute;bottom:-6px;inset-inline-end:24px;
+  width:12px;height:12px;background:var(--card);border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);transform:rotate(45deg)
+}
+
+.nemo-chat{
+  position:fixed;bottom:90px;inset-inline-end:18px;z-index:26;
+  width:min(360px,calc(100vw - 24px));height:min(480px,calc(100vh - 120px));
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  box-shadow:var(--shadow);display:none;flex-direction:column;overflow:hidden
+}
+.nemo-chat.open{display:flex}
+.nemo-chat-header{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff
+}
+.nemo-chat-header .avatar-sm{
+  width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;flex-shrink:0
+}
+.nemo-chat-header .avatar-sm svg{width:28px;height:28px}
+.nemo-chat-header .info{flex:1;min-width:0}
+.nemo-chat-header .info strong{display:block;font-size:15px}
+.nemo-chat-header .info span{font-size:11.5px;opacity:.85}
+.nemo-chat-header .close-chat{
+  background:rgba(255,255,255,.2);color:#fff;width:32px;height:32px;border-radius:50%;
+  font-size:18px;display:grid;place-items:center
+}
+.nemo-chat-msgs{
+  flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)
+}
+.msg{
+  max-width:88%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.55;word-break:break-word
+}
+.msg.bot{
+  background:var(--card2);border:1px solid var(--border);align-self:flex-start;
+  border-start-start-radius:4px
+}
+.msg.user{
+  background:var(--accent);color:#fff;align-self:flex-end;border-start-end-radius:4px
+}
+.msg .typing{display:inline-flex;gap:4px;padding:4px 0}
+.msg .typing i{
+  width:7px;height:7px;border-radius:50%;background:var(--muted);
+  animation:blink 1.2s infinite
+}
+.msg .typing i:nth-child(2){animation-delay:.2s}
+.msg .typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+.nemo-chat-input{
+  display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:var(--card)
+}
+.nemo-chat-input input{
+  flex:1;background:var(--input-bg);border:1px solid var(--border);color:var(--text);
+  border-radius:12px;padding:10px 12px;font-size:13.5px
+}
+.nemo-chat-input input:focus{border-color:var(--accent)}
+.nemo-chat-input button{
+  background:var(--accent);color:#fff;border-radius:12px;padding:0 16px;font-weight:600;font-size:14px
+}
+.nemo-quick{
+  display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;background:var(--card);flex-wrap:nowrap
+}
+.nemo-quick button{
+  flex-shrink:0;background:var(--card2);border:1px solid var(--border);color:var(--muted);
+  border-radius:20px;padding:6px 12px;font-size:12px;white-space:nowrap
+}
+.nemo-quick button:hover{border-color:var(--accent);color:var(--text)}
+
+/* Voice mic */
+.nemo-chat-input .mic-btn{
+  background:var(--card3);color:var(--text);border-radius:12px;padding:0 14px;
+  border:1px solid var(--border);font-size:18px;min-width:44px
+}
+.nemo-chat-input .mic-btn.listening{
+  background:var(--red);color:#fff;animation:pulseMic 1s infinite;border-color:var(--red)
+}
+@keyframes pulseMic{0%,100%{box-shadow:0 0 0 0 rgba(255,80,119,.5)}50%{box-shadow:0 0 0 10px transparent}}
+.msg.bot img.week-table{max-width:100%;border-radius:12px;margin-top:8px;border:1px solid var(--border)}
+.msg .task-added{color:var(--green);font-size:12px;margin-top:4px}
+
+/* Ocean Pomodoro */
+.ocean-timer-page{
+  position:fixed;inset:0;z-index:80;display:none;flex-direction:column;
+  align-items:center;justify-content:center;overflow:hidden;
+  background:linear-gradient(180deg,#0a3a5c 0%,#021018 45%,#000508 100%)
+}
+.ocean-timer-page.open{display:flex}
+.ot-rays{position:absolute;inset:0;pointer-events:none;opacity:.4}
+.ot-ray{position:absolute;top:-5%;width:3px;height:110%;background:linear-gradient(180deg,rgba(180,230,255,.45),transparent);filter:blur(1px)}
+.ot-bubbles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ot-bubble{position:absolute;border-radius:50%;background:rgba(200,240,255,.35);animation:otRise linear infinite}
+@keyframes otRise{0%{transform:translateY(100vh) scale(1);opacity:0}15%{opacity:.6}100%{transform:translateY(-10vh) scale(1.2);opacity:0}}
+.ot-fish{position:absolute;width:48px;height:48px;opacity:.7;animation:otSwim 12s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(244,119,50,.4))}
+.ot-fish svg{width:100%;height:100%}
+@keyframes otSwim{0%,100%{transform:translate(0,0) scaleX(1)}50%{transform:translate(40px,-20px) scaleX(1)}}
+.ot-ring-wrap{position:relative;width:min(280px,70vw);height:min(280px,70vw);z-index:2}
+.ot-ring{
+  width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle at 50% 45%,rgba(45,226,230,.12),transparent 55%);
+  border:3px solid rgba(45,226,230,.25);
+  box-shadow:0 0 60px rgba(45,226,230,.15),inset 0 0 40px rgba(0,40,60,.5);
+  display:grid;place-items:center;position:relative;overflow:hidden
+}
+.ot-water{
+  position:absolute;left:0;right:0;bottom:0;height:0%;
+  background:linear-gradient(180deg,rgba(45,226,230,.35),rgba(10,60,90,.7));
+  transition:height .4s linear;border-radius:0 0 50% 50% / 0 0 20% 20%
+}
+.ot-water::before{
+  content:"";position:absolute;top:-12px;left:-10%;right:-10%;height:24px;
+  background:rgba(180,240,255,.25);border-radius:50%;animation:wave 2s ease-in-out infinite
+}
+@keyframes wave{0%,100%{transform:translateX(0)}50%{transform:translateX(8%)}}
+.ot-time{
+  position:relative;z-index:3;font-size:clamp(2.8rem,10vw,4rem);font-weight:800;
+  font-variant-numeric:tabular-nums;letter-spacing:2px;color:#e8f4ff;
+  text-shadow:0 0 30px rgba(45,226,230,.5)
+}
+.ot-label{position:relative;z-index:3;color:rgba(180,220,240,.8);font-size:14px;margin-top:4px;font-weight:600}
+.ot-controls{display:flex;gap:12px;margin-top:28px;z-index:2;flex-wrap:wrap;justify-content:center}
+.ot-controls button{
+  padding:12px 20px;border-radius:14px;font-weight:700;font-size:14px;border:0;cursor:pointer
+}
+.ot-btn-main{background:linear-gradient(135deg,#7c5cff,#2de2e6);color:#021018}
+.ot-btn-ghost{background:rgba(255,255,255,.08);color:#e8f4ff;border:1px solid rgba(45,226,230,.2)!important}
+.ot-modes{display:flex;gap:8px;margin-bottom:20px;z-index:2}
+.ot-modes button{
+  padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:rgba(255,255,255,.06);color:rgba(200,230,245,.7);border:1px solid transparent;cursor:pointer
+}
+.ot-modes button.active{background:rgba(45,226,230,.2);color:#2de2e6;border-color:rgba(45,226,230,.4)}
+.ot-close{
+  position:absolute;top:18px;inset-inline-end:18px;z-index:5;
+  width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);
+  color:#fff;font-size:22px;border:0;cursor:pointer
+}
+.ot-sound-toggle{
+  position:absolute;top:18px;inset-inline-start:18px;z-index:5;
+  padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.1);
+  color:#e8f4ff;font-size:13px;border:1px solid rgba(45,226,230,.2);cursor:pointer;font-weight:600
+}
+.home-timer-card{
+  margin-bottom:16px;cursor:pointer;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,rgba(10,50,80,.9),rgba(8,20,40,.95));
+  border:1px solid rgba(45,226,230,.2)!important
+}
+.home-timer-card:hover{border-color:rgba(45,226,230,.45)!important;transform:translateY(-2px)}
+.home-timer-card .ht-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.home-timer-card .ht-ico{font-size:32px}
+.home-timer-card h3{font-size:16px;margin-bottom:4px}
+.home-timer-card p{color:var(--muted);font-size:12.5px}
+
+/* Home embedded Nemo chat */
+.home-nemo-chat{
+  margin-bottom:16px;padding:0;overflow:hidden;display:flex;flex-direction:column;
+  min-height:380px;max-height:520px
+}
+.home-nemo-chat .hnc-head{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff
+}
+.home-nemo-chat .hnc-head .avatar-sm{
+  width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;flex-shrink:0
+}
+.home-nemo-chat .hnc-head .avatar-sm svg{width:28px;height:28px}
+.home-nemo-chat .hnc-head .info{flex:1;min-width:0}
+.home-nemo-chat .hnc-head .info strong{display:block;font-size:15px}
+.home-nemo-chat .hnc-head .info span{font-size:11.5px;opacity:.9}
+.home-nemo-chat .call-btn{
+  background:rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:8px 14px;
+  font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.25)
+}
+.home-nemo-chat .call-btn.on{
+  background:#20ce70;border-color:#20ce70;animation:pulseMic 1.5s infinite
+}
+.home-nemo-chat .nemo-chat-msgs{
+  flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;
+  background:var(--bg);min-height:200px;max-height:280px
+}
+.home-nemo-chat .nemo-quick{
+  display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto;background:var(--card);flex-wrap:nowrap
+}
+.home-nemo-chat .nemo-quick button{
+  flex-shrink:0;background:var(--card2);border:1px solid var(--border);color:var(--muted);
+  border-radius:20px;padding:6px 12px;font-size:12px;white-space:nowrap
+}
+.home-nemo-chat .nemo-chat-input{
+  display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:var(--card)
+}
+.home-nemo-chat .nemo-chat-input input{
+  flex:1;background:var(--input-bg);border:1px solid var(--border);color:var(--text);
+  border-radius:12px;padding:10px 12px;font-size:13.5px
+}
+/* fab shown */
+/* chat floating */
+/* hint ok */
+
+.tag-repeat{font-size:10px;padding:2px 7px;border-radius:6px;background:rgba(45,226,230,.15);color:#2de2e6;margin-inline-start:6px}
+
+
+
+/* ===== Notion-like ocean shell ===== */
+body{
+  background:var(--bg)!important;
+  font-family:var(--font, "Segoe UI", system-ui, -apple-system, sans-serif);
+  letter-spacing:-0.01em;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% -20%, rgba(45,226,230,.1), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(79,172,254,.06), transparent 50%),
+    radial-gradient(ellipse 40% 30% at 10% 60%, rgba(244,119,50,.04), transparent 45%);
+}
+#oceanAmbient{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden
+}
+#oceanAmbient .amb-fish{
+  position:absolute;width:42px;height:42px;opacity:.22;
+  animation:ambSwim linear infinite;filter:blur(.3px)
+}
+#oceanAmbient .amb-fish svg{width:100%;height:100%}
+#oceanAmbient .amb-bubble{
+  position:absolute;border-radius:50%;background:rgba(180,230,255,.2);
+  animation:ambRise linear infinite
+}
+@keyframes ambSwim{
+  0%{transform:translateX(-10vw) translateY(0) scaleX(1)}
+  50%{transform:translateX(50vw) translateY(-20px) scaleX(1)}
+  100%{transform:translateX(110vw) translateY(10px) scaleX(1)}
+}
+@keyframes ambRise{
+  0%{transform:translateY(0) scale(1);opacity:0}
+  20%{opacity:.4}
+  100%{transform:translateY(-100vh) scale(1.3);opacity:0}
+}
+.app{position:relative;z-index:1;min-height:100vh;padding-bottom:88px}
+.page{display:none;width:min(960px,100%);margin:auto;padding:28px 20px 40px}
+.page.active{display:block}
+.topbar h1{font-size:28px;font-weight:700;letter-spacing:-.4px}
+.topbar p{font-size:14px}
+.card{
+  background:rgba(10,31,46,.72)!important;
+  border:1px solid rgba(45,226,230,.1)!important;
+  border-radius:12px!important;
+  padding:20px 22px!important;
+  margin-bottom:14px;
+  box-shadow:none!important;
+  backdrop-filter:blur(12px);
+  transition:background .2s,border-color .2s
+}
+.card:hover{border-color:rgba(45,226,230,.18)!important}
+.btn{
+  border-radius:8px!important;font-weight:600;font-size:13.5px;
+  padding:9px 14px;box-shadow:none
+}
+.grid{gap:12px}
+.stat{border-radius:12px}
+.bottom-nav{
+  background:rgba(2,16,24,.85)!important;
+  backdrop-filter:blur(20px);
+  border-top:1px solid rgba(45,226,230,.12)!important;
+  height:64px
+}
+.nav-btn{border-radius:10px;font-size:11px}
+.nav-btn.active{background:rgba(45,226,230,.12);color:var(--accent)}
+.add-nav{width:48px;height:48px;border-radius:12px!important}
+.task{
+  border-radius:10px;border:1px solid rgba(45,226,230,.08);
+  background:rgba(0,0,0,.15);padding:12px 14px
+}
+.field input,.field select,.field textarea{
+  border-radius:8px!important;border:1px solid rgba(45,226,230,.12)!important;
+  background:rgba(0,0,0,.2)!important
+}
+.settings-row{border-radius:10px}
+
+/* Hide embedded home chat — use floating bubble instead */
+.home-nemo-chat{display:none!important}
+
+/* Floating Nemo bubble */
+.nemo-fab{
+  display:flex!important;align-items:center;justify-content:center;
+  position:fixed;bottom:86px;inset-inline-end:18px;z-index:50;
+  width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.35), transparent 45%),
+    linear-gradient(145deg,#2de2e6,#4facfe 45%,#F47732);
+  border:2px solid rgba(255,255,255,.35);
+  box-shadow:0 8px 32px rgba(45,226,230,.35),0 0 0 6px rgba(45,226,230,.12);
+  cursor:pointer;padding:0;animation:bubbleFloat 4s ease-in-out infinite
+}
+.nemo-fab .fish-wrap{
+  width:44px;height:44px;animation:nemoWiggle 3s ease-in-out infinite
+}
+.nemo-fab .fish-wrap svg{width:100%;height:100%;display:block}
+.nemo-fab.talking .fish-wrap{animation:talk 0.35s ease-in-out infinite}
+@keyframes bubbleFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+@keyframes nemoWiggle{
+  0%,100%{transform:rotate(-4deg) translateX(0)}
+  50%{transform:rotate(4deg) translateX(2px)}
+}
+
+/* Floating chat as bubble panel */
+.nemo-chat{
+  display:none;flex-direction:column;
+  position:fixed;bottom:160px;inset-inline-end:18px;z-index:55;
+  width:min(380px,calc(100vw - 28px));height:min(520px,70vh);
+  background:rgba(8,28,40,.94);border:1px solid rgba(45,226,230,.25);
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,20,40,.55),0 0 0 1px rgba(255,255,255,.05);
+  backdrop-filter:blur(20px)
+}
+.nemo-chat.open{display:flex}
+.nemo-chat::before{
+  content:"";position:absolute;bottom:-10px;inset-inline-end:28px;
+  width:18px;height:18px;background:rgba(8,28,40,.94);
+  border-right:1px solid rgba(45,226,230,.25);border-bottom:1px solid rgba(45,226,230,.25);
+  transform:rotate(45deg);z-index:0
+}
+.nemo-chat-header{
+  display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:linear-gradient(135deg,rgba(45,226,230,.2),rgba(79,172,254,.15));
+  border-bottom:1px solid rgba(45,226,230,.15);position:relative;z-index:1
+}
+.nemo-chat-msgs{
+  flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;position:relative;z-index:1
+}
+.nemo-chat-input{
+  display:flex;gap:8px;padding:10px 12px;border-top:1px solid rgba(45,226,230,.12);position:relative;z-index:1
+}
+.nemo-quick{display:flex;gap:6px;padding:8px 10px;overflow-x:auto;flex-wrap:nowrap;position:relative;z-index:1}
+.nemo-quick button{
+  flex-shrink:0;background:rgba(45,226,230,.08);border:1px solid rgba(45,226,230,.15);
+  color:var(--muted);border-radius:16px;padding:6px 10px;font-size:11.5px;white-space:nowrap
+}
+.msg.bot{background:rgba(45,226,230,.1);border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:13px;max-width:92%}
+.msg.user{background:rgba(79,172,254,.2);border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:13px;align-self:flex-end;max-width:92%}
+.nemo-bubble-hint{
+  display:none;position:fixed;bottom:160px;inset-inline-end:18px;z-index:49;
+  background:rgba(8,28,40,.95);color:var(--text);padding:10px 14px;border-radius:14px;
+  font-size:12.5px;max-width:220px;border:1px solid rgba(45,226,230,.2)
+}
+.nemo-bubble-hint.show{display:block}
+
+
+@media(max-width:900px){.content-grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .page{padding:16px 12px 28px}
+  .grid{grid-template-columns:1fr}
+  .topbar h1{font-size:21px}
+  .analysis{grid-template-columns:1fr}
+  .bottom-nav{gap:0;justify-content:space-around;padding:0}
+  .nav-btn{min-width:52px;font-size:10px}
+  .nav-btn span{font-size:18px}
+  .flash-grid{grid-template-columns:1fr 1fr}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .student-shortcuts{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:380px){.flash-grid{grid-template-columns:1fr}.nav-btn{min-width:48px}.student-shortcuts{grid-template-columns:repeat(2,1fr)}}
+
+/* Auth gate */
+.auth-gate{
+  position:fixed;inset:0;z-index:100;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:20px
+}
+.auth-gate.hidden{display:none}
+.auth-box{
+  width:min(420px,100%);background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:28px 24px;box-shadow:var(--shadow);text-align:center
+}
+.auth-box .logo-big{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:#fff;border:2px solid var(--accent);display:grid;place-items:center;overflow:hidden}
+.auth-box .logo-big svg{width:56px;height:56px}
+.auth-box h1{font-size:24px;margin-bottom:6px}
+.auth-box .sub{color:var(--muted);font-size:13.5px;margin-bottom:22px;line-height:1.6}
+.auth-box .divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--muted);font-size:12px}
+.auth-box .divider::before,.auth-box .divider::after{content:"";flex:1;height:1px;background:var(--border)}
+#googleBtnWrap{display:flex;justify-content:center;min-height:44px;margin-bottom:8px}
+.profile-step{display:none;text-align:start}
+.profile-step.active{display:block}
+.profile-step h2{text-align:center;margin-bottom:8px;font-size:20px}
+.profile-step .hint{text-align:center;color:var(--muted);font-size:13px;margin-bottom:18px}
+.user-chip{
+  display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--card2);
+  border-radius:12px;border:1px solid var(--border);margin-bottom:12px
+}
+.user-chip img{width:36px;height:36px;border-radius:50%}
+.user-chip .meta{flex:1;min-width:0;text-align:start}
+.user-chip .meta strong{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-chip .meta span{font-size:11.5px;color:var(--muted)}
+</style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+<!-- شاشة الدخول -->
+<div class="auth-gate" id="authGate">
+  <div class="auth-box">
+    <div class="logo-big">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+        <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="72" cy="39" r="8" fill="#fff"/>
+        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+      </svg>
+    </div>
+
+    <div id="loginStep" class="profile-step active">
+      <h1 data-i18n="authWelcome">أهلاً بك في Nemo</h1>
+      <p class="sub" data-i18n="authSub">سجّل دخولك لحفظ بياناتك وملفّك الشخصي، ويتكلم نيمو بلهجتك.</p>
+      <div id="googleBtnWrap"></div>
+      <p style="color:var(--muted);font-size:11.5px;margin:10px 0 0" data-i18n="authGoogleHint">يتطلب إعداد Google Client ID في الكود</p>
+      <div class="divider"><span data-i18n="or">أو</span></div>
+      <button class="btn block secondary" type="button" onclick="continueAsGuest()" data-i18n="continueGuest" id="guestBtn" style="display:none">Guest (disabled)</button>
+      <p style="color:var(--muted);font-size:12px;margin-top:10px;text-align:center" data-i18n="loginRequired">Sign in with Google to use Nemo</p>
+    </div>
+
+    <div id="profileStep" class="profile-step">
+      <h2 data-i18n="completeProfile">Complete your profile</h2>
+      <p class="hint" id="nemoAskName" data-i18n="nemoAskName">🐠 Nemo asks: What should I call you?</p>
+      <div class="user-chip" id="profileUserChip" style="display:none">
+        <img id="profileAvatar" alt="">
+        <div class="meta"><strong id="profileName"></strong><span id="profileEmail"></span></div>
+      </div>
+      <div class="field">
+        <label data-i18n="yourNameLabel">Your name</label>
+        <input id="profilePreferredName" type="text" maxlength="40" data-i18n-placeholder="yourNamePh" placeholder="e.g. Alex" autocomplete="name">
+      </div>
+      <p class="hint" data-i18n="profileHint" style="margin-top:4px">Country & age help Nemo match your style</p>
+      <div class="field">
+        <label data-i18n="countryLabel">Country</label>
+        <select id="profileCountry">
+          <option value="EG">مصر</option>
+          <option value="SA">السعودية</option>
+          <option value="AE">الإمارات</option>
+          <option value="KW">الكويت</option>
+          <option value="QA">قطر</option>
+          <option value="BH">البحرين</option>
+          <option value="OM">عُمان</option>
+          <option value="JO">الأردن</option>
+          <option value="PS">فلسطين</option>
+          <option value="LB">لبنان</option>
+          <option value="SY">سوريا</option>
+          <option value="IQ">العراق</option>
+          <option value="YE">اليمن</option>
+          <option value="SD">السودان</option>
+          <option value="MA">المغرب</option>
+          <option value="DZ">الجزائر</option>
+          <option value="TN">تونس</option>
+          <option value="LY">ليبيا</option>
+          <option value="US">United States</option>
+          <option value="GB">United Kingdom</option>
+          <option value="OTHER">أخرى / Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-i18n="ageLabel">العمر</label>
+        <input id="profileAge" type="number" min="8" max="100" placeholder="18">
+      </div>
+      <button class="btn block" type="button" onclick="saveProfile()" data-i18n="saveProfile">حفظ والبدء</button>
+    </div>
+  </div>
+</div>
+
+<div id="oceanAmbient" aria-hidden="true"></div>
+<div class="app">
+
+<section id="homePage" class="page active">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="homeTitle">Welcome to Nemo 👋</h1>
+    <p data-i18n="homeSub">Organize tasks, study smart, track progress</p>
+  </div>
+  <a href="index.html" class="avatar" aria-label="Nemo website" title="الموقع التعريفي" style="text-decoration:none">
+    <svg class="nemo-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+      <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+      <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="72" cy="39" r="8" fill="#fff"/>
+      <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+      <path d="M48 18L57 8L66 18Z" fill="#743CFF"/>
+      <rect x="43" y="17" width="27" height="5" rx="2.5" fill="#743CFF"/>
+      <rect x="49" y="58" width="24" height="17" rx="3" fill="#fff" transform="rotate(-8 49 58)"/>
+      <path d="M54 67L59 71L68 62" fill="none" stroke="#20CE70" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</header>
+<div class="grid">
+  <div class="card stat">
+    <h3 data-i18n="totalTasks">إجمالي المهام</h3>
+    <strong id="totalTasks">0</strong>
+    <small data-i18n="totalTasksSub">كل المهام التي أضفتها</small>
+    <div class="circle" id="totalCircle">0%</div>
+  </div>
+  <div class="card stat">
+    <h3 data-i18n="completedTasks">المهام المكتملة</h3>
+    <strong id="completedTasks">0</strong>
+    <small data-i18n="completedTasksSub">المهام التي أنجزتها</small>
+    <div class="circle green" id="completedCircle">0%</div>
+  </div>
+  <div class="card stat">
+    <h3 data-i18n="progressLabel">نسبة التقدم</h3>
+    <strong id="progress">0%</strong>
+    <small data-i18n="progressSub">نسبة إنجازك الحالية</small>
+    <div class="circle yellow" id="progressCircle">0%</div>
+  </div>
+</div>
+
+<!-- اختصارات وضع الطالب في الرئيسية -->
+<div class="card home-student" id="homeStudentBlock">
+  <div class="section-title">
+    <h2 data-i18n="studentModeHome">وضع الطالب</h2>
+    <button class="btn sm" type="button" onclick="openStudentArea()" data-i18n="openStudentArea">فتح المنطقة</button>
+  </div>
+  <p style="color:var(--muted);font-size:13px;margin-bottom:14px" data-i18n="studentModeHomeHint">اختر ما تريد فعله الآن</p>
+  <div class="student-shortcuts">
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('flash')">
+      <div class="ico">🃏</div>
+      <div class="lbl" data-i18n="tabFlash">بطاقات التذكر</div>
+      <div class="sub" id="homeFlashCount">0</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('notes')">
+      <div class="ico">📓</div>
+      <div class="lbl" data-i18n="tabNotes">الملاحظات</div>
+      <div class="sub" id="homeNotesCount">0</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('calendar')">
+      <div class="ico">📅</div>
+      <div class="lbl" data-i18n="tabCalendar">التقويم</div>
+      <div class="sub" data-i18n="pickDay">اختر يوماً</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('schedule')">
+      <div class="ico">🗓️</div>
+      <div class="lbl" data-i18n="tabSchedule">الجدولة</div>
+      <div class="sub" id="homeSchedCount">0</div>
+    </button>
+    <button type="button" class="student-shortcut" onclick="goStudentPanel('charts')">
+      <div class="ico">📊</div>
+      <div class="lbl" data-i18n="tabCharts">الرسوم البيانية</div>
+      <div class="sub" data-i18n="viewStats">عرض الإحصائيات</div>
+    </button>
+  </div>
+</div>
+
+
+<div class="card home-timer-card" onclick="openOceanTimer()">
+  <div class="ht-row">
+    <div>
+      <h3 data-i18n="timerTitle">⏱ مؤقت المحيط</h3>
+      <p data-i18n="timerSub">بومودورو أو مؤقت حر — ادخل الأعماق وركّز</p>
+    </div>
+    <div class="ht-ico">🌊</div>
+  </div>
+</div>
+
+
+
+<div class="card" id="focusTodayCard" style="margin-bottom:16px;border-color:rgba(45,226,230,.25)">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <div>
+      <h3 data-i18n="focusToday">Focus today</h3>
+      <p style="color:var(--muted);font-size:13px;margin-top:4px"><span id="focusTodayMin">0</span> <span data-i18n="focusMin">min</span>
+        · <span data-i18n="prodVsYesterday">vs yesterday</span>: <strong id="focusDelta">—</strong></p>
+    </div>
+    <div style="font-size:28px">🎯</div>
+  </div>
+  <div class="progress" style="margin-top:12px"><i id="focusBar" style="width:0%"></i></div>
+</div>
+
+<div class="card home-nemo-chat" id="homeNemoChat">
+  <div class="hnc-head">
+    <div class="avatar-sm">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+        <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#743cff" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="72" cy="39" r="8" fill="#fff"/>
+        <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+      </svg>
+    </div>
+    <div class="info">
+      <strong data-i18n="nemoName">Nemo 🐠</strong>
+      <span id="homeNemoStatusUnused" data-i18n="nemoStatus">مساعدك الذكي — دردشة نصية</span>
+    </div>
+    <button type="button" class="call-btn" id="homeNemoCallUnused" onclick="toggleNemoCall()" data-i18n="startCall">📞 مكالمة</button>
+  </div>
+  <div class="nemo-chat-msgs" id="homeNemoMsgsUnused"></div>
+  <div class="nemo-quick" id="homeNemoQuickUnused"></div>
+  <div class="nemo-chat-input">
+    <button type="button" class="mic-btn" id="homeNemoMicUnused" onclick="toggleNemoVoice()" title="Voice">🎤</button>
+    <input id="homeNemoInputUnused" type="text" data-i18n-placeholder="nemoPlaceholder" placeholder="اكتب لنيمو..." onkeydown="if(event.key==='Enter')sendNemoMsg()">
+    <button type="button" onclick="sendNemoMsg()" data-i18n="nemoSend">إرسال</button>
+  </div>
+</div>
+
+<div class="content-grid">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="recentTasks">آخر المهام</h2>
+      <button class="btn sm" type="button" onclick="showPage('tasksPage')" data-i18n="allTasksBtn">كل المهام</button>
+    </div>
+    <div id="homeTasks"></div>
+  </div>
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="quickAnalysis">تحليل سريع</h2>
+      <span data-i18n="basedOnData">حسب بياناتك</span>
+    </div>
+    <div id="quickAnalysis"></div>
+  </div>
+</div>
+</section>
+
+<section id="tasksPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="allTasksTitle">كل المهام</h1>
+    <p data-i18n="allTasksSub">أدر مهامك وعدّلها كما تريد</p>
+  </div>
+  <button class="btn" type="button" onclick="showPage('addPage')" data-i18n="addTaskBtn">＋ مهمة</button>
+</header>
+<div class="card">
+  <div class="filter">
+    <button type="button" class="active" onclick="setFilter('all',this)" data-i18n="filterAll">الكل</button>
+    <button type="button" onclick="setFilter('pending',this)" data-i18n="filterPending">غير مكتملة</button>
+    <button type="button" onclick="setFilter('done',this)" data-i18n="filterDone">مكتملة</button>
+    <button type="button" onclick="setFilter('today',this)" data-i18n="filterToday">اليوم</button>
+  </div>
+  <div id="allTasks"></div>
+</div>
+</section>
+
+<section id="studentPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="studentTitle">منطقة الطلاب 📚</h1>
+    <p data-i18n="studentSub">بطاقات تذكر · ملاحظات · تقويم · جدولة · رسوم</p>
+  </div>
+</header>
+<div class="sub-tabs" id="studentTabs">
+  <button type="button" class="active" data-panel="flash" onclick="showStudentPanel('flash',this)" data-i18n="tabFlash">بطاقات التذكر</button>
+  <button type="button" data-panel="notes" onclick="showStudentPanel('notes',this)" data-i18n="tabNotes">الملاحظات</button>
+  <button type="button" data-panel="calendar" onclick="showStudentPanel('calendar',this)" data-i18n="tabCalendar">التقويم</button>
+  <button type="button" data-panel="schedule" onclick="showStudentPanel('schedule',this)" data-i18n="tabSchedule">الجدولة</button>
+  <button type="button" data-panel="charts" onclick="showStudentPanel('charts',this)" data-i18n="tabCharts">الرسوم البيانية</button>
+</div>
+
+<div id="panel-flash" class="student-panel active">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="flashTitle">بطاقات التذكر</h2>
+      <button class="btn sm" type="button" onclick="openFlashModal()" data-i18n="addFlash">＋ بطاقة</button>
+    </div>
+    <div class="mini-stats">
+      <div class="mini-stat"><b id="flashCount">0</b><span data-i18n="flashTotal">إجمالي البطاقات</span></div>
+      <div class="mini-stat"><b id="flashReviewed">0</b><span data-i18n="flashReviewedToday">تمت مراجعتها اليوم</span></div>
+    </div>
+    <div id="flashList" class="flash-grid"></div>
+  </div>
+</div>
+
+<div id="panel-notes" class="student-panel">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="notesTitle">دفتر الملاحظات</h2>
+      <button class="btn sm" type="button" onclick="openNoteModal()" data-i18n="addNote">＋ ملاحظة</button>
+    </div>
+    <div id="notesList" class="notes-list"></div>
+  </div>
+</div>
+
+<div id="panel-calendar" class="student-panel">
+  <div class="card">
+    <div class="cal-header">
+      <h3 id="calMonthTitle">—</h3>
+      <div class="cal-nav">
+        <button type="button" onclick="changeMonth(-1)" aria-label="prev">›</button>
+        <button type="button" onclick="goToday()" class="btn sm" style="width:auto;padding:0 10px;font-size:12px" data-i18n="todayBtn">اليوم</button>
+        <button type="button" onclick="changeMonth(1)" aria-label="next">‹</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="day-tasks">
+      <h4 id="selectedDayTitle">—</h4>
+      <div id="dayTasksList"></div>
+    </div>
+  </div>
+</div>
+
+<div id="panel-schedule" class="student-panel">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="scheduleTitle">جدولة المهام</h2>
+      <button class="btn sm" type="button" onclick="openScheduleModal()" data-i18n="addSchedule">＋ موعد</button>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:14px" data-i18n="scheduleHint">رتّب وقت دراستك ومهامك حسب الساعة والأولوية.</p>
+    <div id="scheduleList" class="schedule-list"></div>
+  </div>
+</div>
+
+<div id="panel-charts" class="student-panel">
+  <div class="card">
+    <div class="section-title">
+      <h2 data-i18n="studyStats">إحصائيات الدراسة</h2>
+      <span data-i18n="basedOnData">من بياناتك</span>
+    </div>
+    <div class="mini-stats">
+      <div class="mini-stat"><b id="studyTasksCount">0</b><span data-i18n="studyTasks">مهام دراسية</span></div>
+      <div class="mini-stat"><b id="studyDoneCount">0</b><span data-i18n="studyDone">مكتملة</span></div>
+      <div class="mini-stat"><b id="notesCountStat">0</b><span data-i18n="notesStat">ملاحظات</span></div>
+      <div class="mini-stat"><b id="scheduleCountStat">0</b><span data-i18n="scheduleStat">مواعيد مجدولة</span></div>
+    </div>
+    <div class="chart-tabs" id="studyChartTabs">
+      <button type="button" class="active" onclick="changeStudyChart('category',this)" data-i18n="byCategory">حسب التصنيف</button>
+      <button type="button" onclick="changeStudyChart('week',this)" data-i18n="weeklyProgress">إنجاز أسبوعي</button>
+    </div>
+    <div class="chart">
+      <svg id="studyChartSvg" viewBox="0 0 600 180"></svg>
+      <div class="chart-labels" id="studyChartLabels"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="analyticsPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="analyticsTitle">تحليل البيانات</h1>
+    <p data-i18n="analyticsSub">تابع إنجازك يومياً وأسبوعياً</p>
+  </div>
+</header>
+<div class="card">
+  <div class="section-title">
+    <h2 data-i18n="progressCurve">منحنى الإنجاز</h2>
+    <span id="chartTitle">—</span>
+  </div>
+  <div class="chart-tabs">
+    <button type="button" class="active" onclick="changeChart('daily',this)" data-i18n="daily">يومي</button>
+    <button type="button" onclick="changeChart('weekly',this)" data-i18n="weekly">أسبوعي</button>
+    <button type="button" onclick="changeChart('monthly',this)" data-i18n="monthly">شهري</button>
+  </div>
+  <div class="chart">
+    <svg id="chartSvg" viewBox="0 0 600 180"></svg>
+    <div class="chart-labels" id="chartLabels"></div>
+  </div>
+</div>
+<div class="card">
+  <div class="section-title"><h2 data-i18n="progressDetails">تفاصيل التقدم</h2></div>
+  <div id="fullAnalysis"></div>
+</div>
+</section>
+
+<section id="addPage" class="page">
+<div class="card form-card">
+  <div class="section-title"><h2 data-i18n="newTaskTitle">إضافة مهمة جديدة</h2></div>
+  <div class="field">
+    <label data-i18n="taskName">اسم المهمة</label>
+    <input id="newTitle" type="text" data-i18n-placeholder="taskNamePh" placeholder="مثلاً: إنهاء المشروع">
+  </div>
+  <div class="field">
+    <label data-i18n="category">التصنيف</label>
+    <select id="newCategory">
+      <option value="work" data-i18n="catWork">العمل</option>
+      <option value="study" data-i18n="catStudy">الدراسة</option>
+      <option value="personal" data-i18n="catPersonal">شخصي</option>
+    </select>
+  </div>
+  <div class="field">
+    <label data-i18n="date">التاريخ</label>
+    <input id="newDate" type="date">
+  </div>
+  <div class="field">
+    <label data-i18n="priority">الأولوية</label>
+    <select id="newPriority">
+      <option value="medium" data-i18n="priMedium">متوسطة</option>
+      <option value="high" data-i18n="priHigh">عالية</option>
+      <option value="low" data-i18n="priLow">منخفضة</option>
+    </select>
+  </div>
+  <div class="field">
+    <label data-i18n="notes">ملاحظات</label>
+    <textarea id="newNotes" data-i18n-placeholder="notesPh" placeholder="ملاحظات اختيارية"></textarea>
+  </div>
+  <button class="btn block" type="button" onclick="addTask()" data-i18n="saveTask">حفظ المهمة</button>
+</div>
+</section>
+
+<section id="settingsPage" class="page">
+<header class="topbar">
+  <div>
+    <h1 data-i18n="settingsTitle">Settings</h1>
+    <p data-i18n="settingsSub">Manage Nemo data & look</p>
+  </div>
+</header>
+<div class="card">
+
+  <div class="settings-group">
+    <h3 data-i18n="appearance">🎨 المظهر</h3>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:12px" data-i18n="themeHint">اختر وضع الألوان المفضل لديك</p>
+    <div class="theme-grid" id="themeGrid">
+      <div class="theme-opt active" data-theme-opt="ocean" onclick="setTheme('ocean')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#021018"></span><span style="background:#2de2e6"></span><span style="background:#0a1f2e"></span></div>
+        <div class="name" data-i18n="themeOcean">Ocean</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="abyss" onclick="setTheme('abyss')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#01080e"></span><span style="background:#1a9fff"></span><span style="background:#071820"></span></div>
+        <div class="name" data-i18n="themeAbyss">Abyss</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="coral" onclick="setTheme('coral')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#0c1520"></span><span style="background:#ff7a59"></span><span style="background:#162636"></span></div>
+        <div class="name" data-i18n="themeCoral">Coral</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="lagoon" onclick="setTheme('lagoon')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#041e28"></span><span style="background:#20e0c0"></span><span style="background:#0c3340"></span></div>
+        <div class="name" data-i18n="themeLagoon">Lagoon</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="surface" onclick="setTheme('surface')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#e8f4f8"></span><span style="background:#0a9aaa"></span><span style="background:#ffffff"></span></div>
+        <div class="name" data-i18n="themeSurface">Surface</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="mix" onclick="setTheme('mix')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#2de2e6"></span><span style="background:#4facfe"></span><span style="background:#a855f7"></span></div>
+        <div class="name" data-i18n="themeBio">Bio</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="volcanic" onclick="setTheme('volcanic')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#120808"></span><span style="background:#ff5a2a"></span><span style="background:#1a0c0c"></span></div>
+        <div class="name" data-i18n="themeVolcanic">Volcanic</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="arctic" onclick="setTheme('arctic')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#0a141c"></span><span style="background:#a8e6ff"></span><span style="background:#122028"></span></div>
+        <div class="name" data-i18n="themeArctic">Arctic</div>
+      </div>
+      <div class="theme-opt" data-theme-opt="midnight" onclick="setTheme('midnight')">
+        <div class="check-mark">✓</div>
+        <div class="swatch"><span style="background:#000510"></span><span style="background:#4060ff"></span><span style="background:#060e1a"></span></div>
+        <div class="name" data-i18n="themeMidnight">Midnight</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="language">🌐 اللغة</h3>
+    <div class="lang-toggle">
+      <button type="button" id="langEn" class="active" onclick="setLang('en')">English</button>
+      <button type="button" id="langAr" onclick="setLang('ar')">العربية</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="studentModeSection">📚 وضع الطالب</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="studentModeTitle">تفعيل منطقة الطلاب</strong>
+        <span data-i18n="studentModeSub">عند التفعيل تظهر اختصارات الدراسة في الرئيسية وزر طلاب في الشريط السفلي.</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="studentModeToggle" onchange="setStudentMode(this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <p id="studentModeStatus" style="color:var(--muted);font-size:12.5px;margin-top:4px" data-i18n="studentModeOff">وضع الطالب مغلق</p>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="backup">💾 النسخ الاحتياطي</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="exportImport">تصدير واستيراد</strong>
+        <span data-i18n="exportImportSub">احفظ مهامك وبيانات الطلاب كملف JSON أو استرجعها لاحقاً.</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn" type="button" onclick="exportData()" data-i18n="exportBtn">تصدير البيانات</button>
+      <button class="btn blue" type="button" onclick="document.getElementById('fileInput').click()" data-i18n="importBtn">استيراد البيانات</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="reminders">🔔 التذكيرات</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="taskReminders">تذكيرات المهام</strong>
+        <span id="reminderStatus" data-i18n="remindersOff">التذكيرات غير مفعلة</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn green" type="button" onclick="enableReminders()" data-i18n="enableReminders">تفعيل التذكيرات</button>
+      <button class="btn red" type="button" onclick="disableReminders()" data-i18n="disableReminders">إيقاف التذكيرات</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="about">ℹ️ حول التطبيق</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong>Nemo</strong>
+        <span data-i18n="aboutText">تُحفظ بياناتك محلياً في متصفحك فقط. لا تُرسل إلى أي خادم.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="accountSection">👤 الحساب</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong id="accountName" data-i18n="notSignedIn">غير مسجّل</strong>
+        <span id="accountMeta">—</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn secondary" type="button" onclick="editProfile()" data-i18n="editProfile">تعديل الدولة / العمر</button>
+      <button class="btn red" type="button" onclick="signOutUser()" data-i18n="signOut">تسجيل الخروج</button>
+    </div>
+  </div>
+
+
+  <div class="settings-group">
+    <h3 data-i18n="nemoVoiceSection">🎙️ صوت نيمو</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="nemoVoiceTitle">اختر صوت المساعد</strong>
+        <span data-i18n="nemoVoiceSub">يُستخدم فقط أثناء المكالمة الصوتية</span>
+      </div>
+    </div>
+    <div class="field" style="margin-top:8px">
+      <select id="nemoVoiceSelect" onchange="setNemoVoice(this.value)" style="width:100%;padding:10px;border-radius:10px;background:var(--input-bg);color:var(--text);border:1px solid var(--border)"></select>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="supportSection">💬 الدعم والتواصل</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="supportTitle">تواصل مع دعم Nemo</strong>
+        <span data-i18n="supportSub">للاقتراحات والمشاكل والاستفسارات</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <a class="btn" href="mailto:nemo.tasker@gmail.com" style="display:inline-block;text-decoration:none">nemo.tasker@gmail.com</a>
+      <a class="btn secondary" href="index.html" style="display:inline-block;text-decoration:none" data-i18n="visitWebsite">الموقع التعريفي</a>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <h3 data-i18n="dangerZone">⚠️ منطقة الخطر</h3>
+    <div class="settings-row">
+      <div class="info">
+        <strong data-i18n="deleteData">حذف البيانات</strong>
+        <span data-i18n="deleteDataSub">حذف المهام منفصل عن بيانات الطلاب.</span>
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="btn red" type="button" onclick="deleteAllTasks()" data-i18n="deleteAllTasks">حذف جميع المهام</button>
+      <button class="btn secondary" type="button" onclick="deleteAllStudentData()" data-i18n="deleteStudentData">مسح بيانات الطلاب</button>
+    </div>
+  </div>
+</div>
+</section>
+
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" type="button" data-page="homePage" onclick="showPage('homePage',this)"><span>⌂</span><span data-i18n="navHome">الرئيسية</span></button>
+  <button class="nav-btn" type="button" data-page="tasksPage" onclick="showPage('tasksPage',this)"><span>✓</span><span data-i18n="navTasks">المهام</span></button>
+  <button class="nav-btn add-nav" type="button" onclick="showPage('addPage')" title="+">＋</button>
+  <button class="nav-btn" type="button" id="navStudentBtn" data-page="studentPage" onclick="showPage('studentPage',this)"><span>📚</span><span data-i18n="navStudent">طلاب</span></button>
+  <button class="nav-btn" type="button" data-page="analyticsPage" onclick="showPage('analyticsPage',this)"><span>◒</span><span data-i18n="navAnalytics">تحليل</span></button>
+  <button class="nav-btn" type="button" data-page="settingsPage" onclick="showPage('settingsPage',this)"><span>⚙</span><span data-i18n="navSettings">إعدادات</span></button>
+</nav>
+
+<div class="modal" id="editModal">
+  <div class="modal-box">
+    <h2 data-i18n="editTask">تعديل المهمة</h2>
+    <div class="field"><label data-i18n="taskName">اسم المهمة</label><input id="editTitle" type="text"></div>
+    <div class="field">
+      <label data-i18n="category">التصنيف</label>
+      <select id="editCategory">
+        <option value="work" data-i18n="catWork">العمل</option>
+        <option value="study" data-i18n="catStudy">الدراسة</option>
+        <option value="personal" data-i18n="catPersonal">شخصي</option>
+      </select>
+    </div>
+    <div class="field"><label data-i18n="date">التاريخ</label><input id="editDate" type="date"></div>
+    <div class="field">
+      <label data-i18n="priority">الأولوية</label>
+      <select id="editPriority">
+        <option value="medium" data-i18n="priMedium">متوسطة</option>
+        <option value="high" data-i18n="priHigh">عالية</option>
+        <option value="low" data-i18n="priLow">منخفضة</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveEdit()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeEdit()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="flashModal">
+  <div class="modal-box">
+    <h2 id="flashModalTitle" data-i18n="newFlash">بطاقة تذكر جديدة</h2>
+    <div class="field"><label data-i18n="flashFront">الوجه (السؤال)</label><textarea id="flashFront" data-i18n-placeholder="flashFrontPh" placeholder="مثلاً: ما هو تعريف..."></textarea></div>
+    <div class="field"><label data-i18n="flashBack">الظهر (الإجابة)</label><textarea id="flashBack" data-i18n-placeholder="flashBackPh" placeholder="الإجابة..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveFlashCard()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeFlashModal()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="noteModal">
+  <div class="modal-box">
+    <h2 id="noteModalTitle" data-i18n="newNote">ملاحظة جديدة</h2>
+    <div class="field"><label data-i18n="noteTitleLabel">العنوان</label><input id="noteTitle" type="text" data-i18n-placeholder="noteTitlePh" placeholder="عنوان الملاحظة"></div>
+    <div class="field"><label data-i18n="noteBodyLabel">المحتوى</label><textarea id="noteBody" data-i18n-placeholder="noteBodyPh" placeholder="اكتب ملاحظاتك هنا..." style="min-height:140px"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveNoteCard()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeNoteModal()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="scheduleModal">
+  <div class="modal-box">
+    <h2 data-i18n="newSchedule">موعد جديد</h2>
+    <div class="field"><label data-i18n="schedTitleLabel">العنوان</label><input id="schedTitle" type="text" data-i18n-placeholder="schedTitlePh" placeholder="مثلاً: مراجعة الرياضيات"></div>
+    <div class="field"><label data-i18n="date">التاريخ</label><input id="schedDate" type="date"></div>
+    <div class="field"><label data-i18n="time">الوقت</label><input id="schedTime" type="time"></div>
+    <div class="field">
+      <label data-i18n="priority">الأولوية</label>
+      <select id="schedPriority">
+        <option value="high" data-i18n="priHigh">عالية</option>
+        <option value="medium" selected data-i18n="priMedium">متوسطة</option>
+        <option value="low" data-i18n="priLow">منخفضة</option>
+      </select>
+    </div>
+    <div class="field"><label data-i18n="notes">ملاحظات</label><textarea id="schedNotes" data-i18n-placeholder="optional" placeholder="اختياري"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" type="button" onclick="saveScheduleItem()" data-i18n="save">حفظ</button>
+      <button class="cancel" type="button" onclick="closeScheduleModal()" data-i18n="cancel">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Ocean Focus Timer -->
+<div class="ocean-timer-page" id="oceanTimerPage">
+  <button type="button" class="ot-close" onclick="closeOceanTimer()">×</button>
+  <button type="button" class="ot-sound-toggle" id="otSoundBtn" onclick="toggleOceanSound()">🌊 صوت المحيط</button>
+  <div class="ot-rays" id="otRays"></div>
+  <div class="ot-bubbles" id="otBubbles"></div>
+  <div class="ot-fish" id="otFish1" style="top:18%;left:12%"><svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg></div>
+  <div class="ot-fish" id="otFish2" style="top:70%;right:14%;animation-duration:16s;animation-delay:-4s"><svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg></div>
+  <div class="ot-modes">
+    <button type="button" class="active" id="modePomo" onclick="setTimerMode('pomo')">Focus 25</button>
+    <button type="button" id="modeShort" onclick="setTimerMode('short')">Break 5</button>
+    <button type="button" id="modeLong" onclick="setTimerMode('long')">Break 15</button>
+    <button type="button" id="modeCustom" onclick="setTimerMode('custom')">Custom</button>
+  </div>
+  <div id="otCustomRow" style="display:none;gap:8px;margin-bottom:12px;z-index:2;flex-wrap:wrap;justify-content:center;align-items:center">
+    <label style="color:#a8e6ff;font-size:12px">Focus <input id="otWorkMin" type="number" min="1" max="180" value="25" style="width:56px;margin:0 4px;padding:6px;border-radius:8px;border:0"></label>
+    <label style="color:#a8e6ff;font-size:12px">Break <input id="otBreakMin" type="number" min="1" max="60" value="5" style="width:56px;margin:0 4px;padding:6px;border-radius:8px;border:0"></label>
+    <button type="button" class="ot-btn-ghost" onclick="applyCustomTimer()">Apply</button>
+  </div>
+  <div class="ot-ring-wrap">
+    <div class="ot-ring">
+      <div class="ot-water" id="otWater"></div>
+      <div>
+        <div class="ot-time" id="otTime">25:00</div>
+        <div class="ot-label" id="otLabel" data-i18n="focusTime">وقت التركيز</div>
+      </div>
+    </div>
+  </div>
+  <div class="ot-controls">
+    <button type="button" class="ot-btn-main" id="otStartBtn" onclick="toggleOceanTimerRun()" data-i18n="timerStart">ابدأ</button>
+    <button type="button" class="ot-btn-ghost" onclick="resetOceanTimer()" data-i18n="timerReset">إعادة</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input id="fileInput" type="file" accept=".json" hidden>
+
+<!-- Nemo floating fish + chat -->
+
+<div class="nemo-bubble-hint" id="nemoHint"></div>
+
+<!-- chat moved to home -->
+
+
+<button type="button" class="nemo-fab" id="nemoFab" onclick="toggleNemoChat()" aria-label="Nemo chat">
+  <div class="fish-wrap">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/>
+      <path d="M24 51C15 43 9 40 5 42C10 48 10 54 5 61C12 62 18 59 25 53Z" fill="#F47732"/>
+      <path d="M38 24C44 33 44 68 38 77" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M62 22C68 32 68 69 62 78" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="72" cy="39" r="8" fill="#fff"/>
+      <circle cx="75" cy="39" r="3.5" fill="#101018"/>
+    </svg>
+  </div>
+</button>
+<div class="nemo-bubble-hint" id="nemoHint"></div>
+<div class="nemo-chat" id="nemoChat">
+  <div class="nemo-chat-header">
+    <div class="avatar-sm" style="width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden">
+      <svg viewBox="0 0 100 100" width="28" height="28"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="7" fill="#fff"/><circle cx="74" cy="39" r="3" fill="#101018"/></svg>
+    </div>
+    <div class="info" style="flex:1">
+      <strong data-i18n="nemoName">Nemo 🐠</strong>
+      <span id="nemoCallStatus" data-i18n="callIdle" style="font-size:11px;opacity:.85">Text chat</span>
+    </div>
+    <button type="button" class="call-btn" id="nemoCallBtn" onclick="toggleNemoCall()" data-i18n="startCall" style="background:rgba(255,255,255,.15);border:0;color:#fff;border-radius:16px;padding:6px 10px;font-size:11px;font-weight:700">📞</button>
+    <button type="button" class="close-chat" onclick="toggleNemoChat()" style="background:transparent;border:0;color:#fff;font-size:22px;line-height:1;cursor:pointer">×</button>
+  </div>
+  <div class="nemo-chat-msgs" id="nemoMsgs"></div>
+  <div class="nemo-quick" id="nemoQuick"></div>
+  <div class="nemo-chat-input">
+    <button type="button" class="mic-btn" id="nemoMic" onclick="toggleNemoVoice()" title="Voice">🎤</button>
+    <input id="nemoInput" type="text" data-i18n-placeholder="nemoPlaceholder" placeholder="Message Nemo..." onkeydown="if(event.key==='Enter')sendNemoMsg()">
+    <button type="button" onclick="sendNemoMsg()" data-i18n="nemoSend">Send</button>
+  </div>
+</div>
+
+<script>
+(function () {
+"use strict";
+
+/* ========== i18n ========== */
+const I18N = {
+  ar: {
+    homeTitle: "Welcome to Nemo 👋", homeSub: "Organize tasks, study smart, track progress",
+    totalTasks: "إجمالي المهام", totalTasksSub: "كل المهام التي أضفتها",
+    completedTasks: "المهام المكتملة", completedTasksSub: "المهام التي أنجزتها",
+    progressLabel: "نسبة التقدم", progressSub: "نسبة إنجازك الحالية",
+    recentTasks: "آخر المهام", allTasksBtn: "كل المهام", quickAnalysis: "تحليل سريع", basedOnData: "حسب بياناتك",
+    allTasksTitle: "كل المهام", allTasksSub: "أدر مهامك وعدّلها كما تريد", addTaskBtn: "＋ مهمة",
+    filterAll: "الكل", filterPending: "غير مكتملة", filterDone: "مكتملة", filterToday: "اليوم",
+    studentTitle: "منطقة الطلاب 📚", studentSub: "بطاقات تذكر · ملاحظات · تقويم · جدولة · رسوم",
+    tabFlash: "بطاقات التذكر", tabNotes: "الملاحظات", tabCalendar: "التقويم", tabSchedule: "الجدولة", tabCharts: "الرسوم البيانية",
+    flashTitle: "بطاقات التذكر", addFlash: "＋ بطاقة", flashTotal: "إجمالي البطاقات", flashReviewedToday: "تمت مراجعتها اليوم",
+    notesTitle: "دفتر الملاحظات", addNote: "＋ ملاحظة", todayBtn: "اليوم",
+    scheduleTitle: "جدولة المهام", addSchedule: "＋ موعد", scheduleHint: "رتّب وقت دراستك ومهامك حسب الساعة والأولوية.",
+    studyStats: "إحصائيات الدراسة", studyTasks: "مهام دراسية", studyDone: "مكتملة", notesStat: "ملاحظات", scheduleStat: "مواعيد مجدولة",
+    byCategory: "حسب التصنيف", weeklyProgress: "إنجاز أسبوعي",
+    analyticsTitle: "تحليل البيانات", analyticsSub: "تابع إنجازك يومياً وأسبوعياً", progressCurve: "منحنى الإنجاز",
+    daily: "يومي", weekly: "أسبوعي", monthly: "شهري", progressDetails: "تفاصيل التقدم",
+    newTaskTitle: "إضافة مهمة جديدة", taskName: "اسم المهمة", taskNamePh: "مثلاً: إنهاء المشروع",
+    category: "التصنيف", catWork: "العمل", catStudy: "الدراسة", catPersonal: "شخصي",
+    date: "التاريخ", priority: "الأولوية", priMedium: "متوسطة", priHigh: "عالية", priLow: "منخفضة",
+    notes: "ملاحظات", notesPh: "ملاحظات اختيارية", saveTask: "حفظ المهمة",
+    settingsTitle: "الإعدادات", settingsSub: "إدارة بيانات ومظهر Nemo",
+    themeOcean: "محيط", themeAbyss: "أعماق", themeCoral: "مرجان", themeLagoon: "بحيرة", themeSurface: "سطح", themeBio: "توهج",
+    themeVolcanic: "بركاني",
+    themeArctic: "قطبي",
+    themeMidnight: "منتصف الليل",
+    loginRequired: "سجّل الدخول بجوجل لاستخدام نيمو",
+    focusToday: "تركيز اليوم",
+    focusMin: "دقيقة",
+    prodVsYesterday: "مقابل أمس",
+    weekView: "أسبوعي",
+    monthView: "شهري",
+    addTaskDay: "＋ مهمة لهذا اليوم",
+    wellbeingTitle: "الرفاهية الرقمية",
+    wellbeingNote: "يتتبع نيمو جلسات التركيز داخل التطبيق. مراقبة تطبيقات النظام الحقيقية تحتاج صلاحيات نظام/تطبيق أصلي.",
+    logUsage: "تسجيل استخدام يدوي",
+    appearance: "🎨 المظهر", themeHint: "اختر وضع الألوان المفضل لديك",
+    themeDark: "داكن", themePink: "وردي", themeBlue: "أزرق", themeRed: "أحمر وأسود", themeLight: "فاتح", themeMix: "ميكس",
+    language: "🌐 اللغة", backup: "💾 النسخ الاحتياطي", exportImport: "تصدير واستيراد",
+    exportImportSub: "احفظ مهامك وبيانات الطلاب كملف JSON أو استرجعها لاحقاً.",
+    exportBtn: "تصدير البيانات", importBtn: "استيراد البيانات",
+    reminders: "🔔 التذكيرات", taskReminders: "تذكيرات المهام", remindersOff: "التذكيرات غير مفعلة",
+    enableReminders: "تفعيل التذكيرات", disableReminders: "إيقاف التذكيرات",
+    about: "ℹ️ حول التطبيق", aboutText: "تُحفظ بياناتك محلياً في متصفحك فقط. لا تُرسل إلى أي خادم.",
+    dangerZone: "⚠️ منطقة الخطر", deleteData: "حذف البيانات", deleteDataSub: "حذف المهام منفصل عن بيانات الطلاب.",
+    deleteAllTasks: "حذف جميع المهام", deleteStudentData: "مسح بيانات الطلاب",
+    navHome: "الرئيسية", navTasks: "المهام", navStudent: "طلاب", navAnalytics: "تحليل", navSettings: "إعدادات",
+    editTask: "تعديل المهمة", save: "حفظ", cancel: "إلغاء",
+    newFlash: "بطاقة تذكر جديدة", editFlash: "تعديل البطاقة", flashFront: "الوجه (السؤال)", flashBack: "الظهر (الإجابة)",
+    flashFrontPh: "مثلاً: ما هو تعريف...", flashBackPh: "الإجابة...",
+    newNote: "ملاحظة جديدة", editNote: "تعديل الملاحظة", noteTitleLabel: "العنوان", noteBodyLabel: "المحتوى",
+    noteTitlePh: "عنوان الملاحظة", noteBodyPh: "اكتب ملاحظاتك هنا...",
+    newSchedule: "موعد جديد", schedTitleLabel: "العنوان", schedTitlePh: "مثلاً: مراجعة الرياضيات", time: "الوقت", optional: "اختياري",
+    noTasks: "لا توجد مهام", noTasksMsg: "أضف أول مهمة ليبدأ Nemo بتحليل تقدمك.",
+    noFlash: "لا توجد بطاقات", noFlashMsg: "أضف بطاقات تذكر للمراجعة السريعة.",
+    noNotes: "لا توجد ملاحظات", noNotesMsg: "اكتب ملاحظاتك الدراسية هنا.",
+    noSchedule: "لا توجد مواعيد", noScheduleMsg: "أضف جدولة لدراستك ومهامك.",
+    noDayItems: "لا شيء في هذا اليوم", noDayItemsMsg: "أضف مهمة أو موعداً مجدولاً.",
+    dayItems: "مهام ومواعيد:", done: "مكتملة", inProgress: "قيد التنفيذ", overdue: "متأخرة", noDate: "بدون تاريخ",
+    priorityLabel: "أولوية", questionTap: "السؤال · اضغط للقلب", answer: "الإجابة",
+    edit: "تعديل", del: "حذف",
+    msgStart: "ابدأ بمهمة بسيطة لتحسين مستوى تقدمك.",
+    msg100: "رائع! لقد أنجزت جميع مهامك.",
+    msg70: "أداء ممتاز، أنت قريب جداً من إنهاء مهامك.",
+    msg40: "تقدم جيد، حاول إكمال المهام المتبقية.",
+    overdueMsg: "لديك", overdueTasks: "مهمة متأخرة.",
+    writeTaskName: "اكتب اسم المهمة أولاً", writeTask: "اكتب اسم المهمة",
+    writeFlash: "اكتب الوجه والظهر", writeNoteTitle: "اكتب عنواناً للملاحظة", writeSched: "اكتب عنوان الموعد",
+    confirmDeleteTask: "هل تريد حذف هذه المهمة؟", confirmDeleteFlash: "حذف هذه البطاقة؟",
+    confirmDeleteNote: "حذف هذه الملاحظة؟", confirmDeleteSched: "حذف هذا الموعد؟",
+    confirmDeleteAll: "هل أنت متأكد من حذف جميع المهام؟", confirmDeleteStudent: "مسح كل البطاقات والملاحظات والمواعيد؟",
+    noDataDelete: "لا توجد بيانات لحذفها", importOk: "تم استيراد البيانات بنجاح", importFail: "الملف غير صالح",
+    studentCleared: "تم مسح بيانات الطلاب", remindersOn: "تم تفعيل تذكيرات المهام بنجاح",
+    noNotif: "المتصفح لا يدعم الإشعارات.", needHttps: "الإشعارات تحتاج إلى تشغيل التطبيق عبر HTTPS أو localhost.",
+    needPermission: "يجب السماح بالإشعارات من إعدادات المتصفح.", notAllowed: "لم يتم السماح بالإشعارات.",
+    remindersDisabled: "تم إيقاف التذكيرات.", remindersEnabled: "مفعّلة · التذكير القادم تقريباً: ",
+    needNotifFirst: "يجب السماح بالإشعارات أولاً",
+    work: "العمل", study: "الدراسة", personal: "شخصي",
+    high: "عالية", medium: "متوسطة", low: "منخفضة",
+    weekDays: ["السبت","الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],
+    weeks: ["أسبوع 1","أسبوع 2","أسبوع 3","أسبوع 4"],
+    catLabels: ["العمل","الدراسة","شخصي"],
+    dowShort: ["س","ح","ن","ث","ر","خ","ج"],
+    themeApplied: "تم تطبيق المظهر", langChanged: "تم تغيير اللغة",
+    studentModeSection: "📚 وضع الطالب", studentModeTitle: "تفعيل منطقة الطلاب",
+    studentModeSub: "عند التفعيل تظهر اختصارات الدراسة في الرئيسية وزر طلاب في الشريط السفلي.",
+    studentModeOn: "وضع الطالب مفعّل", studentModeOff: "وضع الطالب مغلق",
+    studentModeHome: "وضع الطالب", studentModeHomeHint: "اختر ما تريد فعله الآن",
+    openStudentArea: "فتح المنطقة", pickDay: "اختر يوماً", viewStats: "عرض الإحصائيات",
+    studentEnabledToast: "تم تفعيل وضع الطالب", studentDisabledToast: "تم إغلاق وضع الطالب",
+    cardsCount: "بطاقة", notesCount: "ملاحظة", eventsCount: "موعد",
+    nemoName: "Nemo 🐠", nemoStatus: "مساعدك الذكي", nemoSend: "إرسال",
+    nemoPlaceholder: "اكتب رسالة لنيمو...",
+    nemoWelcome: "مرحباً! أنا نيمو 🐠 مساعدك في التنظيم والدراسة. اسألني عن تقدمك أو اطلب نصيحة!",
+    nemoQ1: "كيف تقدمي؟", nemoQ2: "نصيحة اليوم", nemoQ3: "ماذا أفعل الآن؟",
+    tipEmpty: "ابدأ بمهمة واحدة بسيطة اليوم — حتى 10 دقائق تكفي لبناء زخم.",
+    tipOverdue: "لديك مهام متأخرة. اختر الأهم وأغلقها أولاً لتخفيف الضغط.",
+    tipAlmost: "أنت قريب من إنهاء كل شيء! دفعة أخيرة وتحتفل.",
+    tipGood: "تقدمك جيد. حافظ على إيقاع ثابت بدل الضغط دفعة واحدة.",
+    tipStudy: "جرّب بطاقة تذكر واحدة الآن — المراجعة القصيرة تثبّت المعلومة.",
+    tipNotes: "اكتب ملاحظة سريعة مما تعلّمته اليوم قبل أن تنساه.",
+    tipSchedule: "حدّد موعداً في الجدولة لجلسة تركيز 25 دقيقة.",
+    tipStudent: "فعّل وضع الطالب من الإعدادات للبطاقات والتقويم والجدولة.",
+    tipBreak: "خذ استراحة قصيرة 5 دقائق ثم عد بمهمة واحدة واضحة.",
+    tipCelebrate: "أحسنت! أنجزت كل مهامك. أضف هدفاً جديداً أو راجع بطاقاتك.",
+    tipGeneric1: "قسّم المهام الكبيرة إلى خطوات صغيرة يسهل إنهاؤها.",
+    tipGeneric2: "أنهِ أصعب مهمة في أول ساعة من يومك.",
+    tipGeneric3: "راجع قائمتك كل مساء لمدة دقيقتين فقط.",
+    tipGeneric4: "قاعدة 2 دقيقة: إن أمكنت المهمة في دقيقتين فافعلها فوراً.",
+    tipGeneric5: "اجعل هاتفك بعيداً خلال جلسة تركيز واحدة يومياً.",
+    replyProgress: "إليك ملخص تقدمك:",
+    replyUnknown: "لم أفهم تماماً، لكن يمكنني مساعدتك بتقدمك أو بنصيحة عملية. جرّب الأزرار السريعة!",
+    replyHello: "أهلاً! سعيد بوجودك. كيف أقدر أساعدك اليوم؟",
+    replyThanks: "العفو! أنا هنا متى احتجتني 🐠",
+    authWelcome: "أهلاً بك في Nemo",
+    authSub: "سجّل دخولك لحفظ بياناتك وملفّك الشخصي، ويتكلم نيمو بلهجتك.",
+    authGoogleHint: "ضع Google Client ID في الكود لتفعيل زر جوجل",
+    or: "أو",
+    continueGuest: "المتابعة كزائر",
+    completeProfile: "أكمل ملفك",
+    profileHint: "الدولة والعمر يساعدان نيمو يتكلم بأسلوب قريب منك",
+    countryLabel: "الدولة",
+    ageLabel: "العمر",
+    nemoAskName: "🐠 نيمو يسأل: أناديك بإيه؟",
+    yourNameLabel: "اسمك",
+    yourNamePh: "مثال: أحمد",
+    needName: "اكتب اسمك عشان نيمو يعرفك",
+    saveProfile: "حفظ والبدء",
+    accountSection: "👤 الحساب",
+    notSignedIn: "غير مسجّل",
+    editProfile: "تعديل الدولة / العمر",
+    signOut: "تسجيل الخروج",
+    supportSection: "💬 الدعم والتواصل",
+    supportTitle: "تواصل مع دعم Nemo",
+    supportSub: "للاقتراحات والمشاكل والاستفسارات",
+    visitWebsite: "الموقع التعريفي",
+    guestUser: "زائر",
+    profileSaved: "تم حفظ ملفك",
+    needAge: "أدخل عمراً صالحاً (8–100)",
+        timerTitle: "⏱ مؤقت المحيط", timerSub: "بومودورو أو مؤقت حر — ادخل الأعماق وركّز",
+    focusTime: "وقت التركيز", breakTime: "استراحة", timerStart: "ابدأ", timerPause: "إيقاف مؤقت", timerReset: "إعادة",
+    oceanSound: "🌊 صوت المحيط", oceanSoundOff: "🔇 كتم الصوت",
+    nemoQ4: "نظّم أسبوعي", nemoQ5: "جدول الأسبوع",
+    voiceListening: "أستمع...", voiceNotSupported: "المتصفح لا يدعم التعرف على الصوت",
+    weekTableCaption: "جدول مهام الأسبوع",
+    nemoAddedTasks: "تم إضافة المهام التالية:",
+    nemoUpdatedTask: "تم تعديل المهمة.",
+    nemoNoUnderstandTask: "لم أفهم المهمة بوضوح. مثال: أضف مهمة مراجعة الرياضيات غداً بأولوية عالية",
+        nemoVoiceSection: "🎙️ صوت نيمو", nemoVoiceTitle: "اختر صوت المساعد", nemoVoiceSub: "يُستخدم فقط أثناء المكالمة الصوتية",
+    startCall: "📞 مكالمة", endCall: "إنهاء المكالمة", callActive: "في مكالمة مع نيمو…", callIdle: "دردشة نصية — ابدأ مكالمة للكلام",
+    dialectNote: "نيمو بيتكلم بلهجتك حسب دولتك"
+  },
+  en: {
+    homeTitle: "Welcome to Nemo 👋", homeSub: "Organize tasks, study smart, track progress",
+    totalTasks: "Total tasks", totalTasksSub: "All tasks you've added",
+    completedTasks: "Completed", completedTasksSub: "Tasks you've finished",
+    progressLabel: "Progress", progressSub: "Your current completion rate",
+    recentTasks: "Recent tasks", allTasksBtn: "All tasks", quickAnalysis: "Quick analysis", basedOnData: "Based on your data",
+    allTasksTitle: "All tasks", allTasksSub: "Manage and edit your tasks", addTaskBtn: "＋ Task",
+    filterAll: "All", filterPending: "Pending", filterDone: "Done", filterToday: "Today",
+    studentTitle: "Student Zone 📚", studentSub: "Flashcards · Notes · Calendar · Schedule · Charts",
+    tabFlash: "Flashcards", tabNotes: "Notes", tabCalendar: "Calendar", tabSchedule: "Schedule", tabCharts: "Charts",
+    flashTitle: "Flashcards", addFlash: "＋ Card", flashTotal: "Total cards", flashReviewedToday: "Reviewed today",
+    notesTitle: "Notebook", addNote: "＋ Note", todayBtn: "Today",
+    scheduleTitle: "Task schedule", addSchedule: "＋ Event", scheduleHint: "Plan study time by hour and priority.",
+    studyStats: "Study stats", studyTasks: "Study tasks", studyDone: "Completed", notesStat: "Notes", scheduleStat: "Scheduled",
+    byCategory: "By category", weeklyProgress: "Weekly progress",
+    analyticsTitle: "Analytics", analyticsSub: "Track daily and weekly progress", progressCurve: "Progress curve",
+    daily: "Daily", weekly: "Weekly", monthly: "Monthly", progressDetails: "Progress details",
+    newTaskTitle: "New task", taskName: "Task name", taskNamePh: "e.g. Finish project",
+    category: "Category", catWork: "Work", catStudy: "Study", catPersonal: "Personal",
+    date: "Date", priority: "Priority", priMedium: "Medium", priHigh: "High", priLow: "Low",
+    notes: "Notes", notesPh: "Optional notes", saveTask: "Save task",
+    settingsTitle: "Settings", settingsSub: "Manage data and appearance",
+    themeOcean: "Ocean", themeAbyss: "Abyss", themeCoral: "Coral", themeLagoon: "Lagoon", themeSurface: "Surface", themeBio: "Bio",
+    themeVolcanic: "Volcanic",
+    themeArctic: "Arctic",
+    themeMidnight: "Midnight",
+    loginRequired: "Sign in with Google to use Nemo",
+    focusToday: "Focus today",
+    focusMin: "min",
+    prodVsYesterday: "vs yesterday",
+    weekView: "Week",
+    monthView: "Month",
+    addTaskDay: "+ Task for this day",
+    wellbeingTitle: "Digital wellbeing",
+    wellbeingNote: "Nemo tracks focus sessions inside the app. Real OS app usage needs native permissions.",
+    logUsage: "Log manual usage",
+    appearance: "🎨 Appearance", themeHint: "Choose your preferred color theme",
+    themeDark: "Dark", themePink: "Pink", themeBlue: "Blue", themeRed: "Red & Black", themeLight: "Light", themeMix: "Mix",
+    language: "🌐 Language", backup: "💾 Backup", exportImport: "Export & Import",
+    exportImportSub: "Save tasks and student data as JSON or restore later.",
+    exportBtn: "Export data", importBtn: "Import data",
+    reminders: "🔔 Reminders", taskReminders: "Task reminders", remindersOff: "Reminders are off",
+    enableReminders: "Enable reminders", disableReminders: "Disable reminders",
+    about: "ℹ️ About", aboutText: "Your data stays in your browser only. Nothing is sent to a server.",
+    dangerZone: "⚠️ Danger zone", deleteData: "Delete data", deleteDataSub: "Deleting tasks is separate from student data.",
+    deleteAllTasks: "Delete all tasks", deleteStudentData: "Clear student data",
+    navHome: "Home", navTasks: "Tasks", navStudent: "Study", navAnalytics: "Stats", navSettings: "Settings",
+    editTask: "Edit task", save: "Save", cancel: "Cancel",
+    newFlash: "New flashcard", editFlash: "Edit card", flashFront: "Front (question)", flashBack: "Back (answer)",
+    flashFrontPh: "e.g. What is the definition of...", flashBackPh: "Answer...",
+    newNote: "New note", editNote: "Edit note", noteTitleLabel: "Title", noteBodyLabel: "Content",
+    noteTitlePh: "Note title", noteBodyPh: "Write your notes here...",
+    newSchedule: "New event", schedTitleLabel: "Title", schedTitlePh: "e.g. Math review", time: "Time", optional: "Optional",
+    noTasks: "No tasks", noTasksMsg: "Add your first task so Nemo can track progress.",
+    noFlash: "No flashcards", noFlashMsg: "Add flashcards for quick review.",
+    noNotes: "No notes", noNotesMsg: "Write your study notes here.",
+    noSchedule: "No events", noScheduleMsg: "Schedule your study sessions.",
+    noDayItems: "Nothing this day", noDayItemsMsg: "Add a task or scheduled event.",
+    dayItems: "Tasks & events:", done: "Done", inProgress: "In progress", overdue: "Overdue", noDate: "No date",
+    priorityLabel: "Priority", questionTap: "Question · tap to flip", answer: "Answer",
+    edit: "Edit", del: "Delete",
+    msgStart: "Start with a simple task to improve your progress.",
+    msg100: "Awesome! You've completed all tasks.",
+    msg70: "Excellent work — you're almost done.",
+    msg40: "Good progress — finish the remaining tasks.",
+    overdueMsg: "You have", overdueTasks: "overdue task(s).",
+    writeTaskName: "Enter a task name first", writeTask: "Enter a task name",
+    writeFlash: "Fill in both sides", writeNoteTitle: "Enter a note title", writeSched: "Enter an event title",
+    confirmDeleteTask: "Delete this task?", confirmDeleteFlash: "Delete this card?",
+    confirmDeleteNote: "Delete this note?", confirmDeleteSched: "Delete this event?",
+    confirmDeleteAll: "Delete all tasks?", confirmDeleteStudent: "Clear all cards, notes, and events?",
+    noDataDelete: "Nothing to delete", importOk: "Data imported successfully", importFail: "Invalid file",
+    studentCleared: "Student data cleared", remindersOn: "Task reminders enabled",
+    noNotif: "Notifications are not supported.", needHttps: "Notifications need HTTPS or localhost.",
+    needPermission: "Allow notifications in browser settings.", notAllowed: "Notifications not allowed.",
+    remindersDisabled: "Reminders disabled.", remindersEnabled: "On · next reminder around: ",
+    needNotifFirst: "Allow notifications first",
+    work: "Work", study: "Study", personal: "Personal",
+    high: "High", medium: "Medium", low: "Low",
+    weekDays: ["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],
+    weeks: ["Week 1","Week 2","Week 3","Week 4"],
+    catLabels: ["Work","Study","Personal"],
+    dowShort: ["S","S","M","T","W","T","F"],
+    themeApplied: "Theme applied", langChanged: "Language changed",
+    studentModeSection: "📚 Student mode", studentModeTitle: "Enable student zone",
+    studentModeSub: "When on, study shortcuts appear on Home and the Study tab shows in the bottom bar.",
+    studentModeOn: "Student mode is on", studentModeOff: "Student mode is off",
+    studentModeHome: "Student mode", studentModeHomeHint: "Choose what you want to do now",
+    openStudentArea: "Open zone", pickDay: "Pick a day", viewStats: "View stats",
+    studentEnabledToast: "Student mode enabled", studentDisabledToast: "Student mode disabled",
+    cardsCount: "cards", notesCount: "notes", eventsCount: "events",
+    nemoName: "Nemo 🐠", nemoStatus: "Your smart assistant", nemoSend: "Send",
+    nemoPlaceholder: "Message Nemo...",
+    nemoWelcome: "Hi! I'm Nemo 🐠 your study & productivity buddy. Ask about your progress or request a tip!",
+    nemoQ1: "My progress?", nemoQ2: "Tip of the day", nemoQ3: "What now?",
+    tipEmpty: "Start with one tiny task today — even 10 minutes builds momentum.",
+    tipOverdue: "You have overdue tasks. Pick the most important and close it first.",
+    tipAlmost: "You're so close to finishing everything! One more push.",
+    tipGood: "Solid progress. Keep a steady pace instead of one big crunch.",
+    tipStudy: "Review one flashcard now — short reviews lock knowledge in.",
+    tipNotes: "Jot a quick note about what you learned today before it fades.",
+    tipSchedule: "Block 25 focused minutes on your schedule.",
+    tipStudent: "Turn on Student mode in Settings for flashcards, calendar & schedule.",
+    tipBreak: "Take a 5-minute break, then come back to one clear task.",
+    tipCelebrate: "You finished all tasks — amazing! Add a new goal or review flashcards.",
+    tipGeneric1: "Break big tasks into small steps you can finish fast.",
+    tipGeneric2: "Do your hardest task in the first hour of your day.",
+    tipGeneric3: "Spend two minutes each evening reviewing your list.",
+    tipGeneric4: "Two-minute rule: if it takes under 2 minutes, do it now.",
+    tipGeneric5: "Keep your phone away for one focused session daily.",
+    replyProgress: "Here's your progress snapshot:",
+    replyUnknown: "Not sure I got that — try asking about progress or use the quick buttons!",
+    replyHello: "Hey there! Happy to help. What do you need today?",
+    replyThanks: "You're welcome! I'm here whenever you need me 🐠",
+    authWelcome: "Welcome to Nemo",
+    authSub: "Sign in to save your data and profile so Nemo can match your dialect.",
+    authGoogleHint: "Add a Google Client ID in the code to enable Google Sign-In",
+    or: "or",
+    continueGuest: "Continue as guest",
+    completeProfile: "Complete your profile",
+    profileHint: "Country and age help Nemo speak in a style closer to you",
+    countryLabel: "Country",
+    ageLabel: "Age",
+    nemoAskName: "🐠 Nemo asks: What should I call you?",
+    yourNameLabel: "Your name",
+    yourNamePh: "e.g. Alex",
+    needName: "Tell Nemo your name to continue",
+    saveProfile: "Save & start",
+    accountSection: "👤 Account",
+    notSignedIn: "Not signed in",
+    editProfile: "Edit country / age",
+    signOut: "Sign out",
+    supportSection: "💬 Support & contact",
+    supportTitle: "Contact Nemo support",
+    supportSub: "For suggestions, issues, and questions",
+    visitWebsite: "About website",
+    guestUser: "Guest",
+    profileSaved: "Profile saved",
+    needAge: "Enter a valid age (8–100)",
+        timerTitle: "⏱ Ocean timer", timerSub: "Pomodoro or free timer — dive in and focus",
+    focusTime: "Focus time", breakTime: "Break", timerStart: "Start", timerPause: "Pause", timerReset: "Reset",
+    oceanSound: "🌊 Ocean sound", oceanSoundOff: "🔇 Mute",
+    nemoQ4: "Plan my week", nemoQ5: "Week table",
+    voiceListening: "Listening...", voiceNotSupported: "Speech recognition not supported",
+    weekTableCaption: "Weekly tasks table",
+    nemoAddedTasks: "Added these tasks:",
+    nemoUpdatedTask: "Task updated.",
+    nemoNoUnderstandTask: "I didn't catch the task. Example: add study math tomorrow high priority",
+        nemoVoiceSection: "🎙️ Nemo voice", nemoVoiceTitle: "Choose assistant voice", nemoVoiceSub: "Used only during a voice call",
+    startCall: "📞 Call", endCall: "End call", callActive: "On a call with Nemo…", callIdle: "Text chat — start a call to speak",
+    dialectNote: "Nemo matches your dialect based on your country"
+  }
+};
+
+/* ===== ضع Client ID من Google Cloud Console هنا ===== */
+const GOOGLE_CLIENT_ID = "559780117497-14pc457h2gmg65ijgv8lr9mm1itp6qpt.apps.googleusercontent.com";
+
+let lang = localStorage.getItem("nemoLang") || "en";
+let theme = localStorage.getItem("nemoTheme") || "ocean";
+
+const THEME_MIGRATE = { dark: "ocean", pink: "coral", blue: "abyss", red: "lagoon", light: "surface" };
+if (THEME_MIGRATE[theme]) { theme = THEME_MIGRATE[theme]; localStorage.setItem("nemoTheme", theme); }
+
+let studentMode = localStorage.getItem("nemoStudentMode") === "true";
+
+let currentUser = loadJSON_raw("nemoUser", null); // {id,name,email,picture,provider}
+let userProfile = loadJSON_raw("nemoProfile", null); // {country,age,dialect}
+
+function loadJSON_raw(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return parsed != null ? parsed : fallback;
+  } catch (e) { return fallback; }
+}
+
+function t(key) {
+  return (I18N[lang] && I18N[lang][key]) || (I18N.ar[key]) || key;
+}
+
+function userKey(base) {
+  const uid = (currentUser && currentUser.id) ? currentUser.id : "guest";
+  return base + "__" + uid;
+}
+
+function applyI18n() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    const key = el.getAttribute("data-i18n");
+    if (key && t(key)) el.textContent = t(key);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (key && t(key)) el.placeholder = t(key);
+  });
+
+  document.getElementById("langAr").classList.toggle("active", lang === "ar");
+  document.getElementById("langEn").classList.toggle("active", lang === "en");
+
+  // Update category names on existing tasks display
+  renderAll();
+  applyStudentModeUI();
+  renderNemoQuick();
+  // refresh circle positions for LTR/RTL
+  document.querySelectorAll(".circle").forEach(function () {});
+}
+
+  try { updateHomeGreeting(); } catch (e) {}
+
+window.setLang = function (l) {
+  lang = l;
+  localStorage.setItem("nemoLang", l);
+  applyI18n();
+  showToast(t("langChanged"));
+};
+
+window.setTheme = function (name) {
+  theme = name;
+  localStorage.setItem("nemoTheme", name);
+  document.documentElement.setAttribute("data-theme", name);
+  document.querySelectorAll(".theme-opt").forEach(function (el) {
+    el.classList.toggle("active", el.getAttribute("data-theme-opt") === name);
+  });
+  const meta = document.getElementById("metaTheme");
+  const colors = { dark: "#743cff", pink: "#ff4d9a", blue: "#2b7fff", red: "#e63946", light: "#6b3fff", mix: "#a855f7" };
+  if (meta) meta.setAttribute("content", colors[name] || "#743cff");
+  showToast(t("themeApplied"));
+};
+
+window.setStudentMode = function (enabled) {
+  studentMode = !!enabled;
+  localStorage.setItem("nemoStudentMode", studentMode ? "true" : "false");
+  applyStudentModeUI();
+  showToast(studentMode ? t("studentEnabledToast") : t("studentDisabledToast"));
+  // إذا أُغلق وضع الطالب والمستخدم داخل صفحة الطلاب، ارجع للرئيسية
+  if (!studentMode && document.getElementById("studentPage").classList.contains("active")) {
+    showPage("homePage");
+  }
+};
+
+function applyStudentModeUI() {
+  const block = document.getElementById("homeStudentBlock");
+  const navBtn = document.getElementById("navStudentBtn");
+  const toggle = document.getElementById("studentModeToggle");
+  const status = document.getElementById("studentModeStatus");
+
+  if (block) block.classList.toggle("visible", studentMode);
+  if (navBtn) navBtn.classList.toggle("hidden-nav", !studentMode);
+  if (toggle) toggle.checked = studentMode;
+  if (status) status.textContent = studentMode ? t("studentModeOn") : t("studentModeOff");
+
+  if (studentMode) updateHomeStudentCounts();
+}
+
+function updateHomeStudentCounts() {
+  const fc = document.getElementById("homeFlashCount");
+  const nc = document.getElementById("homeNotesCount");
+  const sc = document.getElementById("homeSchedCount");
+  if (fc) fc.textContent = flashcards.length + " " + t("cardsCount");
+  if (nc) nc.textContent = notes.length + " " + t("notesCount");
+  if (sc) sc.textContent = schedules.length + " " + t("eventsCount");
+}
+
+window.openStudentArea = function () {
+  if (!studentMode) {
+    setStudentMode(true);
+  }
+  showPage("studentPage");
+};
+
+window.goStudentPanel = function (panel) {
+  if (!studentMode) setStudentMode(true);
+  showPage("studentPage");
+  // فعّل التبويب المناسب
+  const btn = document.querySelector('#studentTabs button[data-panel="' + panel + '"]');
+  showStudentPanel(panel, btn || null);
+};
+
+function showToast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(function () { el.classList.remove("show"); }, 2200);
+}
+
+/* ========== State ========== */
+function loadJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(userKey(key));
+    if (!raw) {
+      // ترحيل البيانات القديمة غير المربوطة بمستخدم
+      const legacy = localStorage.getItem(key);
+      if (legacy && (!currentUser || currentUser.id === "guest")) {
+        localStorage.setItem(userKey(key), legacy);
+        return JSON.parse(legacy);
+      }
+      return fallback;
+    }
+    const parsed = JSON.parse(raw);
+    return parsed != null ? parsed : fallback;
+  } catch (e) { return fallback; }
+}
+
+let tasks = [];
+let flashcards = [];
+let notes = [];
+let schedules = [];
+
+function reloadUserData() {
+  tasks = loadJSON("nemoTasks", []);
+  flashcards = loadJSON("nemoFlash", []);
+  notes = loadJSON("nemoNotes", []);
+  schedules = loadJSON("nemoSchedule", []);
+}
+
+let currentFilter = "all";
+let editingId = null;
+let currentChart = "daily";
+let studyChartType = "category";
+let editingFlashId = null;
+let editingNoteId = null;
+let calYear, calMonth, selectedDate;
+
+const nowInit = new Date();
+calYear = nowInit.getFullYear();
+calMonth = nowInit.getMonth();
+selectedDate = isoDate(nowInit);
+
+function saveTasks() { localStorage.setItem(userKey("nemoTasks"), JSON.stringify(tasks)); }
+function saveFlashStore() { localStorage.setItem(userKey("nemoFlash"), JSON.stringify(flashcards)); }
+function saveNotesStore() { localStorage.setItem(userKey("nemoNotes"), JSON.stringify(notes)); }
+function saveScheduleStore() { localStorage.setItem(userKey("nemoSchedule"), JSON.stringify(schedules)); }
+
+function escapeHTML(text) {
+  const div = document.createElement("div");
+  div.textContent = text == null ? "" : String(text);
+  return div.innerHTML;
+}
+
+function isoDate(d) {
+  const x = d instanceof Date ? d : new Date(d);
+  return x.getFullYear() + "-" + String(x.getMonth() + 1).padStart(2, "0") + "-" + String(x.getDate()).padStart(2, "0");
+}
+function todayStr() { return isoDate(new Date()); }
+
+function catName(c) {
+  if (c === "work") return t("work");
+  if (c === "study") return t("study");
+  if (c === "personal") return t("personal");
+  return c;
+}
+function priName(p) {
+  if (p === "high") return t("high");
+  if (p === "medium") return t("medium");
+  if (p === "low") return t("low");
+  return p;
+}
+
+function emptyHTML(icon, title, msg) {
+  return '<div class="empty"><div>' + (icon || "📝") + '</div><h3>' + (title || t("noTasks")) + '</h3><p>' + (msg || t("noTasksMsg")) + '</p></div>';
+}
+
+/* ========== Navigation ========== */
+window.showPage = function (id, button) {
+  if (id === "studentPage" && !studentMode) {
+    // منع فتح منطقة الطلاب إذا الوضع مغلق
+    id = "homePage";
+    button = document.querySelector('[data-page="homePage"]');
+  }
+  document.querySelectorAll(".page").forEach(function (p) { p.classList.remove("active"); });
+  const page = document.getElementById(id);
+  if (page) page.classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(function (b) { b.classList.remove("active"); });
+  const target = button || document.querySelector('[data-page="' + id + '"]');
+  if (target && !target.classList.contains("hidden-nav")) target.classList.add("active");
+  if (id === "analyticsPage") drawChart(currentChart);
+  if (id === "studentPage") renderStudentAll();
+  if (id === "homePage" && studentMode) updateHomeStudentCounts();
+};
+
+window.showStudentPanel = function (name, btn) {
+  document.querySelectorAll(".student-panel").forEach(function (p) { p.classList.remove("active"); });
+  const panel = document.getElementById("panel-" + name);
+  if (panel) panel.classList.add("active");
+  document.querySelectorAll("#studentTabs button").forEach(function (b) { b.classList.remove("active"); });
+  if (btn) btn.classList.add("active");
+  if (name === "flash") renderFlash();
+  else if (name === "notes") renderNotes();
+  else if (name === "calendar") renderCalendar();
+  else if (name === "schedule") renderSchedule();
+  else if (name === "charts") drawStudyChart(studyChartType);
+};
+
+/* ========== Tasks ========== */
+window.addTask = function () {
+  const title = document.getElementById("newTitle").value.trim();
+  if (!title) { alert(t("writeTaskName")); return; }
+  const category = document.getElementById("newCategory").value;
+  const date = document.getElementById("newDate").value;
+  const notesVal = document.getElementById("newNotes").value.trim();
+  const priority = document.getElementById("newPriority").value;
+  tasks.unshift({
+    id: Date.now(), title: title, category: category, categoryName: catName(category),
+    date: date || todayStr(), notes: notesVal, priority: priority || "medium", done: false, completedAt: null
+  });
+  saveTasks();
+  document.getElementById("newTitle").value = "";
+  document.getElementById("newDate").value = "";
+  document.getElementById("newNotes").value = "";
+  document.getElementById("newPriority").value = "medium";
+  renderAll();
+  showPage("tasksPage");
+};
+
+window.toggleTask = function (id) {
+  tasks = tasks.map(function (task) {
+    if (task.id !== id) return task;
+    const done = !task.done;
+    return Object.assign({}, task, { done: done, completedAt: done ? new Date().toISOString() : null });
+  });
+  saveTasks();
+  renderAll();
+};
+
+window.deleteTask = function (id) {
+  if (!confirm(t("confirmDeleteTask"))) return;
+  tasks = tasks.filter(function (task) { return task.id !== id; });
+  saveTasks();
+  renderAll();
+};
+
+window.openEdit = function (id) {
+  const task = tasks.find(function (x) { return x.id === id; });
+  if (!task) return;
+  editingId = id;
+  document.getElementById("editTitle").value = task.title;
+  document.getElementById("editCategory").value = task.category;
+  document.getElementById("editDate").value = task.date || "";
+  document.getElementById("editPriority").value = task.priority || "medium";
+  document.getElementById("editModal").classList.add("show");
+};
+
+window.closeEdit = function () {
+  document.getElementById("editModal").classList.remove("show");
+  editingId = null;
+};
+
+window.saveEdit = function () {
+  const title = document.getElementById("editTitle").value.trim();
+  if (!title) { alert(t("writeTask")); return; }
+  const category = document.getElementById("editCategory").value;
+  const date = document.getElementById("editDate").value;
+  const priority = document.getElementById("editPriority").value;
+  tasks = tasks.map(function (task) {
+    if (task.id !== editingId) return task;
+    return Object.assign({}, task, { title: title, category: category, categoryName: catName(category), date: date, priority: priority });
+  });
+  saveTasks();
+  closeEdit();
+  renderAll();
+};
+
+function isOverdue(task) {
+  if (task.done || !task.date) return false;
+  return task.date < todayStr();
+}
+
+function taskHTML(task) {
+  const pri = task.priority || "medium";
+  const overdue = isOverdue(task);
+  return (
+    '<div class="task' + (task.done ? " done" : "") + (overdue ? " overdue" : "") + '">' +
+      '<input class="check" type="checkbox" ' + (task.done ? "checked" : "") + ' onchange="toggleTask(' + task.id + ')">' +
+      '<div class="task-info">' +
+        '<span class="task-name">' + escapeHTML(task.title) + '</span>' +
+        '<span class="task-date">' +
+          (task.date || t("noDate")) + " — " +
+          (task.done ? t("done") : overdue ? t("overdue") : t("inProgress")) +
+          (pri !== "medium" ? " · " + t("priorityLabel") + " " + priName(pri) : "") +
+        '</span>' +
+      '</div>' +
+      '<span class="tag ' + escapeHTML(task.category) + '">' + escapeHTML(catName(task.category)) + '</span>' +
+      (task.repeat && task.repeat !== "none" ? '<span class="tag-repeat">' + escapeHTML(task.repeat) + '</span>' : '') +
+      '<button class="icon-btn edit" type="button" onclick="openEdit(' + task.id + ')">✎</button>' +
+      '<button class="icon-btn" type="button" onclick="deleteTask(' + task.id + ')">×</button>' +
+    '</div>'
+  );
+}
+
+function renderHomeTasks() {
+  document.getElementById("homeTasks").innerHTML = tasks.length
+    ? tasks.slice(0, 4).map(taskHTML).join("")
+    : emptyHTML("📝", t("noTasks"), t("noTasksMsg"));
+}
+
+window.setFilter = function (filter, button) {
+  currentFilter = filter;
+  document.querySelectorAll(".filter button").forEach(function (b) { b.classList.remove("active"); });
+  if (button) button.classList.add("active");
+  renderAllTasks();
+};
+
+function renderAllTasks() {
+  let list = tasks;
+  const today = todayStr();
+  if (currentFilter === "done") list = tasks.filter(function (task) { return task.done; });
+  if (currentFilter === "pending") list = tasks.filter(function (task) { return !task.done; });
+  if (currentFilter === "today") list = tasks.filter(function (task) { return task.date === today; });
+  document.getElementById("allTasks").innerHTML = list.length
+    ? list.map(taskHTML).join("")
+    : emptyHTML("📂", t("noTasks"), t("noTasksMsg"));
+}
+
+function updateStats() {
+  const total = tasks.length;
+  const completed = tasks.filter(function (task) { return task.done; }).length;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+  document.getElementById("totalTasks").textContent = total;
+  document.getElementById("completedTasks").textContent = completed;
+  document.getElementById("progress").textContent = percent + "%";
+  document.getElementById("totalCircle").textContent = total ? "100%" : "0%";
+  document.getElementById("completedCircle").textContent = percent + "%";
+  document.getElementById("progressCircle").textContent = percent + "%";
+  document.getElementById("totalCircle").style.setProperty("--percent", total ? "100%" : "0%");
+  document.getElementById("completedCircle").style.setProperty("--percent", percent + "%");
+  document.getElementById("progressCircle").style.setProperty("--percent", percent + "%");
+}
+
+function analysisHTML() {
+  const total = tasks.length;
+  const completed = tasks.filter(function (task) { return task.done; }).length;
+  const pending = total - completed;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+  if (!total) return emptyHTML("📊", t("noTasks"), t("noTasksMsg"));
+
+  let message = t("msgStart");
+  if (percent === 100) message = t("msg100");
+  else if (percent >= 70) message = t("msg70");
+  else if (percent >= 40) message = t("msg40");
+
+  const work = tasks.filter(function (task) { return task.category === "work"; }).length;
+  const study = tasks.filter(function (task) { return task.category === "study"; }).length;
+  const personal = tasks.filter(function (task) { return task.category === "personal"; }).length;
+  const overdue = tasks.filter(isOverdue).length;
+
+  return (
+    '<div class="analysis">' +
+      '<div><span data-i18n="progressLabel">' + t("progressLabel") + '</span><b>' + percent + '%</b></div>' +
+      '<div><span>' + t("completedTasks") + '</span><b>' + completed + '</b></div>' +
+      '<div><span>' + (lang === "ar" ? "المتبقية" : "Remaining") + '</span><b>' + pending + '</b></div>' +
+    '</div>' +
+    '<div class="progress"><div style="width:' + percent + '%"></div></div>' +
+    '<p class="message">' + message +
+      (overdue ? ' · ' + t("overdueMsg") + ' <b style="color:var(--red)">' + overdue + '</b> ' + t("overdueTasks") : "") +
+    '</p>' +
+    '<div style="display:flex;justify-content:space-between;margin-top:14px;color:var(--muted);font-size:12.5px;flex-wrap:wrap;gap:8px">' +
+      '<span>' + t("work") + ': <b style="color:var(--text)">' + work + '</b></span>' +
+      '<span>' + t("study") + ': <b style="color:var(--text)">' + study + '</b></span>' +
+      '<span>' + t("personal") + ': <b style="color:var(--text)">' + personal + '</b></span>' +
+    '</div>'
+  );
+}
+
+function renderAnalysis() {
+  document.getElementById("quickAnalysis").innerHTML = analysisHTML();
+  document.getElementById("fullAnalysis").innerHTML = analysisHTML();
+}
+
+/* ========== Charts ========== */
+function getChartData(type) {
+  if (type === "weekly") {
+    const labels = t("weekDays");
+    const values = [0, 0, 0, 0, 0, 0, 0];
+    tasks.forEach(function (task) {
+      if (task.done && task.completedAt) {
+        const day = new Date(task.completedAt).getDay();
+        values[day === 6 ? 0 : day + 1]++;
+      }
+    });
+    return { labels: labels, values: values };
+  }
+  if (type === "monthly") {
+    const labels = t("weeks");
+    const values = [0, 0, 0, 0];
+    tasks.forEach(function (task) {
+      if (task.done && task.completedAt) {
+        const days = Math.floor((Date.now() - new Date(task.completedAt).getTime()) / 86400000);
+        if (days >= 0 && days < 28) values[3 - Math.floor(days / 7)]++;
+      }
+    });
+    return { labels: labels, values: values };
+  }
+  const labels = [];
+  const values = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - i);
+    labels.push(date.toLocaleDateString(lang === "ar" ? "ar" : "en", { weekday: "short" }));
+    const ds = date.toDateString();
+    values.push(tasks.filter(function (task) {
+      if (!task.done || !task.completedAt) return false;
+      return new Date(task.completedAt).toDateString() === ds;
+    }).length);
+  }
+  return { labels: labels, values: values };
+}
+
+function drawLineChart(svgId, labelsId, data) {
+  const max = Math.max.apply(null, data.values.concat([1]));
+  const n = data.values.length;
+  const gap = 600 / Math.max(n - 1, 1);
+  const points = data.values.map(function (v, i) {
+    return (i * gap) + "," + (170 - (v / max) * 145);
+  }).join(" ");
+  const circles = data.values.map(function (v, i) {
+    return '<circle class="point" cx="' + (i * gap) + '" cy="' + (170 - (v / max) * 145) + '" r="5"><title>' + v + '</title></circle>';
+  }).join("");
+  document.getElementById(svgId).innerHTML = '<polyline class="line" points="' + points + '"></polyline>' + circles;
+  document.getElementById(labelsId).innerHTML = data.labels.map(function (x) { return "<span>" + x + "</span>"; }).join("");
+}
+
+function drawBarChart(svgId, labelsId, data) {
+  const max = Math.max.apply(null, data.values.concat([1]));
+  const n = data.values.length;
+  const barW = Math.min(80, 500 / n);
+  const gap = 600 / n;
+  const bars = data.values.map(function (v, i) {
+    const h = (v / max) * 140;
+    const x = i * gap + (gap - barW) / 2;
+    const y = 170 - h;
+    return '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + h + '" rx="6" fill="url(#barGrad)"/>' +
+      '<text x="' + (x + barW / 2) + '" y="' + (y - 6) + '" fill="var(--muted)" font-size="12" text-anchor="middle">' + v + '</text>';
+  }).join("");
+  document.getElementById(svgId).innerHTML =
+    '<defs><linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">' +
+    '<stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="var(--blue)"/>' +
+    '</linearGradient></defs>' + bars;
+  document.getElementById(labelsId).innerHTML = data.labels.map(function (x) { return "<span>" + x + "</span>"; }).join("");
+}
+
+
+function getLastNDaysFocus(n) {
+  const out = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = isoDate(d);
+    out.push({ date: key, focus: getFocusMin(key), done: tasks.filter(function (t) { return t.done && t.completedAt && t.completedAt.slice(0, 10) === key; }).length });
+  }
+  return out;
+}
+function renderProductivityStrip() {
+  const el = document.getElementById("prodStrip");
+  if (!el) return;
+  const days = getLastNDaysFocus(7);
+  let html = '<div style="display:flex;gap:6px;align-items:flex-end;height:90px;margin-top:8px">';
+  const maxF = Math.max(1, Math.max.apply(null, days.map(function (d) { return d.focus; })));
+  days.forEach(function (d, i) {
+    const h = Math.round((d.focus / maxF) * 80);
+    const prev = i > 0 ? days[i - 1].focus : d.focus;
+    const up = d.focus >= prev;
+    html += '<div style="flex:1;text-align:center"><div style="height:' + h + 'px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:6px 6px 2px 2px;opacity:.85"></div>';
+    html += '<div style="font-size:10px;color:var(--muted);margin-top:4px">' + d.date.slice(5) + '</div>';
+    html += '<div style="font-size:11px;color:' + (up ? 'var(--green)' : 'var(--red)') + '">' + (up ? '↑' : '↓') + d.focus + '</div></div>';
+  });
+  html += '</div>';
+  const today = days[days.length - 1].focus;
+  const yday = days.length > 1 ? days[days.length - 2].focus : 0;
+  const delta = today - yday;
+  html += '<p style="margin-top:10px;font-size:13px">' + t("prodVsYesterday") + ': <strong style="color:' + (delta >= 0 ? 'var(--green)' : 'var(--red)') + '">' + (delta >= 0 ? '↑ +' : '↓ ') + delta + ' ' + t("focusMin") + '</strong></p>';
+  el.innerHTML = html;
+}
+
+function drawChart(type) {
+  try { renderProductivityStrip(); } catch (e) {}
+
+  currentChart = type;
+  const data = getChartData(type);
+  document.getElementById("chartTitle").textContent =
+    type === "daily" ? t("daily") : type === "weekly" ? t("weekly") : t("monthly");
+  drawLineChart("chartSvg", "chartLabels", data);
+}
+
+window.changeChart = function (type, button) {
+  document.querySelectorAll("#analyticsPage .chart-tabs button").forEach(function (b) { b.classList.remove("active"); });
+  if (button) button.classList.add("active");
+  drawChart(type);
+};
+
+/* ========== Flashcards ========== */
+window.openFlashModal = function (id) {
+  editingFlashId = id != null ? id : null;
+  document.getElementById("flashModalTitle").textContent = editingFlashId != null ? t("editFlash") : t("newFlash");
+  if (editingFlashId != null) {
+    const f = flashcards.find(function (x) { return x.id === editingFlashId; });
+    document.getElementById("flashFront").value = f ? f.front : "";
+    document.getElementById("flashBack").value = f ? f.back : "";
+  } else {
+    document.getElementById("flashFront").value = "";
+    document.getElementById("flashBack").value = "";
+  }
+  document.getElementById("flashModal").classList.add("show");
+};
+
+window.closeFlashModal = function () {
+  document.getElementById("flashModal").classList.remove("show");
+  editingFlashId = null;
+};
+
+window.saveFlashCard = function () {
+  const front = document.getElementById("flashFront").value.trim();
+  const back = document.getElementById("flashBack").value.trim();
+  if (!front || !back) { alert(t("writeFlash")); return; }
+  if (editingFlashId != null) {
+    flashcards = flashcards.map(function (f) {
+      if (f.id !== editingFlashId) return f;
+      return Object.assign({}, f, { front: front, back: back });
+    });
+  } else {
+    flashcards.unshift({ id: Date.now(), front: front, back: back, reviewedAt: null });
+  }
+  saveFlashStore();
+  closeFlashModal();
+  renderFlash();
+};
+
+window.deleteFlash = function (id) {
+  if (!confirm(t("confirmDeleteFlash"))) return;
+  flashcards = flashcards.filter(function (f) { return f.id !== id; });
+  saveFlashStore();
+  renderFlash();
+};
+
+window.flipFlash = function (id, el) {
+  el.classList.toggle("flipped");
+  if (el.classList.contains("flipped")) {
+    const f = flashcards.find(function (x) { return x.id === id; });
+    if (f) {
+      f.reviewedAt = todayStr();
+      saveFlashStore();
+      updateFlashStats();
+    }
+  }
+};
+
+function updateFlashStats() {
+  const fc = document.getElementById("flashCount");
+  const fr = document.getElementById("flashReviewed");
+  if (fc) fc.textContent = flashcards.length;
+  if (fr) {
+    const today = todayStr();
+    fr.textContent = flashcards.filter(function (f) { return f.reviewedAt === today; }).length;
+  }
+}
+
+function renderFlash() {
+  updateFlashStats();
+  if (studentMode) updateHomeStudentCounts();
+  const box = document.getElementById("flashList");
+  if (!box) return;
+  if (!flashcards.length) {
+    box.innerHTML = emptyHTML("🃏", t("noFlash"), t("noFlashMsg"));
+    return;
+  }
+  box.innerHTML = flashcards.map(function (f) {
+    return (
+      '<div class="flash-card" onclick="flipFlash(' + f.id + ',this)">' +
+        '<div class="front"><div class="label">' + t("questionTap") + '</div><div class="content">' + escapeHTML(f.front) + '</div></div>' +
+        '<div class="back"><div class="label">' + t("answer") + '</div><div class="content">' + escapeHTML(f.back) + '</div></div>' +
+        '<div class="flash-actions" onclick="event.stopPropagation()">' +
+          '<button type="button" onclick="openFlashModal(' + f.id + ')">' + t("edit") + '</button>' +
+          '<button type="button" onclick="deleteFlash(' + f.id + ')">' + t("del") + '</button>' +
+        '</div></div>'
+    );
+  }).join("");
+}
+
+/* ========== Notes ========== */
+window.openNoteModal = function (id) {
+  editingNoteId = id != null ? id : null;
+  document.getElementById("noteModalTitle").textContent = editingNoteId != null ? t("editNote") : t("newNote");
+  if (editingNoteId != null) {
+    const n = notes.find(function (x) { return x.id === editingNoteId; });
+    document.getElementById("noteTitle").value = n ? n.title : "";
+    document.getElementById("noteBody").value = n ? n.body : "";
+  } else {
+    document.getElementById("noteTitle").value = "";
+    document.getElementById("noteBody").value = "";
+  }
+  document.getElementById("noteModal").classList.add("show");
+};
+
+window.closeNoteModal = function () {
+  document.getElementById("noteModal").classList.remove("show");
+  editingNoteId = null;
+};
+
+window.saveNoteCard = function () {
+  const title = document.getElementById("noteTitle").value.trim();
+  const body = document.getElementById("noteBody").value.trim();
+  if (!title) { alert(t("writeNoteTitle")); return; }
+  const now = new Date().toISOString();
+  if (editingNoteId != null) {
+    notes = notes.map(function (n) {
+      if (n.id !== editingNoteId) return n;
+      return Object.assign({}, n, { title: title, body: body, updatedAt: now });
+    });
+  } else {
+    notes.unshift({ id: Date.now(), title: title, body: body, createdAt: now, updatedAt: now });
+  }
+  saveNotesStore();
+  closeNoteModal();
+  renderNotes();
+};
+
+window.deleteNote = function (id) {
+  if (!confirm(t("confirmDeleteNote"))) return;
+  notes = notes.filter(function (n) { return n.id !== id; });
+  saveNotesStore();
+  renderNotes();
+};
+
+function renderNotes() {
+  if (studentMode) updateHomeStudentCounts();
+  const box = document.getElementById("notesList");
+  if (!box) return;
+  if (!notes.length) {
+    box.innerHTML = emptyHTML("📓", t("noNotes"), t("noNotesMsg"));
+    return;
+  }
+  box.innerHTML = notes.map(function (n) {
+    const d = new Date(n.updatedAt || n.createdAt).toLocaleDateString(lang === "ar" ? "ar-EG" : "en-US");
+    return (
+      '<div class="note-item">' +
+        '<h4>' + escapeHTML(n.title) + '</h4><p>' + escapeHTML(n.body) + '</p>' +
+        '<div class="note-meta"><span>' + d + '</span><span>' +
+          '<button class="icon-btn edit" type="button" onclick="openNoteModal(' + n.id + ')">✎</button>' +
+          '<button class="icon-btn" type="button" onclick="deleteNote(' + n.id + ')">×</button>' +
+        '</span></div></div>'
+    );
+  }).join("");
+}
+
+/* ========== Calendar ========== */
+window.changeMonth = function (delta) {
+  calMonth += delta;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+};
+
+window.goToday = function () {
+  const n = new Date();
+  calYear = n.getFullYear();
+  calMonth = n.getMonth();
+  selectedDate = todayStr();
+  renderCalendar();
+};
+
+
+function tasksForDate(iso) {
+  if (!iso) return [];
+  const d = new Date(iso + "T12:00:00");
+  return tasks.filter(function (task) {
+    if (task.date === iso) return true;
+    if (task.repeat === "daily") return true;
+    if (task.repeat === "weekly" && task.date) {
+      try {
+        return new Date(task.date + "T12:00:00").getDay() === d.getDay();
+      } catch (e) { return false; }
+    }
+    return false;
+  });
+}
+
+function renderSelectedDayTasks() {
+  const titleEl = document.getElementById("selectedDayTitle");
+  const listBox = document.getElementById("dayTasksList");
+  if (!listBox) return;
+  const iso = selectedDate || todayStr();
+  if (titleEl) {
+    try {
+      const nice = new Date(iso + "T12:00:00").toLocaleDateString(lang === "ar" ? "ar-EG" : "en-US", {
+        weekday: "long", year: "numeric", month: "short", day: "numeric"
+      });
+      titleEl.textContent = (lang === "ar" ? "مهام يوم " : "Tasks for ") + nice;
+    } catch (e) {
+      titleEl.textContent = (lang === "ar" ? "مهام " : "Tasks ") + iso;
+    }
+  }
+  const dayTasks = tasksForDate(iso);
+  const daySched = (typeof schedules !== "undefined" ? schedules : []).filter(function (s) { return s.date === iso; });
+  if (!dayTasks.length && !daySched.length) {
+    listBox.innerHTML = '<div class="day-empty">' + (lang === "ar" ? "لا توجد مهام في هذا اليوم" : "No tasks on this day") + '</div>';
+    return;
+  }
+  let html = "";
+  if (dayTasks.length) {
+    html += dayTasks.map(function (task) { return taskHTML(task); }).join("");
+  }
+  if (daySched.length) {
+    html += daySched.map(function (s) {
+      return '<div class="task"><div class="task-info"><span class="task-name">📅 ' + escapeHTML(s.title || s.text || "Schedule") +
+        '</span><span class="task-date">' + escapeHTML(s.time || "") + " · " + escapeHTML(s.date || "") + '</span></div></div>';
+    }).join("");
+  }
+  listBox.innerHTML = html;
+}
+
+window.selectCalDay = function (iso) { selectDay(iso); };
+
+window.selectDay = function (iso) {
+  selectedDate = iso;
+  renderCalendar();
+  renderSelectedDayTasks();
+  const box = document.getElementById("dayTasksList");
+  if (box) box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+};
+
+
+let calView = "month"; // month | week
+window.setCalView = function (v, btn) {
+  calView = v;
+  document.querySelectorAll(".cal-view-btn").forEach(function (b) { b.classList.remove("active"); });
+  if (btn) btn.classList.add("active");
+  renderCalendar();
+};
+window.addTaskForSelectedDay = function () {
+  const title = prompt(lang === "ar" ? "عنوان المهمة:" : "Task title:");
+  if (!title) return;
+  let task;
+  if (typeof createTaskObj === "function") task = createTaskObj(title, { date: selectedDate, category: "personal" });
+  else task = { id: Date.now(), title: title, category: "personal", categoryName: catName("personal"), date: selectedDate, notes: "", priority: "medium", done: false, completedAt: null, repeat: "none" };
+  tasks.unshift(task);
+  saveTasks();
+  renderAll();
+  showToast(lang === "ar" ? "أُضيفت للتقويم" : "Added to calendar");
+};
+
+function renderCalendar() {
+  const grid = document.getElementById("calGrid");
+  const label = document.getElementById("calLabel");
+  if (!grid) return;
+  if (calView === "week") {
+    const base = new Date(calYear, calMonth, 1);
+    // use selectedDate week
+    const sel = selectedDate ? new Date(selectedDate + "T12:00:00") : new Date();
+    const day = (sel.getDay() + 6) % 7; // mon-based
+    const start = new Date(sel); start.setDate(sel.getDate() - day);
+    if (label) label.textContent = isoDate(start) + " → " + isoDate(new Date(start.getFullYear(), start.getMonth(), start.getDate() + 6));
+    const names = lang === "ar" ? ["ن","ث","ر","خ","ج","س","ح"] : ["M","T","W","T","F","S","S"];
+    let html = "";
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(start); d.setDate(start.getDate() + i);
+      const iso = isoDate(d);
+      const dayTasks = tasks.filter(function (task) {
+        if (task.date === iso) return true;
+        if (task.repeat === "daily" && !task.done) return true;
+        if (task.repeat === "weekly" && task.date) {
+          return new Date(task.date + "T12:00:00").getDay() === d.getDay();
+        }
+        return false;
+      });
+      const selC = iso === selectedDate ? " selected" : "";
+      html += '<div class="cal-day' + selC + '" onclick="selectCalDay(\'' + iso + '\')" style="min-height:72px">';
+      html += '<div class="num">' + names[i] + " " + d.getDate() + '</div>';
+      dayTasks.slice(0, 3).forEach(function (task) {
+        html += '<div style="font-size:10px;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">• ' + escapeHTML(task.title) + '</div>';
+      });
+      html += '</div>';
+    }
+    grid.innerHTML = html;
+    grid.style.gridTemplateColumns = "repeat(7,1fr)";
+    renderSelectedDayTasks();
+    return;
+  }
+
+  const titleEl = document.getElementById("calMonthTitle");
+  if (!titleEl || !grid) return;
+
+  titleEl.textContent = new Date(calYear, calMonth, 1).toLocaleDateString(lang === "ar" ? "ar-EG" : "en-US", {
+    month: "long", year: "numeric"
+  });
+
+  const first = new Date(calYear, calMonth, 1);
+  let startDow = (first.getDay() + 1) % 7;
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const prevDays = new Date(calYear, calMonth, 0).getDate();
+
+  const taskDates = {};
+  tasks.forEach(function (task) { if (task.date) taskDates[task.date] = true; });
+  schedules.forEach(function (s) { if (s.date) taskDates[s.date] = true; });
+
+  const dows = t("dowShort");
+  let html = dows.map(function (d) { return '<div class="cal-dow">' + d + '</div>'; }).join("");
+
+  const cells = [];
+  for (let i = 0; i < startDow; i++) cells.push({ day: prevDays - startDow + i + 1, other: true, iso: null });
+  for (let d = 1; d <= daysInMonth; d++) {
+    const iso = calYear + "-" + String(calMonth + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+    cells.push({ day: d, other: false, iso: iso });
+  }
+  let nextDay = 1;
+  while (cells.length % 7 !== 0) cells.push({ day: nextDay++, other: true, iso: null });
+
+  const today = todayStr();
+  html += cells.map(function (c) {
+    if (c.other || !c.iso) return '<div class="cal-day other">' + c.day + '</div>';
+    let cls = "cal-day";
+    if (c.iso === today) cls += " today";
+    if (c.iso === selectedDate) cls += " selected";
+    if (taskDates[c.iso]) cls += " has-task";
+    return '<div class="' + cls + '" onclick="selectDay(\'' + c.iso + '\')">' + c.day + '<span class="dot"></span></div>';
+  }).join("");
+  grid.innerHTML = html;
+
+    renderSelectedDayTasks();
+
+  document.getElementById("schedDate").value = selectedDate || todayStr();
+  document.getElementById("schedTime").value = "";
+  document.getElementById("schedPriority").value = "medium";
+  document.getElementById("schedNotes").value = "";
+  document.getElementById("scheduleModal").classList.add("show");
+};
+
+window.closeScheduleModal = function () {
+  document.getElementById("scheduleModal").classList.remove("show");
+};
+
+window.saveScheduleItem = function () {
+  const title = document.getElementById("schedTitle").value.trim();
+  if (!title) { alert(t("writeSched")); return; }
+  schedules.push({
+    id: Date.now(),
+    title: title,
+    date: document.getElementById("schedDate").value || todayStr(),
+    time: document.getElementById("schedTime").value,
+    priority: document.getElementById("schedPriority").value,
+    notes: document.getElementById("schedNotes").value.trim()
+  });
+  schedules.sort(function (a, b) {
+    return (a.date + (a.time || "")).localeCompare(b.date + (b.time || ""));
+  });
+  saveScheduleStore();
+  closeScheduleModal();
+  renderSchedule();
+  if (document.getElementById("panel-calendar").classList.contains("active")) renderCalendar();
+};
+
+window.deleteSchedule = function (id) {
+  if (!confirm(t("confirmDeleteSched"))) return;
+  schedules = schedules.filter(function (s) { return s.id !== id; });
+  saveScheduleStore();
+  renderSchedule();
+  if (document.getElementById("panel-calendar").classList.contains("active")) renderCalendar();
+};
+
+function renderSchedule() {
+  if (studentMode) updateHomeStudentCounts();
+  const box = document.getElementById("scheduleList");
+  if (!box) return;
+  const upcoming = schedules.slice().sort(function (a, b) {
+    return (a.date + (a.time || "")).localeCompare(b.date + (b.time || ""));
+  });
+  if (!upcoming.length) {
+    box.innerHTML = emptyHTML("🗓️", t("noSchedule"), t("noScheduleMsg"));
+    return;
+  }
+  box.innerHTML = upcoming.map(function (s) {
+    return (
+      '<div class="schedule-item priority-' + (s.priority || "medium") + '">' +
+        '<div class="schedule-time">' + escapeHTML(s.time || "—") +
+          '<br><span style="color:var(--muted);font-weight:400">' + escapeHTML(s.date) + '</span></div>' +
+        '<div class="schedule-body"><strong>' + escapeHTML(s.title) +
+          ' <span class="badge">' + escapeHTML(priName(s.priority)) + '</span></strong>' +
+          '<span>' + escapeHTML(s.notes || "") + '</span></div>' +
+        '<button class="icon-btn" type="button" onclick="deleteSchedule(' + s.id + ')">×</button></div>'
+    );
+  }).join("");
+}
+
+/* ========== Study charts ========== */
+window.changeStudyChart = function (type, btn) {
+  studyChartType = type;
+  document.querySelectorAll("#studyChartTabs button").forEach(function (b) { b.classList.remove("active"); });
+  if (btn) btn.classList.add("active");
+  drawStudyChart(type);
+};
+
+function drawStudyChart(type) {
+  const st = document.getElementById("studyTasksCount");
+  const sd = document.getElementById("studyDoneCount");
+  const nc = document.getElementById("notesCountStat");
+  const sc = document.getElementById("scheduleCountStat");
+  if (st) st.textContent = tasks.filter(function (task) { return task.category === "study"; }).length;
+  if (sd) sd.textContent = tasks.filter(function (task) { return task.category === "study" && task.done; }).length;
+  if (nc) nc.textContent = notes.length;
+  if (sc) sc.textContent = schedules.length;
+
+  if (type === "category") {
+    drawBarChart("studyChartSvg", "studyChartLabels", {
+      labels: t("catLabels"),
+      values: [
+        tasks.filter(function (task) { return task.category === "work"; }).length,
+        tasks.filter(function (task) { return task.category === "study"; }).length,
+        tasks.filter(function (task) { return task.category === "personal"; }).length
+      ]
+    });
+  } else {
+    drawLineChart("studyChartSvg", "studyChartLabels", getChartData("daily"));
+  }
+}
+
+function renderStudentAll() {
+  renderFlash();
+  renderNotes();
+  renderSchedule();
+  renderCalendar();
+  drawStudyChart(studyChartType);
+}
+
+/* ========== Export / Import ========== */
+window.exportData = function () {
+  const payload = {
+    version: 2, tasks: tasks, flashcards: flashcards, notes: notes, schedules: schedules,
+    theme: theme, lang: lang, exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "nemo-backup.json";
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+document.getElementById("fileInput").addEventListener("change", function (e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    try {
+      const imported = JSON.parse(reader.result);
+      if (Array.isArray(imported)) {
+        tasks = imported;
+      } else if (imported && typeof imported === "object") {
+        if (Array.isArray(imported.tasks)) tasks = imported.tasks;
+        if (Array.isArray(imported.flashcards)) flashcards = imported.flashcards;
+        if (Array.isArray(imported.notes)) notes = imported.notes;
+        if (Array.isArray(imported.schedules)) schedules = imported.schedules;
+        if (imported.theme) setTheme(imported.theme);
+        if (imported.lang) { lang = imported.lang; localStorage.setItem("nemoLang", lang); applyI18n(); return; }
+      } else throw new Error("invalid");
+      saveTasks(); saveFlashStore(); saveNotesStore(); saveScheduleStore();
+      renderAll();
+      alert(t("importOk"));
+    } catch (err) {
+      alert(t("importFail"));
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+});
+
+window.deleteAllTasks = function () {
+  if (!tasks.length) { alert(t("noDataDelete")); return; }
+  if (confirm(t("confirmDeleteAll"))) {
+    tasks = [];
+    saveTasks();
+    renderAll();
+  }
+};
+
+window.deleteAllStudentData = function () {
+  if (!confirm(t("confirmDeleteStudent"))) return;
+  flashcards = []; notes = []; schedules = [];
+  saveFlashStore(); saveNotesStore(); saveScheduleStore();
+  renderStudentAll();
+  alert(t("studentCleared"));
+};
+
+/* ========== Reminders ========== */
+let reminderTimer = null;
+const REMINDER_START_HOUR = 9;
+const REMINDER_END_HOUR = 21;
+
+function updateReminderStatus(message) {
+  const status = document.getElementById("reminderStatus");
+  if (status) status.textContent = message;
+}
+
+window.enableReminders = async function () {
+  if (!("Notification" in window)) { alert(t("noNotif")); return; }
+  if (!window.isSecureContext) { alert(t("needHttps")); return; }
+  let permission = Notification.permission;
+  if (permission !== "granted") permission = await Notification.requestPermission();
+  if (permission !== "granted") {
+    updateReminderStatus(t("notAllowed"));
+    alert(t("needPermission"));
+    return;
+  }
+  localStorage.setItem("nemoRemindersEnabled", "true");
+  scheduleNextReminder();
+  alert(t("remindersOn"));
+};
+
+window.disableReminders = function () {
+  localStorage.setItem("nemoRemindersEnabled", "false");
+  if (reminderTimer) { clearTimeout(reminderTimer); reminderTimer = null; }
+  updateReminderStatus(t("remindersDisabled"));
+};
+
+function getRandomReminderTime() {
+  const now = new Date();
+  const start = new Date(now); start.setHours(REMINDER_START_HOUR, 0, 0, 0);
+  const end = new Date(now); end.setHours(REMINDER_END_HOUR, 0, 0, 0);
+  if (now >= end) { start.setDate(start.getDate() + 1); end.setDate(end.getDate() + 1); }
+  if (now < start) return start.getTime() + Math.random() * (end.getTime() - start.getTime());
+  return now.getTime() + Math.random() * (end.getTime() - now.getTime());
+}
+
+function scheduleNextReminder() {
+  if (localStorage.getItem("nemoRemindersEnabled") !== "true") return;
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  if (reminderTimer) clearTimeout(reminderTimer);
+  const next = getRandomReminderTime();
+  const delay = Math.max(next - Date.now(), 60000);
+  reminderTimer = setTimeout(function () { sendTaskReminder(); scheduleNextReminder(); }, delay);
+  updateReminderStatus(t("remindersEnabled") + new Date(next).toLocaleTimeString(lang === "ar" ? "ar-EG" : "en-US", { hour: "2-digit", minute: "2-digit" }));
+}
+
+function sendTaskReminder() {
+  const pending = tasks.filter(function (task) { return !task.done; });
+  if (!pending.length) return;
+  const randomTask = pending[Math.floor(Math.random() * pending.length)];
+  const notification = new Notification("Nemo 🐠", {
+    body: (lang === "ar" ? "لا تنسَ: " : "Don't forget: ") + randomTask.title,
+    tag: "nemo-task-reminder"
+  });
+  notification.onclick = function () { window.focus(); showPage("tasksPage"); notification.close(); };
+}
+
+function startReminderSystem() {
+  if (localStorage.getItem("nemoRemindersEnabled") !== "true") {
+    updateReminderStatus(t("remindersOff"));
+    return;
+  }
+  if (!("Notification" in window) || Notification.permission !== "granted") {
+    updateReminderStatus(t("needNotifFirst"));
+    return;
+  }
+  if (reminderTimer) return;
+  scheduleNextReminder();
+}
+
+/* ========== Nemo AI Assistant ========== */
+let nemoChatOpen = false;
+let nemoGreeted = false;
+
+function getProgressSnapshot() {
+  const total = tasks.length;
+  const completed = tasks.filter(function (x) { return x.done; }).length;
+  const pending = total - completed;
+  const percent = total ? Math.round(completed / total * 100) : 0;
+  const overdue = tasks.filter(isOverdue).length;
+  return { total: total, completed: completed, pending: pending, percent: percent, overdue: overdue };
+}
+
+/* لهجات نيمو حسب الدولة */
+function getDialect() {
+  const c = (userProfile && userProfile.country) || "OTHER";
+  const age = (userProfile && userProfile.age) || 20;
+  let dialect = "msa";
+  if (["EG", "SD"].indexOf(c) >= 0) dialect = "egyptian";
+  else if (["SA", "AE", "KW", "QA", "BH", "OM", "YE"].indexOf(c) >= 0) dialect = "gulf";
+  else if (["JO", "PS", "LB", "SY"].indexOf(c) >= 0) dialect = "levantine";
+  else if (["IQ"].indexOf(c) >= 0) dialect = "iraqi";
+  else if (["MA", "DZ", "TN", "LY"].indexOf(c) >= 0) dialect = "maghrebi";
+  else if (["US", "GB"].indexOf(c) >= 0) dialect = "english";
+  else if (lang === "en") dialect = "english";
+
+  let tone = "adult";
+  if (age < 15) tone = "teen";
+  else if (age < 22) tone = "young";
+  else if (age >= 40) tone = "mature";
+
+  return { dialect: dialect, tone: tone, country: c, age: age };
+}
+
+const DIALECT_TIPS = {
+  egyptian: {
+    empty: ["يلا نبدأ بمهمة صغيرة النهارده، حتى ١٠ دقايق هتفرّق!", "متستناش المثالية — ابدأ بأي حاجة بسيطة دلوقتي."],
+    overdue: ["عندك حاجات متأخرة يا بطل. خلّص أهم واحدة الأول وارتاح.", "المتاخرات بتضغط عليك — اقفل واحدة بس النهاردة."],
+    almost: ["قربت تخلّص كله! دَفعة أخيرة ونحتفل 🎉", "آخر شوية وهتخلّص — يلا نكمّل!"],
+    good: ["ماشي تمام كده، ثبّت الإيقاع ومتضغطش على نفسك.", "تقدمك حلو — خليك ثابت كل يوم شوية."],
+    study: ["راجع بطاقة واحدة بس دلوقتي — المراجعة القصيرة بتتثبت.", "افتح بطاقات التذكر دقيقة واحدة وهتفرق."],
+    celebrate: ["برافو عليك! خلّصت كل المهام 🔥 حط هدف جديد لو حابب."],
+    generic: ["قسّم الشغل الكبير لخطوات صغيرة.", "اصعب مهمة خلّيها في أول اليوم.", "قاعدة الدقيقتين: لو هتخلص في دقيقتين اعملها فوراً."]
+  },
+  gulf: {
+    empty: ["يلا نبدأ بمهمة بسيطة اليوم، عشر دقايق تكفي عشان نتحرك.", "لا تنتظر الكمال — ابدأ بشيء سهل الحين."],
+    overdue: ["عندك مهام متأخرة. خلّص الأهم أول عشان يخف الضغط.", "المتاخر يثقل — اقفل مهمة واحدة اليوم."],
+    almost: ["قربت تخلّص كل شي! دفعة أخيرة وترتاح.", "باقي شوي وتخلّص — كمّل بقوة!"],
+    good: ["تقدمك طيب، حافظ على الوتيرة بهدوء.", "ماشي زين — ثبات يومي أحسن من ضغط مرة واحدة."],
+    study: ["راجع بطاقة واحدة الحين — المراجعة القصيرة تنفع كثير.", "افتح بطاقات التذكر دقيقة بس."],
+    celebrate: ["أحسنت! خلّصت كل المهام 👏 حط هدف جديد إذا تبي."],
+    generic: ["قسّم المهام الكبيرة لخطوات صغار.", "أصعب مهمة سوّها في بداية يومك.", "لو المهمة تخلص بدقيقتين سوّها فوراً."]
+  },
+  levantine: {
+    empty: ["يلا نبلّش بمهمة صغيرة اليوم، حتى ١٠ دقايق بفرقوا.", "ما تستنا الكمال — ابدأ بشي بسيط هلّق."],
+    overdue: ["في عندك شغلات متأخرة. خلّص الأهم أول شي.", "المتأخرات بتضغط — سكّر واحدة بس اليوم."],
+    almost: ["قربت تخلّص كل شي! دَفعة أخيرة ومنرتاح.", "آخر شوي وبتخلّص — يلا نكمّل!"],
+    good: ["تقدمك منيح، حافظ على الإيقاع بهدوء.", "ماشي تمام — ثبات يومي أحسن من ضغط مرة."],
+    study: ["راجع بطاقة واحدة هلّق — المراجعة القصيرة بتثبّت.", "افتح بطاقات التذكّر دقيقة واحدة."],
+    celebrate: ["برافو! خلّصت كل المهام 🎉 حط هدف جديد إذا بدك."],
+    generic: ["قسّم الشغل الكبير لخطوات صغار.", "أصعب مهمة اعملها بأول اليوم.", "قاعدة الدقيقتين: إذا بتخلص بدقيقتين اعملها فوراً."]
+  },
+  iraqi: {
+    empty: ["يلا نبدي بمهمة بسيطة اليوم، عشر دقايق تكفي.", "لا تنتظر الكمال — ابدي بشي سهل هسه."],
+    overdue: ["عدّك مهام متأخرة. خلّص الأهم أول حتى يخف الضغط.", "المتأخر يثقل — سكّر مهمة وحدة اليوم."],
+    almost: ["قربت تخلّص كل شي! دَفعة أخيرة ونرتاح.", "باقي شوية وتخلّص — كمّل!"],
+    good: ["تقدمك زين، حافظ على الوتيرة بهدوء.", "ماشي تمام — ثبات يومي أحسن."],
+    study: ["راجع بطاقة وحدة هسه — المراجعة القصيرة تفيد.", "افتح بطاقات التذكر دقيقة."],
+    celebrate: ["أحسنت! خلّصت كل المهام 🔥 حط هدف جديد إذا تحب."],
+    generic: ["قسّم الشغل الكبير لخطوات صغار.", "أصعب مهمة سوّها بأول اليوم.", "إذا المهمة تخلص بدقيقتين سوّها فوراً."]
+  },
+  maghrebi: {
+    empty: ["يالا نبداو بمهمة صغيرة اليوم، حتى ١٠ دقايق كافية.", "ما تستناش الكمال — ابدا بشي ساهل دابا."],
+    overdue: ["عندك حاجات متأخرة. خلّص الأهم اللولة.", "المتأخرات كتضغط — سكّر وحدة غير اليوم."],
+    almost: ["قربتي تكمّل كلشي! دفعة أخيرة ونرتاحو.", "باقي شوية وتكمّل — يالا نكملو!"],
+    good: ["التقدم زوين، حافظ على الإيقاع بهدوء.", "ماشي مزيان — ثبات يومي حسن من الضغط."],
+    study: ["راجع بطاقة وحدة دابا — المراجعة القصيرة كاتفيد.", "حلّ بطاقات التذكر دقيقة."],
+    celebrate: ["برافو! كمّلتي كل المهام 🎉 دير هدف جديد إلا بغيتي."],
+    generic: ["قسّم الخدمة الكبيرة لخطوات صغار.", "أصعب مهمة ديرها فأول نهار.", "إلا المهمة كتسالي فـ دقيقتين ديرها دابا."]
+  },
+  msa: null, // يُملأ ديناميكياً من t()
+  english: {
+    empty: ["Let's start with one tiny task today — even 10 minutes counts.", "Don't wait for perfect — start small right now."],
+    overdue: ["You've got overdue tasks. Knock out the most important one first.", "Overdue stuff piles stress — close just one today."],
+    almost: ["You're almost done! One more push 🎉", "Last stretch — finish strong!"],
+    good: ["Nice pace — keep it steady, no burnout.", "Solid progress. Consistency beats cramming."],
+    study: ["Flip one flashcard now — short reviews stick.", "Open flashcards for one minute."],
+    celebrate: ["You crushed every task 🔥 Set a new goal if you want."],
+    generic: ["Break big work into tiny steps.", "Do the hardest task in the first hour.", "Two-minute rule: if it takes under 2 minutes, do it now."]
+  }
+};
+
+function pickFrom(arr) {
+  if (!arr || !arr.length) return t("tipGeneric1");
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getDialectPack(dialect) {
+  if (dialect === "msa" || !DIALECT_TIPS[dialect]) {
+    return {
+      empty: [t("tipEmpty")],
+      overdue: [t("tipOverdue")],
+      almost: [t("tipAlmost")],
+      good: [t("tipGood")],
+      study: [t("tipStudy")],
+      celebrate: [t("tipCelebrate")],
+      generic: [t("tipGeneric1"), t("tipGeneric2"), t("tipGeneric3"), t("tipGeneric4"), t("tipGeneric5")]
+    };
+  }
+  return DIALECT_TIPS[dialect];
+}
+
+function pickSmartTip() {
+  const s = getProgressSnapshot();
+  const d = getDialect();
+  const pack = getDialectPack(d.dialect);
+  const pool = [];
+
+  if (s.total === 0) pool.push(pickFrom(pack.empty));
+  if (s.overdue > 0) pool.push(pickFrom(pack.overdue));
+  if (s.percent === 100 && s.total > 0) pool.push(pickFrom(pack.celebrate));
+  else if (s.percent >= 70) pool.push(pickFrom(pack.almost));
+  else if (s.percent >= 30) pool.push(pickFrom(pack.good));
+
+  if (studentMode) {
+    if (!flashcards.length) pool.push(pickFrom(pack.study));
+    if (!notes.length) pool.push(t("tipNotes"));
+    if (!schedules.length) pool.push(t("tipSchedule"));
+  } else {
+    pool.push(t("tipStudent"));
+  }
+
+  pool.push(pickFrom(pack.generic));
+  pool.push(t("tipBreak"));
+
+  let tip = pool[Math.floor(Math.random() * pool.length)];
+
+  if (d.tone === "teen" && d.dialect === "egyptian") {
+    tip = tip.replace(/يا بطل/g, "يا صاحبي");
+  }
+
+  return tip;
+}
+
+function buildProgressReply() {
+  const s = getProgressSnapshot();
+  if (lang === "ar") {
+    return t("replyProgress") + "\n• الإجمالي: " + s.total +
+      "\n• المكتملة: " + s.completed +
+      "\n• المتبقية: " + s.pending +
+      "\n• النسبة: " + s.percent + "%" +
+      (s.overdue ? "\n• متأخرة: " + s.overdue : "") +
+      "\n\n💡 " + pickSmartTip();
+  }
+  return t("replyProgress") + "\n• Total: " + s.total +
+    "\n• Done: " + s.completed +
+    "\n• Remaining: " + s.pending +
+    "\n• Progress: " + s.percent + "%" +
+    (s.overdue ? "\n• Overdue: " + s.overdue : "") +
+    "\n\n💡 " + pickSmartTip();
+}
+
+
+function createTaskObj(title, opts) {
+  opts = opts || {};
+  return {
+    id: Date.now() + Math.floor(Math.random() * 999),
+    title: title,
+    category: opts.category || "personal",
+    categoryName: catName(opts.category || "personal"),
+    date: opts.date || todayStr(),
+    notes: opts.notes || "",
+    priority: opts.priority || "medium",
+    done: false,
+    completedAt: null,
+    repeat: opts.repeat || "none"
+  };
+}
+
+function parseRelativeDate(text) {
+  const lower = text.toLowerCase();
+  const d = new Date();
+  if (/اليوم|today/.test(lower)) return isoDate(d);
+  if (/بكر|غدا|غدًا|tomorrow/.test(lower)) { d.setDate(d.getDate() + 1); return isoDate(d); }
+  if (/بعد\s*بكر|بعد\s*غد|day after/.test(lower)) { d.setDate(d.getDate() + 2); return isoDate(d); }
+  const days = {
+    "السبت": 6, "الأحد": 0, "الاحد": 0, "الإثنين": 1, "الاثنين": 1, "الثلاثاء": 2,
+    "الأربعاء": 3, "الاربعاء": 3, "الخميس": 4, "الجمعة": 5,
+    saturday: 6, sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5
+  };
+  for (const k in days) {
+    if (lower.indexOf(k) >= 0) {
+      const target = days[k];
+      let add = (target - d.getDay() + 7) % 7;
+      if (add === 0) add = 7;
+      d.setDate(d.getDate() + add);
+      return isoDate(d);
+    }
+  }
+  const m = lower.match(/(\d{4}-\d{2}-\d{2})/);
+  if (m) return m[1];
+  return todayStr();
+}
+
+function parsePriority(text) {
+  const lower = text.toLowerCase();
+  if (/عالي|عالية|مهم|urgent|high|asap/.test(lower)) return "high";
+  if (/منخفض|منخفضة|low/.test(lower)) return "low";
+  return "medium";
+}
+
+function parseCategory(text) {
+  const lower = text.toLowerCase();
+  if (/دراس|مذاكر|امتحان|study|exam|homework|واجب/.test(lower)) return "study";
+  if (/عمل|شغل|work|meeting|اجتماع/.test(lower)) return "work";
+  return "personal";
+}
+
+function parseRepeat(text) {
+  const lower = text.toLowerCase();
+  if (/يومياً|يوميا|كل يوم|daily|every day/.test(lower)) return "daily";
+  if (/اسبوع|أسبوعي|أسبوعيًا|كل اسبوع|كل أسبوع|weekly|every week/.test(lower)) return "weekly";
+  return "none";
+}
+
+function extractTaskTitle(text) {
+  let s = text
+    .replace(/^(أضف|اضف|ضيف|ضيفلي|أضف لي|add|create|new)\s*(مهمة|مهام|task|tasks)?\s*/i, "")
+    .replace(/^(رتب|نظم|نظّم|organize|plan)\s*(لي|my)?\s*/i, "")
+    .trim();
+  // remove trailing meta
+  s = s.replace(/\s*(غداً|غدا|بكر|اليوم|tomorrow|today|بأولوية.*|اولوية.*|high priority|low priority|daily|weekly|كل يوم|أسبوعي).*$/i, "").trim();
+  if (s.length < 2) s = text.trim();
+  return s.slice(0, 120);
+}
+
+function listTasksSummary() {
+  const pending = tasks.filter(function (x) { return !x.done; });
+  if (!pending.length) return lang === "ar" ? "ما في مهام معلّقة حالياً ✨" : "No pending tasks ✨";
+  const lines = pending.slice(0, 12).map(function (task, i) {
+    return (i + 1) + ". " + task.title + " (" + (task.date || "—") + (task.repeat && task.repeat !== "none" ? " · " + task.repeat : "") + ")";
+  });
+  return (lang === "ar" ? "مهامك المعلّقة:\n" : "Your pending tasks:\n") + lines.join("\n");
+}
+
+function getWeekRange() {
+  const now = new Date();
+  const day = now.getDay();
+  const start = new Date(now);
+  start.setDate(now.getDate() - ((day + 6) % 7)); // Monday start
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+    dates.push(isoDate(d));
+  }
+  return dates;
+}
+
+function tasksForWeek() {
+  const week = getWeekRange();
+  return tasks.filter(function (task) {
+    if (task.done) return false;
+    if (week.indexOf(task.date) >= 0) return true;
+    if (task.repeat === "daily") return true;
+    if (task.repeat === "weekly" && task.date) {
+      const td = new Date(task.date + "T12:00:00").getDay();
+      return week.some(function (w) { return new Date(w + "T12:00:00").getDay() === td; });
+    }
+    return false;
+  });
+}
+
+function organizeWeekFromText(text) {
+  // Split by commas, "و", newlines, "ثم"
+  const chunks = text
+    .replace(/^(رتب|نظم|نظّم|organize|plan|عندي|أسبوعي|اسبوعي|week|my week)[:\s]*/i, "")
+    .split(/[,\n]| ثم | و | then | and /i)
+    .map(function (s) { return s.trim(); })
+    .filter(function (s) { return s.length > 2; });
+
+  const added = [];
+  if (!chunks.length) {
+    // fallback: one task from whole text
+    chunks.push(text);
+  }
+  const week = getWeekRange();
+  chunks.forEach(function (chunk, idx) {
+    const title = extractTaskTitle(chunk);
+    if (title.length < 2) return;
+    const date = parseRelativeDate(chunk);
+    // spread across week if no specific day
+    let finalDate = date;
+    if (date === todayStr() && !/(اليوم|today|غدا|بكر|tomorrow|سبت|أحد|اثنين|ثلاث|أربع|خميس|جمع|saturday|sunday|monday)/i.test(chunk)) {
+      finalDate = week[Math.min(idx, 6)];
+    }
+    const task = createTaskObj(title, {
+      date: finalDate,
+      priority: parsePriority(chunk),
+      category: parseCategory(chunk),
+      repeat: parseRepeat(chunk)
+    });
+    tasks.unshift(task);
+    added.push(task);
+  });
+  if (added.length) {
+    saveTasks();
+    renderAll();
+  }
+  return added;
+}
+
+function tryAddSingleTask(text) {
+  const title = extractTaskTitle(text);
+  if (title.length < 2) return null;
+  const task = createTaskObj(title, {
+    date: parseRelativeDate(text),
+    priority: parsePriority(text),
+    category: parseCategory(text),
+    repeat: parseRepeat(text)
+  });
+  tasks.unshift(task);
+  saveTasks();
+  renderAll();
+  return task;
+}
+
+function tryCompleteTask(text) {
+  const pending = tasks.filter(function (x) { return !x.done; });
+  for (let i = 0; i < pending.length; i++) {
+    const task = pending[i];
+    if (text.indexOf(task.title.toLowerCase()) >= 0 || task.title.toLowerCase().indexOf(text.replace(/.*(أكمل|خلصت|done|finish|complete)\s*/i, "").trim()) >= 0) {
+      toggleTask(task.id);
+      return task;
+    }
+  }
+  return null;
+}
+
+function buildWeekTableImage() {
+  const week = getWeekRange();
+  const dayNames = lang === "ar"
+    ? ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"]
+    : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const canvas = document.createElement("canvas");
+  canvas.width = 900;
+  canvas.height = 520;
+  const ctx = canvas.getContext("2d");
+  // background
+  const grd = ctx.createLinearGradient(0, 0, 0, 520);
+  grd.addColorStop(0, "#0a2030");
+  grd.addColorStop(1, "#021018");
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, 900, 520);
+  ctx.fillStyle = "#2de2e6";
+  ctx.font = "bold 28px Cairo, Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(t("weekTableCaption") + " · Nemo", 450, 42);
+  const colW = 120;
+  const startX = (900 - colW * 7) / 2;
+  week.forEach(function (date, i) {
+    const x = startX + i * colW;
+    ctx.fillStyle = "rgba(45,226,230,0.12)";
+    ctx.fillRect(x + 4, 60, colW - 8, 430);
+    ctx.strokeStyle = "rgba(45,226,230,0.25)";
+    ctx.strokeRect(x + 4, 60, colW - 8, 430);
+    ctx.fillStyle = "#a8e6ff";
+    ctx.font = "bold 14px Cairo, Arial";
+    ctx.fillText(dayNames[i], x + colW / 2, 82);
+    ctx.fillStyle = "#7a9bb0";
+    ctx.font = "11px Arial";
+    ctx.fillText(date.slice(5), x + colW / 2, 100);
+    const dayTasks = tasks.filter(function (task) {
+      if (task.done) return false;
+      if (task.date === date) return true;
+      if (task.repeat === "daily") return true;
+      if (task.repeat === "weekly" && task.date) {
+        return new Date(task.date + "T12:00:00").getDay() === new Date(date + "T12:00:00").getDay();
+      }
+      return false;
+    }).slice(0, 6);
+    dayTasks.forEach(function (task, j) {
+      const ty = 120 + j * 55;
+      ctx.fillStyle = task.priority === "high" ? "rgba(255,80,119,0.25)" : "rgba(116,60,255,0.2)";
+      ctx.fillRect(x + 10, ty, colW - 20, 48);
+      ctx.fillStyle = "#e8f4ff";
+      ctx.font = "12px Cairo, Arial";
+      ctx.textAlign = "center";
+      const title = task.title.length > 14 ? task.title.slice(0, 13) + "…" : task.title;
+      ctx.fillText(title, x + colW / 2, ty + 28);
+    });
+    if (!dayTasks.length) {
+      ctx.fillStyle = "#4a6070";
+      ctx.font = "11px Arial";
+      ctx.fillText("—", x + colW / 2, 160);
+    }
+  });
+  return canvas.toDataURL("image/png");
+}
+
+function appendNemoMsg(text, who, imageData) {
+  const box = document.getElementById("nemoMsgs");
+  if (!box) return;
+  const div = document.createElement("div");
+  div.className = "msg " + (who === "user" ? "user" : "bot");
+  div.style.whiteSpace = "pre-wrap";
+  div.textContent = text;
+  if (imageData) {
+    const img = document.createElement("img");
+    img.className = "week-table";
+    img.src = imageData;
+    img.alt = t("weekTableCaption");
+    div.appendChild(document.createElement("br"));
+    div.appendChild(img);
+  }
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+let nemoInCall = false;
+let nemoVoiceURI = localStorage.getItem("nemoVoiceURI") || "";
+
+function getNemoVoices() {
+  try { return window.speechSynthesis ? window.speechSynthesis.getVoices() : []; }
+  catch (e) { return []; }
+}
+
+function populateNemoVoices() {
+  const sel = document.getElementById("nemoVoiceSelect");
+  if (!sel) return;
+  const voices = getNemoVoices();
+  const prefer = lang === "ar" ? "ar" : "en";
+  const list = voices.filter(function (v) {
+    return (v.lang || "").toLowerCase().indexOf(prefer) === 0 || voices.length < 8;
+  });
+  const use = list.length ? list : voices;
+  sel.innerHTML = "";
+  if (!use.length) {
+    const o = document.createElement("option");
+    o.value = "";
+    o.textContent = lang === "ar" ? "لا أصوات متاحة" : "No voices available";
+    sel.appendChild(o);
+    return;
+  }
+  use.forEach(function (v) {
+    const o = document.createElement("option");
+    o.value = v.voiceURI;
+    o.textContent = v.name + " (" + v.lang + ")";
+    if (nemoVoiceURI && v.voiceURI === nemoVoiceURI) o.selected = true;
+    sel.appendChild(o);
+  });
+  if (!nemoVoiceURI && use[0]) {
+    nemoVoiceURI = use[0].voiceURI;
+    localStorage.setItem("nemoVoiceURI", nemoVoiceURI);
+  }
+}
+
+window.setNemoVoice = function (uri) {
+  nemoVoiceURI = uri || "";
+  localStorage.setItem("nemoVoiceURI", nemoVoiceURI);
+  showToast(lang === "ar" ? "تم اختيار الصوت" : "Voice selected");
+};
+
+function updateCallUI() {
+  const btn = document.getElementById("nemoCallBtn");
+  const st = document.getElementById("nemoCallStatus");
+  if (btn) {
+    btn.classList.toggle("on", nemoInCall);
+    btn.textContent = nemoInCall ? t("endCall") : t("startCall");
+  }
+  if (st) st.textContent = nemoInCall ? t("callActive") : t("callIdle");
+}
+
+window.toggleNemoCall = function () {
+  nemoInCall = !nemoInCall;
+  updateCallUI();
+  if (nemoInCall) {
+    populateNemoVoices();
+    speakNemo(lang === "ar" ? "أهلاً، أنا نيمو. تكلم معي الآن." : "Hi, I'm Nemo. You can talk to me now.");
+    // auto start listening briefly
+    setTimeout(function () { try { toggleNemoVoice(); } catch (e) {} }, 600);
+  } else {
+    try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+    if (nemoListening && nemoRecognition) {
+      try { nemoRecognition.stop(); } catch (e) {}
+    }
+    showToast(lang === "ar" ? "انتهت المكالمة" : "Call ended");
+  }
+};
+
+function speakNemo(text) {
+  try {
+    if (!nemoInCall) return; // يتكلم فقط أثناء المكالمة
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text).replace(/[🐠💡✨⏱🌊✅📋]/g, ""));
+    u.lang = lang === "ar" ? "ar-SA" : "en-US";
+    u.rate = 1;
+    const voices = getNemoVoices();
+    let chosen = null;
+    if (nemoVoiceURI) {
+      for (let i = 0; i < voices.length; i++) {
+        if (voices[i].voiceURI === nemoVoiceURI) { chosen = voices[i]; break; }
+      }
+    }
+    if (!chosen) {
+      const prefer = lang === "ar" ? "ar" : "en";
+      for (let i = 0; i < voices.length; i++) {
+        if ((voices[i].lang || "").toLowerCase().indexOf(prefer) === 0) { chosen = voices[i]; break; }
+      }
+    }
+    if (chosen) u.voice = chosen;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+function nemoThink(userText) {
+  const raw = (userText || "").trim();
+  const text = raw.toLowerCase();
+  const ar = lang === "ar";
+
+  if (/^(hi|hello|hey|السلام|مرحبا|اهلا|أهلا|هاي)/i.test(text)) return t("replyHello");
+  if (/(شكر|thanks|thank you|thx)/i.test(text)) return t("replyThanks");
+
+  if (/(progress|تقدم|احصا|إحصا|نسبة|كم مهمة|how am i|status|وضع)/i.test(text) ||
+      text === t("nemoQ1").toLowerCase()) {
+    return buildProgressReply();
+  }
+
+  if (/(tip|نصيحة|نصح|advice|ماذا أفعل|what now|what should)/i.test(text) ||
+      text === t("nemoQ2").toLowerCase() || text === t("nemoQ3").toLowerCase()) {
+    return "💡 " + pickSmartTip();
+  }
+
+  // Week table image
+  if (/(جدول\s*الأسبوع|جدول الاسبوع|week table|week schedule|صورة.*أسبوع|weekly table)/i.test(text) ||
+      text === t("nemoQ5").toLowerCase()) {
+    const dataUrl = buildWeekTableImage();
+    setTimeout(function () {
+      appendNemoMsg(t("weekTableCaption"), "bot", dataUrl);
+    }, 50);
+    return ar ? "هذا جدول مهام أسبوعك 📋 (صورة من نيمو)" : "Here's your weekly tasks table 📋";
+  }
+
+  // Organize week
+  if (/(نظّم|نظم|رتب|organize|plan).*(أسبوع|اسبوع|week)|أسبوعى|اسبوعي|my week|خطة.*(أسبوع|اسبوع)/i.test(text) ||
+      text === t("nemoQ4").toLowerCase()) {
+    const added = organizeWeekFromText(raw);
+    if (!added.length) return t("nemoNoUnderstandTask");
+    const lines = added.map(function (task, i) {
+      return (i + 1) + ". " + task.title + " — " + task.date +
+        (task.repeat !== "none" ? " (" + task.repeat + ")" : "") +
+        " [" + priName(task.priority) + "]";
+    });
+    return t("nemoAddedTasks") + "\n" + lines.join("\n") + "\n\n💡 " + pickSmartTip();
+  }
+
+  // Add task
+  if (/(أضف|اضف|ضيف|add|create|new).*(مهمة|مهام|task)|مهمة\s*:/i.test(text) ||
+      /^(أضف|اضف|ضيف|add)\s+/i.test(text)) {
+    const task = tryAddSingleTask(raw);
+    if (!task) return t("nemoNoUnderstandTask");
+    return (ar
+      ? "✅ أضفت: «" + task.title + "»\nالتاريخ: " + task.date + "\nالأولوية: " + priName(task.priority) +
+        (task.repeat !== "none" ? "\nتكرار: " + task.repeat : "")
+      : "✅ Added: «" + task.title + "»\nDate: " + task.date + "\nPriority: " + priName(task.priority) +
+        (task.repeat !== "none" ? "\nRepeat: " + task.repeat : ""));
+  }
+
+  // Complete task
+  if (/(أكمل|خلصت|انتهيت|done|finish|complete|mark)/i.test(text)) {
+    const task = tryCompleteTask(text);
+    if (task) return ar ? "✅ تم تعليم «" + task.title + "» كمكتملة" : "✅ Marked «" + task.title + "» done";
+  }
+
+  // List tasks
+  if (/(ما هي مهامي|مهامي|list tasks|my tasks|عرض المهام|شو عندي)/i.test(text)) {
+    return listTasksSummary();
+  }
+
+  if (/(flash|بطاق|تذكر|مذاكر)/i.test(text)) {
+    if (!studentMode) return t("tipStudent");
+    return flashcards.length
+      ? (ar ? "لديك " + flashcards.length + " بطاقة. راجع واحدة الآن!" : "You have " + flashcards.length + " cards. Review one now!")
+      : t("tipStudy");
+  }
+  if (/(note|ملاحظ)/i.test(text)) {
+    return notes.length
+      ? (ar ? "لديك " + notes.length + " ملاحظة." : "You have " + notes.length + " notes.")
+      : t("tipNotes");
+  }
+  if (/(schedule|جدول|موعد|calendar|تقويم)/i.test(text) && !/أسبوع|اسبوع|week/.test(text)) {
+    return t("tipSchedule");
+  }
+  if (/(task|مهمة|مهام)/i.test(text)) {
+    return listTasksSummary() + "\n\n💡 " + pickSmartTip();
+  }
+
+  // Soft intent: long message looks like planning
+  if (raw.length > 40 && /(مذاكرة|امتحان|اجتماع|موعد|درس|عمل|study|meeting)/i.test(text)) {
+    const added = organizeWeekFromText(raw);
+    if (added.length) {
+      const lines = added.map(function (task, i) {
+        return (i + 1) + ". " + task.title + " — " + task.date;
+      });
+      return t("nemoAddedTasks") + "\n" + lines.join("\n");
+    }
+  }
+
+  if (text.length < 2) return t("replyUnknown");
+  return "💡 " + pickSmartTip();
+}
+
+function showNemoTyping(cb) {
+  const box = document.getElementById("nemoMsgs");
+  const div = document.createElement("div");
+  div.className = "msg bot";
+  div.id = "nemoTyping";
+  div.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  var fab = document.getElementById("nemoFab"); if (fab) fab.classList.add("talking");
+  setTimeout(function () {
+    const el = document.getElementById("nemoTyping");
+    if (el) el.remove();
+    var fab2 = document.getElementById("nemoFab"); if (fab2) fab2.classList.remove("talking");
+    if (cb) cb();
+  }, 500 + Math.random() * 400);
+}
+
+function renderNemoQuick() {
+  const q = document.getElementById("nemoQuick");
+  if (!q) return;
+  q.innerHTML =
+    '<button type="button" onclick="nemoQuickAsk(\'q1\')">' + t("nemoQ1") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q2\')">' + t("nemoQ2") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q3\')">' + t("nemoQ3") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q4\')">' + t("nemoQ4") + '</button>' +
+    '<button type="button" onclick="nemoQuickAsk(\'q5\')">' + t("nemoQ5") + '</button>';
+}
+
+window.nemoQuickAsk = function (key) {
+  const map = { q1: t("nemoQ1"), q2: t("nemoQ2"), q3: t("nemoQ3"), q4: t("nemoQ4"), q5: t("nemoQ5") };
+  const text = map[key] || t("nemoQ2");
+  appendNemoMsg(text, "user");
+  showNemoTyping(function () {
+    const reply = nemoThink(text);
+    appendNemoMsg(reply, "bot");
+    speakNemo(reply);
+  });
+};
+
+window.toggleNemoChat = function () {
+  nemoChatOpen = !nemoChatOpen;
+  const chat = document.getElementById("nemoChat");
+  const hint = document.getElementById("nemoHint");
+  if (chat) chat.classList.toggle("open", nemoChatOpen);
+  if (hint) hint.classList.remove("show");
+  if (nemoChatOpen) {
+    ensureNemoGreeted();
+    setTimeout(function () {
+      const input = document.getElementById("nemoInput");
+      if (input) input.focus();
+    }, 100);
+  }
+};
+
+
+function initOceanAmbient() {
+  const box = document.getElementById("oceanAmbient");
+  if (!box || box.dataset.ready) return;
+  box.dataset.ready = "1";
+  const fishSvg = '<svg viewBox="0 0 100 100"><path d="M22 51C22 31 38 18 58 20C76 22 87 35 86 51C85 68 72 80 55 80C36 80 22 68 22 51Z" fill="#F47732"/><circle cx="72" cy="39" r="6" fill="#fff"/><circle cx="74" cy="39" r="2.5" fill="#101018"/></svg>';
+  for (let i = 0; i < 7; i++) {
+    const f = document.createElement("div");
+    f.className = "amb-fish";
+    f.innerHTML = fishSvg;
+    f.style.top = (8 + Math.random() * 75) + "%";
+    f.style.animationDuration = (18 + Math.random() * 22) + "s";
+    f.style.animationDelay = (-Math.random() * 20) + "s";
+    f.style.opacity = String(0.12 + Math.random() * 0.18);
+    f.style.width = (28 + Math.random() * 28) + "px";
+    f.style.height = f.style.width;
+    box.appendChild(f);
+  }
+  for (let i = 0; i < 18; i++) {
+    const b = document.createElement("div");
+    b.className = "amb-bubble";
+    const sz = 3 + Math.random() * 8;
+    b.style.width = sz + "px";
+    b.style.height = sz + "px";
+    b.style.left = (Math.random() * 100) + "%";
+    b.style.bottom = (-10 - Math.random() * 20) + "%";
+    b.style.animationDuration = (10 + Math.random() * 16) + "s";
+    b.style.animationDelay = (-Math.random() * 12) + "s";
+    box.appendChild(b);
+  }
+}
+
+function ensureNemoGreeted() {
+  renderNemoQuick();
+  if (!nemoGreeted) {
+    nemoGreeted = true;
+    const box = document.getElementById("nemoMsgs");
+    if (box) box.innerHTML = "";
+    showNemoTyping(function () {
+      appendNemoMsg((function(){
+        const n = getUserFirstName();
+        if (n) return (lang === "ar" ? ("أهلاً " + n + "! أنا نيمو 🐠 سعيد إني أتعرف عليك. جاهز نرتب يومك؟") : ("Hey " + n + "! I'm Nemo 🐠 Glad to meet you. Ready to plan your day?"));
+        return t("nemoWelcome");
+      })(), "bot");
+      setTimeout(function () {
+        showNemoTyping(function () {
+          appendNemoMsg("💡 " + pickSmartTip(), "bot");
+        });
+      }, 400);
+    });
+  }
+}
+
+window.sendNemoMsg = function () {
+  const input = document.getElementById("nemoInput");
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = "";
+  appendNemoMsg(text, "user");
+  showNemoTyping(function () {
+    const reply = nemoThink(text);
+    appendNemoMsg(reply, "bot");
+    speakNemo(reply);
+  });
+};
+
+/* Voice recognition */
+let nemoRecognition = null;
+let nemoListening = false;
+
+window.toggleNemoVoice = function () {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const mic = document.getElementById("nemoMic");
+  if (!SR) {
+    alert(t("voiceNotSupported"));
+    return;
+  }
+  if (nemoListening && nemoRecognition) {
+    try { nemoRecognition.stop(); } catch (e) {}
+    nemoListening = false;
+    if (mic) mic.classList.remove("listening");
+    return;
+  }
+  nemoRecognition = new SR();
+  nemoRecognition.lang = lang === "ar" ? "ar-SA" : "en-US";
+  nemoRecognition.interimResults = false;
+  nemoRecognition.maxAlternatives = 1;
+  nemoRecognition.onstart = function () {
+    nemoListening = true;
+    if (mic) mic.classList.add("listening");
+  };
+  nemoRecognition.onend = function () {
+    nemoListening = false;
+    if (mic) mic.classList.remove("listening");
+  };
+  nemoRecognition.onerror = function () {
+    nemoListening = false;
+    if (mic) mic.classList.remove("listening");
+  };
+  nemoRecognition.onresult = function (ev) {
+    const said = ev.results[0][0].transcript;
+    const input = document.getElementById("nemoInput");
+    if (input) input.value = said;
+    if (!nemoChatOpen) toggleNemoChat();
+    appendNemoMsg("🎤 " + said, "user");
+    showNemoTyping(function () {
+      const reply = nemoThink(said);
+      appendNemoMsg(reply, "bot");
+      speakNemo(reply);
+    });
+  };
+  try { nemoRecognition.start(); } catch (e) { alert(t("voiceNotSupported")); }
+};
+
+function showNemoProactiveHint() {
+  if (nemoChatOpen) return;
+  const hint = document.getElementById("nemoHint");
+  if (!hint) return;
+  hint.textContent = "🐠 " + pickSmartTip();
+  hint.classList.add("show");
+  setTimeout(function () { hint.classList.remove("show"); }, 6000);
+}
+
+
+
+/* ========== Focus & wellbeing tracking ========== */
+function loadFocusLog() {
+  try { return JSON.parse(localStorage.getItem(userKey("nemoFocus")) || "{}"); }
+  catch (e) { return {}; }
+}
+function saveFocusLog(map) {
+  localStorage.setItem(userKey("nemoFocus"), JSON.stringify(map));
+}
+function addFocusMinutes(mins) {
+  if (!mins || mins < 1) return;
+  const map = loadFocusLog();
+  const d = todayStr();
+  map[d] = (map[d] || 0) + mins;
+  saveFocusLog(map);
+  updateFocusUI();
+}
+function getFocusMin(dateStr) {
+  return loadFocusLog()[dateStr] || 0;
+}
+function updateFocusUI() {
+  const today = getFocusMin(todayStr());
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yMin = getFocusMin(isoDate(y));
+  const el = document.getElementById("focusTodayMin");
+  if (el) el.textContent = String(today);
+  const delta = document.getElementById("focusDelta");
+  if (delta) {
+    if (!yMin && !today) delta.textContent = "—";
+    else {
+      const diff = today - yMin;
+      const pct = yMin ? Math.round((diff / yMin) * 100) : (today ? 100 : 0);
+      const arrow = diff > 0 ? "↑" : diff < 0 ? "↓" : "→";
+      delta.textContent = arrow + " " + (diff >= 0 ? "+" : "") + diff + " min (" + (pct >= 0 ? "+" : "") + pct + "%)";
+      delta.style.color = diff > 0 ? "var(--green)" : diff < 0 ? "var(--red)" : "var(--muted)";
+    }
+  }
+  const bar = document.getElementById("focusBar");
+  if (bar) bar.style.width = Math.min(100, (today / 120) * 100) + "%";
+}
+function loadUsageLog() {
+  try { return JSON.parse(localStorage.getItem(userKey("nemoUsage")) || "[]"); }
+  catch (e) { return []; }
+}
+function saveUsageLog(arr) {
+  localStorage.setItem(userKey("nemoUsage"), JSON.stringify(arr));
+}
+window.logManualUsage = function () {
+  const device = prompt(lang === "ar" ? "الجهاز (phone/laptop/desktop):" : "Device (phone/laptop/desktop):", "phone");
+  if (!device) return;
+  const appName = prompt(lang === "ar" ? "التطبيق/الفئة (مثل social):" : "App/category (e.g. social):", "social");
+  if (!appName) return;
+  const mins = parseInt(prompt(lang === "ar" ? "الدقائق:" : "Minutes:") || "0", 10);
+  if (!mins) return;
+  const arr = loadUsageLog();
+  arr.unshift({ id: Date.now(), device: device, app: appName, mins: mins, date: todayStr() });
+  saveUsageLog(arr.slice(0, 200));
+  showToast(lang === "ar" ? "تم تسجيل الاستخدام" : "Usage logged");
+  renderWellbeing();
+};
+function renderWellbeing() {
+  const box = document.getElementById("wellbeingBox");
+  if (!box) return;
+  const arr = loadUsageLog().filter(function (x) { return x.date === todayStr(); });
+  const focus = getFocusMin(todayStr());
+  let html = "<p style='color:var(--muted);font-size:12.5px;margin-bottom:10px'>" + t("wellbeingNote") + "</p>";
+  html += "<p><strong>" + t("focusToday") + ":</strong> " + focus + " " + t("focusMin") + "</p>";
+  if (!arr.length) html += "<p style='color:var(--muted);font-size:13px;margin-top:8px'>—</p>";
+  else {
+    html += "<ul style='margin-top:8px;padding-inline-start:18px;font-size:13px'>";
+    arr.slice(0, 8).forEach(function (x) {
+      html += "<li>" + escapeHTML(x.device) + " · " + escapeHTML(x.app) + " · " + x.mins + "m</li>";
+    });
+    html += "</ul>";
+  }
+  // Nemo tip
+  let tip = "";
+  const social = arr.filter(function (x) { return /social|instagram|tiktok|twitter|facebook|يوتيوب|سوشيال/i.test(x.app); })
+    .reduce(function (s, x) { return s + x.mins; }, 0);
+  if (social > 90) tip = lang === "ar" ? "نيمو: سوشيال اليوم مرتفع. جرّب حد 30 دقيقة بعد جلسة تركيز." : "Nemo: social time is high today. Try a 30-min cap after one focus block.";
+  else if (focus < 25 && arr.length) tip = lang === "ar" ? "نيمو: ابدأ بومودورو 25 دقيقة قبل فتح السوشيال." : "Nemo: start a 25-min Pomodoro before opening social apps.";
+  else if (focus >= 50) tip = lang === "ar" ? "نيمو: تركيز جيد اليوم. حافظ على استراحة قصيرة." : "Nemo: solid focus today. Keep short breaks.";
+  if (tip) html += "<p style='margin-top:10px;color:var(--accent);font-size:13px'>🐠 " + tip + "</p>";
+  box.innerHTML = html;
+}
+
+
+/* ========== Ocean Pomodoro Timer ========== */
+let otMode = "pomo";
+let otPhase = "work";
+let otBreakSec = 5 * 60;
+let otTotalSec = 25 * 60;
+let otLeft = otTotalSec;
+let otRunning = false;
+let otInterval = null;
+let oceanAudioCtx = null;
+let oceanNodes = null;
+let oceanSoundOn = false;
+
+function otModeSeconds(mode) {
+  if (mode === "pomo") return 25 * 60;
+  if (mode === "short") return 5 * 60;
+  if (mode === "long") return 15 * 60;
+  return 25 * 60;
+}
+
+window.setTimerMode = function (mode) {
+  otMode = mode;
+  const crow = document.getElementById("otCustomRow");
+  if (crow) crow.style.display = mode === "custom" ? "flex" : "none";
+  if (mode === "custom") {
+    const w = parseInt((document.getElementById("otWorkMin") || {}).value || "25", 10);
+    otTotalSec = Math.max(1, Math.min(180, w || 25)) * 60;
+    otPhase = "work";
+  } else {
+    otTotalSec = otModeSeconds(mode);
+    otPhase = (mode === "short" || mode === "long") ? "break" : "work";
+  }
+  otLeft = otTotalSec;
+  document.querySelectorAll(".ot-modes button").forEach(function (b) { b.classList.remove("active"); });
+  const idMap = { pomo: "modePomo", short: "modeShort", long: "modeLong", custom: "modeCustom" };
+  const el = document.getElementById(idMap[mode]);
+  if (el) el.classList.add("active");
+  updateOtDisplay();
+  if (otRunning) {
+    clearInterval(otInterval);
+    otRunning = false;
+    document.getElementById("otStartBtn").textContent = t("timerStart");
+  }
+};
+
+function updateOtDisplay() {
+  const m = Math.floor(otLeft / 60);
+  const s = otLeft % 60;
+  const pad = function (n) { return n < 10 ? "0" + n : "" + n; };
+  const timeEl = document.getElementById("otTime");
+  if (timeEl) timeEl.textContent = pad(m) + ":" + pad(s);
+  const water = document.getElementById("otWater");
+  if (water) {
+    const pct = otTotalSec ? ((otTotalSec - otLeft) / otTotalSec) * 100 : 0;
+    water.style.height = pct + "%";
+  }
+  const label = document.getElementById("otLabel");
+  if (label) label.textContent = otMode === "short" || otMode === "long" ? t("breakTime") : t("focusTime");
+}
+
+window.openOceanTimer = function () {
+  const page = document.getElementById("oceanTimerPage");
+  if (!page) return;
+  page.classList.add("open");
+  // bubbles
+  const box = document.getElementById("otBubbles");
+  if (box && !box.dataset.ready) {
+    box.dataset.ready = "1";
+    for (let i = 0; i < 24; i++) {
+      const b = document.createElement("div");
+      b.className = "ot-bubble";
+      const sz = 4 + Math.random() * 10;
+      b.style.width = sz + "px";
+      b.style.height = sz + "px";
+      b.style.left = (Math.random() * 100) + "%";
+      b.style.animationDuration = (6 + Math.random() * 12) + "s";
+      b.style.animationDelay = (-Math.random() * 10) + "s";
+      box.appendChild(b);
+    }
+  }
+  const rays = document.getElementById("otRays");
+  if (rays && !rays.dataset.ready) {
+    rays.dataset.ready = "1";
+    for (let i = 0; i < 6; i++) {
+      const r = document.createElement("div");
+      r.className = "ot-ray";
+      r.style.right = (10 + i * 14) + "%";
+      r.style.transform = "rotate(" + (i * 3 - 6) + "deg)";
+      rays.appendChild(r);
+    }
+  }
+  updateOtDisplay();
+};
+
+window.closeOceanTimer = function () {
+  document.getElementById("oceanTimerPage").classList.remove("open");
+  if (otRunning) {
+    clearInterval(otInterval);
+    otRunning = false;
+    document.getElementById("otStartBtn").textContent = t("timerStart");
+  }
+  stopOceanSound();
+};
+
+window.toggleOceanTimerRun = function () {
+  const btn = document.getElementById("otStartBtn");
+  if (otRunning) {
+    clearInterval(otInterval);
+    otRunning = false;
+    if (btn) btn.textContent = t("timerStart");
+    return;
+  }
+  otRunning = true;
+  if (btn) btn.textContent = t("timerPause");
+  otInterval = setInterval(function () {
+    if (otLeft <= 0) {
+      clearInterval(otInterval);
+      otRunning = false;
+      if (btn) btn.textContent = t("timerStart");
+      try {
+        if (window.Notification && Notification.permission === "granted") {
+          new Notification("Nemo", { body: lang === "ar" ? "انتهى المؤقت! 🐠" : "Timer done! 🐠" });
+        }
+      } catch (e) {}
+      if (otMode === "pomo" || otMode === "custom" || (otMode !== "short" && otMode !== "long")) { addFocusMinutes(Math.round(otTotalSec / 60)); }
+      speakNemo(lang === "ar" ? "انتهى وقت المؤقت" : "Timer finished");
+      return;
+    }
+    otLeft--;
+    updateOtDisplay();
+  }, 1000);
+};
+
+window.resetOceanTimer = function () {
+  clearInterval(otInterval);
+  otRunning = false;
+  otLeft = otTotalSec;
+  document.getElementById("otStartBtn").textContent = t("timerStart");
+  updateOtDisplay();
+};
+
+function startOceanSound() {
+  try {
+    if (!oceanAudioCtx) oceanAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (oceanNodes) return;
+    const ctx = oceanAudioCtx;
+    // brown-ish noise via buffer
+    const bufferSize = 2 * ctx.sampleRate;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1;
+      last = (last + 0.02 * white) / 1.02;
+      data[i] = last * 3.5;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 400;
+    const gain = ctx.createGain();
+    gain.gain.value = 0.035;
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start();
+    // gentle wave LFO
+    const osc = ctx.createOscillator();
+    osc.frequency.value = 0.08;
+    const oscGain = ctx.createGain();
+    oscGain.gain.value = 0.012;
+    osc.connect(oscGain);
+    oscGain.connect(gain.gain);
+    osc.start();
+    oceanNodes = { noise: noise, osc: osc, gain: gain };
+    if (ctx.state === "suspended") ctx.resume();
+  } catch (e) {}
+}
+
+function stopOceanSound() {
+  oceanSoundOn = false;
+  try {
+    if (oceanNodes) {
+      oceanNodes.noise.stop();
+      oceanNodes.osc.stop();
+      oceanNodes = null;
+    }
+  } catch (e) { oceanNodes = null; }
+  const btn = document.getElementById("otSoundBtn");
+  if (btn) btn.textContent = t("oceanSound");
+}
+
+window.toggleOceanSound = function () {
+  const btn = document.getElementById("otSoundBtn");
+  if (oceanSoundOn) {
+    stopOceanSound();
+  } else {
+    oceanSoundOn = true;
+    startOceanSound();
+    if (btn) btn.textContent = t("oceanSoundOff");
+  }
+};
+
+
+/* ========== Auth & Profile ========== */
+function parseJwt(token) {
+  try {
+    const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    return JSON.parse(decodeURIComponent(atob(base64).split("").map(function (c) {
+      return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join("")));
+  } catch (e) { return null; }
+}
+
+function isLoggedIn() {
+  return !!(currentUser && currentUser.id && userProfile && userProfile.country && userProfile.age && (userProfile.preferredName || currentUser.name));
+}
+
+function showLoginStep() {
+  document.getElementById("loginStep").classList.add("active");
+  document.getElementById("profileStep").classList.remove("active");
+}
+
+function showProfileStep() {
+  document.getElementById("loginStep").classList.remove("active");
+  document.getElementById("profileStep").classList.add("active");
+  if (currentUser && currentUser.provider === "google") {
+    document.getElementById("profileUserChip").style.display = "flex";
+    document.getElementById("profileAvatar").src = currentUser.picture || "";
+    document.getElementById("profileName").textContent = currentUser.name || "";
+    document.getElementById("profileEmail").textContent = currentUser.email || "";
+  } else {
+    document.getElementById("profileUserChip").style.display = "none";
+  }
+  if (userProfile) {
+    if (userProfile.country) document.getElementById("profileCountry").value = userProfile.country;
+    if (userProfile.age) document.getElementById("profileAge").value = userProfile.age;
+    if (userProfile.preferredName) document.getElementById("profilePreferredName").value = userProfile.preferredName;
+  }
+  if (!document.getElementById("profilePreferredName").value && currentUser && currentUser.name && currentUser.provider === "google") {
+    document.getElementById("profilePreferredName").value = currentUser.name.split(" ")[0] || currentUser.name;
+  }
+}
+
+
+function getUserFirstName() {
+  if (userProfile && userProfile.preferredName) return userProfile.preferredName;
+  if (currentUser && currentUser.name) return String(currentUser.name).split(" ")[0];
+  return "";
+}
+function updateHomeGreeting() {
+  const h = document.querySelector("#homePage .topbar h1");
+  if (!h) return;
+  const name = getUserFirstName();
+  if (name) {
+    h.textContent = (lang === "ar" ? "مرحباً " : "Welcome, ") + name + " 👋";
+  } else {
+    h.textContent = t("homeTitle");
+  }
+}
+
+function enterApp() {
+  document.getElementById("authGate").classList.add("hidden");
+  reloadUserData();
+  renderAll();
+  updateAccountUI();
+  updateHomeGreeting();
+  // ضبط لغة تقريبية حسب الدولة
+  if (userProfile && ["US", "GB"].indexOf(userProfile.country) >= 0 && lang === "ar") {
+    // لا نفرض الإنجليزية تلقائياً
+  }
+}
+
+function updateAccountUI() {
+  const nameEl = document.getElementById("accountName");
+  const metaEl = document.getElementById("accountMeta");
+  if (!nameEl) return;
+  if (currentUser) {
+    nameEl.textContent = currentUser.name || t("guestUser");
+    const parts = [];
+    if (currentUser.email) parts.push(currentUser.email);
+    if (userProfile && userProfile.country) parts.push(userProfile.country);
+    if (userProfile && userProfile.age) parts.push((lang === "ar" ? "العمر: " : "Age: ") + userProfile.age);
+    const d = getDialect();
+    parts.push((lang === "ar" ? "لهجة: " : "Dialect: ") + d.dialect);
+    metaEl.textContent = parts.join(" · ");
+  } else {
+    nameEl.textContent = t("notSignedIn");
+    metaEl.textContent = "—";
+  }
+}
+
+window.continueAsGuest = function () {
+  currentUser = { id: "guest", name: t("guestUser"), email: "", picture: "", provider: "guest" };
+  localStorage.setItem("nemoUser", JSON.stringify(currentUser));
+  if (userProfile && userProfile.country && userProfile.age) {
+    enterApp();
+  } else {
+    showProfileStep();
+  }
+};
+
+window.saveProfile = function () {
+  const preferredName = (document.getElementById("profilePreferredName").value || "").trim();
+  if (!preferredName || preferredName.length < 2) {
+    alert(t("needName"));
+    document.getElementById("profilePreferredName").focus();
+    return;
+  }
+  const country = document.getElementById("profileCountry").value;
+  const age = parseInt(document.getElementById("profileAge").value, 10);
+  if (!age || age < 8 || age > 100) {
+    alert(t("needAge"));
+    return;
+  }
+  if (!currentUser) {
+    currentUser = { id: "guest", name: preferredName, email: "", picture: "", provider: "guest" };
+  } else {
+    currentUser.name = preferredName;
+  }
+  userProfile = { country: country, age: age, preferredName: preferredName, dialect: getDialect().dialect };
+  // إعادة حساب اللهجة بعد حفظ الدولة
+  userProfile.dialect = (function () {
+    const c = country;
+    if (["EG", "SD"].indexOf(c) >= 0) return "egyptian";
+    if (["SA", "AE", "KW", "QA", "BH", "OM", "YE"].indexOf(c) >= 0) return "gulf";
+    if (["JO", "PS", "LB", "SY"].indexOf(c) >= 0) return "levantine";
+    if (c === "IQ") return "iraqi";
+    if (["MA", "DZ", "TN", "LY"].indexOf(c) >= 0) return "maghrebi";
+    if (["US", "GB"].indexOf(c) >= 0) return "english";
+    return lang === "en" ? "english" : "msa";
+  })();
+
+  localStorage.setItem("nemoUser", JSON.stringify(currentUser));
+  localStorage.setItem("nemoProfile", JSON.stringify(userProfile));
+  showToast(t("profileSaved"));
+  enterApp();
+  nemoGreeted = false;
+};
+
+window.editProfile = function () {
+  document.getElementById("authGate").classList.remove("hidden");
+  showProfileStep();
+};
+
+window.signOutUser = function () {
+  currentUser = null;
+  userProfile = null;
+  localStorage.removeItem("nemoUser");
+  localStorage.removeItem("nemoProfile");
+  tasks = []; flashcards = []; notes = []; schedules = [];
+  document.getElementById("authGate").classList.remove("hidden");
+  showLoginStep();
+  initGoogleButton();
+  updateAccountUI();
+};
+
+function handleGoogleCredential(response) {
+  const payload = parseJwt(response.credential);
+  if (!payload) {
+    alert("Google sign-in failed");
+    return;
+  }
+  currentUser = {
+    id: payload.sub,
+    name: payload.name || payload.email,
+    email: payload.email || "",
+    picture: payload.picture || "",
+    provider: "google"
+  };
+  localStorage.setItem("nemoUser", JSON.stringify(currentUser));
+  // تحميل بيانات هذا المستخدم إن وُجدت
+  reloadUserData();
+  if (userProfile && userProfile.country && userProfile.age) {
+    enterApp();
+  } else {
+    showProfileStep();
+  }
+}
+
+window.handleGoogleCredential = handleGoogleCredential;
+
+function initGoogleButton() {
+  const wrap = document.getElementById("googleBtnWrap");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  if (!GOOGLE_CLIENT_ID) {
+    wrap.innerHTML = "";
+    const b = document.createElement("button");
+    b.className = "btn block";
+    b.type = "button";
+    b.style.opacity = ".85";
+    b.textContent = lang === "ar" ? "تسجيل الدخول بجوجل (يلزم Client ID)" : "Google Sign-In (needs Client ID)";
+    b.onclick = function () { alert(t("authGoogleHint")); };
+    wrap.appendChild(b);
+    return;
+  }
+  if (window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredential,
+      auto_select: false
+    });
+    google.accounts.id.renderButton(wrap, {
+      theme: "outline",
+      size: "large",
+      width: 320,
+      text: "continue_with",
+      shape: "pill"
+    });
+  } else {
+    wrap.innerHTML = '<p style="color:var(--muted);font-size:12px">Loading Google…</p>';
+    setTimeout(initGoogleButton, 500);
+  }
+}
+
+/* ========== Init ========== */
+function renderAll() {
+  try { updateFocusUI(); renderWellbeing(); } catch (e) {}
+  renderHomeTasks();
+  renderAllTasks();
+  updateStats();
+  renderAnalysis();
+  drawChart(currentChart);
+  startReminderSystem();
+  applyStudentModeUI();
+  updateAccountUI();
+  if (document.getElementById("studentPage").classList.contains("active")) renderStudentAll();
+}
+
+// Apply saved theme, language & student mode
+document.documentElement.setAttribute("data-theme", theme);
+document.querySelectorAll(".theme-opt").forEach(function (el) {
+  el.classList.toggle("active", el.getAttribute("data-theme-opt") === theme);
+});
+applyI18n();
+applyStudentModeUI();
+renderNemoQuick();
+
+if (isLoggedIn()) {
+  document.getElementById("authGate").classList.add("hidden");
+  reloadUserData();
+  renderAll();
+} else if (currentUser && !userProfile) {
+  showProfileStep();
+} else {
+  showLoginStep();
+  initGoogleButton();
+}
+
+// تلميح استباقي من نيمو بعد قليل
+
+if (window.speechSynthesis) {
+  populateNemoVoices();
+  window.speechSynthesis.onvoiceschanged = populateNemoVoices;
+}
+setTimeout(function () { try { initOceanAmbient(); ensureNemoGreeted(); updateCallUI(); } catch (e) {} }, 400);
+
+setTimeout(function () {
+  if (isLoggedIn()) showNemoProactiveHint();
+}, 8000);
+setInterval(function () {
+  if (isLoggedIn() && !nemoChatOpen && Math.random() < 0.4) showNemoProactiveHint();
+}, 120000);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
+
+window.addEventListener("load", function () {
+  if (!isLoggedIn()) initGoogleButton();
+});
+
+})();
+</script>
+</body>
+</html>

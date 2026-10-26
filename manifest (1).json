@@ -1,0 +1,18 @@
+{
+  "name": "Nomy",
+  "short_name": "Nomy",
+  "description": "Underwater world for study, habits, and growth",
+  "start_url": "nemo.html",
+  "display": "standalone",
+  "background_color": "#061522",
+  "theme_color": "#061522",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
